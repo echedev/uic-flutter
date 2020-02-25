@@ -5,14 +5,42 @@ import 'package:provider/provider.dart';
 
 import 'progress_uic.dart';
 
-/// Default empty view shows icon and text in the center of screen. You can
-/// provide your own icon and/or text in [emptyDataIcon] and [emptyDataText] parameters.
-/// To use your custom view for empty state set [emptyDataView] parameter.
+/// UI component that shows a list of items and controls all related states.
+///
+/// List UI component display a list of items using [ListView] widget.
+/// It requires a [ListUicController] object to manage its states and load data.
+/// Beside of [controller] you have to define a [itemBuilder] parameter, which
+/// is a function that creates list item widget by the item object.
+///
+/// ## Pagination
+///
+/// *To be implemented in future version.*
+///
+/// ## Empty state
+///
+/// When there are no data loaded yet, 'ListUic' can show empty state views.
+///
+/// Default empty data view shows icon and text in the center of screen and
+/// allows user to reload the data. You can provide your own icon and/or text
+/// in [emptyDataIcon] and [emptyDataText] parameters. To use your custom view
+/// for empty data state set your widget in [emptyDataView] parameter.
+///
+/// When initial data loading is failed, the empty error view is shown. The
+/// default empty error view contains icon and text in the center of screen and
+/// allows user to reload the data. You can provide your own icon and/or text
+/// in [emptyErrorIcon] and [emptyErrorText] parameters. To use your custom view
+/// for empty error state set your widget in [emptyDataView] parameter.
+///
+/// While initial data loading, the empty progress view is displayed. Default
+/// empty progress view shows the circular progress indicator and text. You can
+/// your text for empty progress view in [emptyProgressText] parameter or provide
+/// your custom empty progress view in [emptyProgressView] parameter.
 ///
 /// See also:
-///
-/// * [ListUicEmptyDataView]
+/// * [ListUicController]
+/// * [ListUicEmptyView]
 /// * [ListUicEmptyProgressView]
+/// * [ListView.builder]
 ///
 class ListUic<T> extends StatelessWidget {
   ListUic({
@@ -30,21 +58,21 @@ class ListUic<T> extends StatelessWidget {
     this.emptyProgressText = 'Loading...',
     Widget emptyProgressView,
   }) : assert(emptyDataView != null || emptyDataText != null),
-        emptyDataView = emptyDataView ?? ListUicEmptyDataView(
+        emptyDataView = emptyDataView ?? ListUicEmptyView(
             controller: controller,
             icon: emptyDataIcon,
             text: emptyDataText),
-        emptyErrorView = emptyDataView ?? ListUicEmptyDataView(
+        emptyErrorView = emptyDataView ?? ListUicEmptyView(
             controller: controller,
             icon: emptyErrorIcon,
             text: emptyErrorText),
         emptyProgressView = emptyProgressView ?? ListUicEmptyProgressView(text: emptyProgressText),
         super(key: key);
 
-  ///
+  /// Manages the list state
   final ListUicController<T> controller;
 
-  ///
+  /// Callback that returns list item widget
   final Widget Function(T item) itemBuilder;
 
   /// Icon to display in default empty data view
@@ -75,16 +103,16 @@ class ListUic<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: controller.state,
-      child: Consumer<ValueNotifier<ListUicState>>(
+      child: Consumer<ValueNotifier<_ListUicState>>(
         builder: (context, state, child) {
           switch (state.value) {
-            case ListUicState.emptyData:
+            case _ListUicState.emptyData:
               return emptyDataView;
-            case ListUicState.emptyProgress:
+            case _ListUicState.emptyProgress:
               return emptyProgressView;
-            case ListUicState.emptyError:
+            case _ListUicState.emptyError:
               return emptyErrorView;
-            case ListUicState.data:
+            case _ListUicState.data:
               return _dataView();
             default:
               return Container();
@@ -104,8 +132,15 @@ class ListUic<T> extends StatelessWidget {
   }
 }
 
-class ListUicEmptyDataView extends StatelessWidget {
-  const ListUicEmptyDataView({
+/// Default empty list view.
+///
+/// Displays icon, text and button to reload the data
+///
+/// See also:
+/// * [ListUic]
+///
+class ListUicEmptyView extends StatelessWidget {
+  const ListUicEmptyView({
     Key key,
     @required this.controller,
     this.icon,
@@ -144,6 +179,13 @@ class ListUicEmptyDataView extends StatelessWidget {
   }
 }
 
+/// Default progress view for empty list.
+///
+/// Displays progress indicator and text during the initial data loading
+///
+/// See also:
+/// * [ListUic]
+///
 class ListUicEmptyProgressView extends StatelessWidget {
   const ListUicEmptyProgressView({
     Key key,
@@ -160,6 +202,31 @@ class ListUicEmptyProgressView extends StatelessWidget {
   }
 }
 
+/// A controller for [ListUic] widget.
+///
+/// It manages list component states and data.
+///
+/// 'ListUic' controller is typically stored as a member variable in [State]
+/// object and is reused in each [State.build].
+///
+/// You have to provide the [onGetItems] callback that is used to load list
+/// items by specified page.
+///
+/// Controller implements the following flow:
+/// - If the initial data provided in [items] parameter, the list component will
+/// shows that data on its creation.
+/// - When initial items are not provided or the empty list is provided, and
+/// [initialLoading] parameter is set to 'true' the controller will start loading
+/// list items.
+/// - During initial data loading controller forces the list component to show
+/// empty progress view.
+/// - If there are no data, an empty data view is shown.
+/// - If initial data loading failed, an empty error view is shown.
+/// *- Pull to refresh and pagination will be supported in future versions.*
+///
+/// See also:
+/// * [ListUic]
+
 class ListUicController<T> {
   ListUicController({
     List<T> items,
@@ -170,35 +237,40 @@ class ListUicController<T> {
     _page = 1;
     if (_items.value.isEmpty) {
       if (initialLoading) {
-        _state = ValueNotifier(ListUicState.emptyProgress);
+        _state = ValueNotifier(_ListUicState.emptyProgress);
         refresh();
       }
       else {
-        _state = ValueNotifier(ListUicState.emptyData);
+        _state = ValueNotifier(_ListUicState.emptyData);
       }
     }
     else {
-      _state = ValueNotifier(ListUicState.data);
+      _state = ValueNotifier(_ListUicState.data);
     }
   }
 
-  ValueNotifier<ListUicState> _state;
-  ValueNotifier<ListUicState> get state => _state;
+  ValueNotifier<_ListUicState> _state;
+  ValueNotifier<_ListUicState> get state => _state;
 
   ValueNotifier<List<T>> _items;
+  /// Items to show in the list
   ValueNotifier<List<T>> get items => _items;
 
+  /// Whether to load data if there are no initial data provided
+  ///
+  /// Defaults to 'true'
   bool initialLoading;
 
   int _page;
 
+  /// Callback to load list items by the page
   Future<List<T>> Function(int) onGetItems;
 
   Future<void> refresh() async {
     // Show progress view
-    if (_state.value == ListUicState.emptyData
-          || _state.value == ListUicState.emptyError) {
-      _state.value = ListUicState.emptyProgress;
+    if (_state.value == _ListUicState.emptyData
+          || _state.value == _ListUicState.emptyError) {
+      _state.value = _ListUicState.emptyProgress;
     }
     // Load first page of the data
     _page = 1;
@@ -207,15 +279,15 @@ class ListUicController<T> {
         .then((result) {
           _items.value = result;
           if (_items.value.isEmpty) {
-            _state.value = ListUicState.emptyData;
+            _state.value = _ListUicState.emptyData;
           }
           else {
-            _state.value = ListUicState.data;
+            _state.value = _ListUicState.data;
           }
         })
         // Show error
         .catchError((error) {
-          _state.value = ListUicState.emptyError;
+          _state.value = _ListUicState.emptyError;
         });
   }
 
@@ -231,6 +303,6 @@ class ListUicController<T> {
   }
 }
 
-enum ListUicState { init,
+enum _ListUicState { init,
                       emptyData, emptyProgress, emptyError,
                       data, progress, error }
