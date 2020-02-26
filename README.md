@@ -34,7 +34,7 @@ import 'package:uic/list_uic.dart';
 Add `ListUicController` to your page's state:
 
 <pre><code>
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State&lt;MyHomePage&gt; {
 
   <b>ListUicController&lt;int&gt; _controller;</b>
   ...
