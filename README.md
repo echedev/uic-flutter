@@ -20,7 +20,7 @@ In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
 dependencies:
-  uic: ^0.0.1
+  uic: ^0.1.0
 ```
 
 ### ListUic
@@ -35,6 +35,7 @@ Add `ListUicController` to your page's state:
 
 <pre><code>
 class _MyHomePageState extends State<MyHomePage> {
+
   <b>ListUicController&lt;int&gt; _controller;</b>
   ...
   
@@ -46,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );</b>
     ...
   }
+  ...
+}
 </code></pre>
 
 Add `ListUic` widget to your widget tree:

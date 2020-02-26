@@ -62,12 +62,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<int>> _getItems(int page) async {
     _loadingAttempts++;
-    await Future.delayed(Duration(seconds: 5), () {});
+    print("_getItems(): page=$page, attemmpt=$_loadingAttempts");
+    await Future.delayed(Duration(seconds: 3));
     List<int> result = List();
     if (_loadingAttempts == 1) {
       return result;
     }
     if (_loadingAttempts == 2) {
+      return Future.error('Error loading data');
+    }
+    if (_loadingAttempts == 4) {
+      return result;
+    }
+    if (_loadingAttempts == 6) {
       return Future.error('Error loading data');
     }
     for (int i = 1; i <= 10; i++) {

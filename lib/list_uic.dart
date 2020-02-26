@@ -12,9 +12,11 @@ import 'progress_uic.dart';
 /// Beside of [controller] you have to define a [itemBuilder] parameter, which
 /// is a function that creates list item widget by the item object.
 ///
-/// ## Pagination
+/// ## Data loading
 ///
-/// *To be implemented in future version.*
+/// **ListUic** supports pull-to-refresh gesture to reload the list items.
+/// While loading, the progress indicator is displayed. If data loading failed,
+/// a snack bar with [errorText] is shown.
 ///
 /// ## Empty state
 ///
@@ -57,6 +59,7 @@ class ListUic<T> extends StatelessWidget {
     Widget emptyErrorView,
     this.emptyProgressText = 'Loading...',
     Widget emptyProgressView,
+    this.errorText = 'Error loading data',
   }) : assert(emptyDataView != null || emptyDataText != null),
         emptyDataView = emptyDataView ?? ListUicEmptyView(
             controller: controller,
@@ -99,6 +102,9 @@ class ListUic<T> extends StatelessWidget {
   /// View to display when the initial data loading is in progress.
   final Widget emptyProgressView;
 
+  /// Text to display in snack bar when data loading is failed
+  final String errorText;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -113,7 +119,9 @@ class ListUic<T> extends StatelessWidget {
             case _ListUicState.emptyError:
               return emptyErrorView;
             case _ListUicState.data:
-              return _dataView();
+            case _ListUicState.progress:
+            case _ListUicState.error:
+              return _buildDataView(context, state.value);
             default:
               return Container();
           }
@@ -122,12 +130,28 @@ class ListUic<T> extends StatelessWidget {
     );
   }
 
-  Widget _dataView() {
-    return ListView.builder(
-      itemCount: controller.items.value.length,
-      itemBuilder: (context, index) {
-        return itemBuilder(controller.items.value[index]);
-      },
+  Widget _buildDataView(BuildContext context, _ListUicState state) {
+    if (state == _ListUicState.error) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(errorText),
+              behavior: SnackBarBehavior.floating,
+            )// SnackBar
+          );
+      });
+    }
+    return RefreshIndicator(
+      onRefresh: controller.refresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: controller.items.value.length,
+        itemBuilder: (context, index) {
+          return itemBuilder(controller.items.value[index]);
+        },
+      ),
     );
   }
 }
@@ -222,7 +246,10 @@ class ListUicEmptyProgressView extends StatelessWidget {
 /// empty progress view.
 /// - If there are no data, an empty data view is shown.
 /// - If initial data loading failed, an empty error view is shown.
-/// *- Pull to refresh and pagination will be supported in future versions.*
+/// - In normal state, when list items are loaded and shown, pull to refresh
+/// gesture is supported to reload the data. The progress indicator is shown
+/// during the data loading.
+/// - If data loading failed, a snack bar with error message is shown
 ///
 /// See also:
 /// * [ListUic]
@@ -272,9 +299,12 @@ class ListUicController<T> {
           || _state.value == _ListUicState.emptyError) {
       _state.value = _ListUicState.emptyProgress;
     }
+    else if (_state.value != _ListUicState.emptyProgress){
+      _state.value = _ListUicState.progress;
+    }
     // Load first page of the data
     _page = 1;
-    _loadItems()
+    await _loadItems()
         // Show data
         .then((result) {
           _items.value = result;
@@ -287,7 +317,12 @@ class ListUicController<T> {
         })
         // Show error
         .catchError((error) {
-          _state.value = _ListUicState.emptyError;
+          if (_state.value == _ListUicState.emptyProgress) {
+            _state.value = _ListUicState.emptyError;
+          }
+          else {
+            _state.value = _ListUicState.error;
+          }
         });
   }
 
@@ -299,6 +334,7 @@ class ListUicController<T> {
   }
 
   Future<List<T>> _loadItems() async {
+    print('ListUic::_loadItems()');
     return await onGetItems(_page) ?? List();
   }
 }

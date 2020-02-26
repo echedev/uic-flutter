@@ -15,3 +15,7 @@ Here is the list of available components:
 ## [0.0.3] - 2020-02-26
 
 - Update config
+
+## [0.1.0] - 2020-02-26
+
+- Support pull to refresh gesture
