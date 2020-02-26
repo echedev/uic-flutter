@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = ListUicController<int>(
 //      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       onGetItems: (int page) => _getItems(page),
-      initialLoading: true,
+//      initialLoading: true,
     );
   }
 
@@ -56,6 +56,28 @@ class _MyHomePageState extends State<MyHomePage> {
             subtitle: Text('Subtitle ${item}'),
           );
         },
+//        emptyDataIcon: Icon(Icons.refresh, size: 72.0, color: Colors.amberAccent),
+//        emptyDataText: "You don't have any item",
+//        emptyDataView: Center(
+//          child: Text("Empty",
+//            style: Theme.of(context).textTheme.headline1,
+//          ),
+//        ),
+//        emptyErrorIcon: Icon(Icons.error, size: 72.0, color: Colors.redAccent),
+//        emptyErrorText: "Data loading failed",
+//        emptyErrorView: Center(
+//          child: Text("Failed",
+//            style: Theme.of(context).textTheme.headline1,
+//          ),
+//        ),
+//        emptyProgressText: "Please wait...",
+//        emptyProgressView: Center(
+//          child: Text("Wait...",
+//            style: Theme.of(context).textTheme.headline1,
+//          ),
+//        ),
+//        errorText: "Something went wrong",
+//        errorColor: Colors.orangeAccent
       ),
     );
   }

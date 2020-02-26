@@ -16,7 +16,7 @@ import 'progress_uic.dart';
 ///
 /// **ListUic** supports pull-to-refresh gesture to reload the list items.
 /// While loading, the progress indicator is displayed. If data loading failed,
-/// a snack bar with [errorText] is shown.
+/// a snack bar with [errorText] message is shown.
 ///
 /// ## Empty state
 ///
@@ -60,12 +60,13 @@ class ListUic<T> extends StatelessWidget {
     this.emptyProgressText = 'Loading...',
     Widget emptyProgressView,
     this.errorText = 'Error loading data',
+    this.errorColor = Colors.redAccent,
   }) : assert(emptyDataView != null || emptyDataText != null),
         emptyDataView = emptyDataView ?? ListUicEmptyView(
             controller: controller,
             icon: emptyDataIcon,
             text: emptyDataText),
-        emptyErrorView = emptyDataView ?? ListUicEmptyView(
+        emptyErrorView = emptyErrorView ?? ListUicEmptyView(
             controller: controller,
             icon: emptyErrorIcon,
             text: emptyErrorText),
@@ -105,6 +106,9 @@ class ListUic<T> extends StatelessWidget {
   /// Text to display in snack bar when data loading is failed
   final String errorText;
 
+  /// Color of the error snack bar
+  final Color errorColor;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -139,6 +143,7 @@ class ListUic<T> extends StatelessWidget {
             SnackBar(
               content: Text(errorText),
               behavior: SnackBarBehavior.floating,
+              backgroundColor: errorColor,
             )// SnackBar
           );
       });
