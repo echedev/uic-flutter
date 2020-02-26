@@ -11,3 +11,7 @@ Here is the list of available components:
 ## [0.0.2] - 2020-02-26
 
 - Fix docs
+
+## [0.0.3] - 2020-02-26
+
+- Update config

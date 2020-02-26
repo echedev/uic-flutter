@@ -1,5 +1,5 @@
 name: uic
-description: UI Components
+description: A set of Flutter UI components that simplifies implementing most used UI cases.
 version: 0.0.2
 author: Evgeny Cherkasov <ech89899@gmail.com>
 homepage: https://github.com/ech89899/uic-flutter
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^3.0.0
+  provider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
