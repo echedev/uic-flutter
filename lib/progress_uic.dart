@@ -22,7 +22,7 @@ class ProgressUic extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: Text(text,
-                style: Theme.of(context).textTheme.headline,
+                style: Theme.of(context).textTheme.headline5,
               ),
             )
         ],

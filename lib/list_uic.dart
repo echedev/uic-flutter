@@ -192,7 +192,7 @@ class ListUicEmptyView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(text,
-              style: Theme.of(context).textTheme.headline,
+              style: Theme.of(context).textTheme.headline5,
             ),
           ),
           Padding(
