@@ -40,7 +40,7 @@ import 'progress_uic.dart';
 /// * [ListUicController]
 /// * [ListUicEmptyView]
 /// * [ListUicEmptyProgressView]
-/// * [ListView.builder]
+/// * [ListView]
 ///
 class ListUic<T> extends StatelessWidget {
   ListUic({

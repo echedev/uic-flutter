@@ -1,8 +1,9 @@
 name: uic
 description: UI Components
-version: 0.0.1
-author:
-homepage:
+version: 0.0.2
+author: Evgeny Cherkasov <ech89899@gmail.com>
+homepage: https://github.com/ech89899/uic-flutter
+repository: https://github.com/ech89899/uic-flutter
 
 environment:
   sdk: ">=2.2.2 <3.0.0"

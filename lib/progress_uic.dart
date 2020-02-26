@@ -1,4 +1,4 @@
-library list_uic;
+library progress_uic;
 
 import 'package:flutter/material.dart';
 
