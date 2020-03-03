@@ -10,7 +10,16 @@ Currently includes the following UI components:
 
 ### ListUic
 
-Almost each app has screens that display a list of items. Simple task at first look, but often it requires much related staff to be implemented. Progress indicator while data for the list is loading, separate views for empty data, error loading data, etc. All those boilerplate can be simplified with **ListUic** widget.
+Almost each app has screens that display a list of items. Simple task at first look, it often requires much related staff to be implemented. All that boilerplate can be simplified with **ListUic** widget.
+
+#### Features:
+- Pull to Refresh gesture to reload list data
+- Pagination (infinite scroll) to load next part of data on scroll to the end of the list
+- Progress indicator for initial data loading
+- Individual view for empty data
+- Individual error view
+- Progress indicator at the end of list when next page of items is loading
+- Showing snack bar on failing loading data
 
 ![ListUic Demo](./assets/listuic-001.png)&nbsp;![ListUic Demo](./assets/listuic-002.png)&nbsp;![ListUic Demo](./assets/listuic-003.png)&nbsp;![ListUic Demo](./assets/listuic-004.png)
 

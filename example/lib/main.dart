@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ListUic Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
+        accentColor: Colors.amber,
       ),
       home: MyHomePage(title: 'ListUic Demo'),
     );
@@ -98,6 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (_loadingAttempts == 6) {
       return Future.error('Error loading data');
+    }
+    if (page == 11) {
+      return result;
     }
     for (int i = 1; i <= 10; i++) {
       result.add((page - 1) * 10 + i);

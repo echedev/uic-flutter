@@ -18,6 +18,13 @@ import 'progress_uic.dart';
 /// While loading, the progress indicator is displayed. If data loading failed,
 /// a snack bar with [errorText] message is shown.
 ///
+/// If controller's `allowPagination` property is set to true, loading data page
+/// by page (infinite scrolling) is enabled. When user scroll the list to the end,
+/// the next page of data is loading. The controller manages the current page to load.
+/// During data loading the [nextPageProgressView] widget is displaying at the
+/// end of the list. By default it is a circular progress indicator. You can
+/// provide your custom progress widget for it.
+///
 /// ## Empty state
 ///
 /// When there are no data loaded yet, 'ListUic' can show empty state views.
@@ -42,6 +49,7 @@ import 'progress_uic.dart';
 /// * [ListUicController]
 /// * [ListUicEmptyView]
 /// * [ListUicEmptyProgressView]
+/// * [ListUicNextPageProgressView]
 /// * [ListView]
 ///
 class ListUic<T> extends StatelessWidget {
@@ -59,6 +67,7 @@ class ListUic<T> extends StatelessWidget {
     Widget emptyErrorView,
     this.emptyProgressText = 'Loading...',
     Widget emptyProgressView,
+    Widget nextPageProgressView,
     this.errorText = 'Error loading data',
     this.errorColor = Colors.redAccent,
   }) : assert(emptyDataView != null || emptyDataText != null),
@@ -71,6 +80,7 @@ class ListUic<T> extends StatelessWidget {
             icon: emptyErrorIcon,
             text: emptyErrorText),
         emptyProgressView = emptyProgressView ?? ListUicEmptyProgressView(text: emptyProgressText),
+        nextPageProgressView = nextPageProgressView ?? ListUicNextPageProgressView(),
         super(key: key);
 
   /// Manages the list state
@@ -103,6 +113,9 @@ class ListUic<T> extends StatelessWidget {
   /// View to display when the initial data loading is in progress.
   final Widget emptyProgressView;
 
+  /// View to display in the bottom of the list when next page of data is loading.
+  final Widget nextPageProgressView;
+
   /// Text to display in snack bar when data loading is failed
   final String errorText;
 
@@ -124,6 +137,7 @@ class ListUic<T> extends StatelessWidget {
               return emptyErrorView;
             case _ListUicState.data:
             case _ListUicState.progress:
+            case _ListUicState.progressNextPage:
             case _ListUicState.error:
               return _buildDataView(context, state.value);
             default:
@@ -148,13 +162,28 @@ class ListUic<T> extends StatelessWidget {
           );
       });
     }
+    if (state == _ListUicState.progressNextPage) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+            curve: Curves.linear, duration: Duration (milliseconds: 500));
+      });
+    }
+    int itemCount = (state != _ListUicState.progressNextPage) ?
+        controller.items.value.length :
+        controller.items.value.length + 1;
     return RefreshIndicator(
       onRefresh: controller.refresh,
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: controller.items.value.length,
+        controller: controller.scrollController,
+        itemCount: itemCount,
         itemBuilder: (context, index) {
-          return itemBuilder(controller.items.value[index]);
+          if (state == _ListUicState.progressNextPage && index == itemCount - 1) {
+            return nextPageProgressView;
+          }
+          else {
+            return itemBuilder(controller.items.value[index]);
+          }
         },
       ),
     );
@@ -231,6 +260,27 @@ class ListUicEmptyProgressView extends StatelessWidget {
   }
 }
 
+/// Default progress view for when loading next page of data.
+///
+/// Displays progress indicator at the bottom of the list.
+///
+/// See also:
+/// * [ListUic]
+///
+class ListUicNextPageProgressView extends StatelessWidget {
+  const ListUicNextPageProgressView({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 72.0,
+      child: ProgressUic(),
+    );
+  }
+}
+
 /// A controller for [ListUic] widget.
 ///
 /// It manages list component states and data.
@@ -255,6 +305,12 @@ class ListUicEmptyProgressView extends StatelessWidget {
 /// gesture is supported to reload the data. The progress indicator is shown
 /// during the data loading.
 /// - If data loading failed, a snack bar with error message is shown
+/// - When [allowPagination] parameter is set to 'true', the page by page
+/// (infinite scrolling) is enabled. When user scroll the list to the end, the
+/// controller start loading next page of items.
+/// - During loading next page of data, controller forces the list component to
+/// show progress view at the end of the list.
+/// - If next page data loading failed, a snack bar with error message is shown.
 ///
 /// See also:
 /// * [ListUic]
@@ -264,6 +320,7 @@ class ListUicController<T> {
     List<T> items,
     @required this.onGetItems,
     this.initialLoading = true,
+    this.allowPagination = true,
   }) {
     _items = ValueNotifier(items ?? List());
     _page = 1;
@@ -279,6 +336,22 @@ class ListUicController<T> {
     else {
       _state = ValueNotifier(_ListUicState.data);
     }
+
+    if (allowPagination) {
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (_readyForNextPage) {
+            _readyForNextPage = false;
+            nextPage();
+          }
+        }
+        else if (_scrollController.position.pixels <=
+            _scrollController.position.maxScrollExtent - 10.0) {
+          _readyForNextPage = true;
+        }
+      });
+    }
   }
 
   ValueNotifier<_ListUicState> _state;
@@ -293,10 +366,20 @@ class ListUicController<T> {
   /// Defaults to 'true'
   bool initialLoading;
 
+  /// Whether pagination is allowed
+  ///
+  /// Defaults to 'true'
+  bool allowPagination;
+
   int _page;
 
   /// Callback to load list items by the page
   Future<List<T>> Function(int) onGetItems;
+
+  ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
+  bool _readyForNextPage = true;
 
   Future<void> refresh() async {
     // Show progress view
@@ -309,7 +392,7 @@ class ListUicController<T> {
     }
     // Load first page of the data
     _page = 1;
-    await _loadItems()
+    await _loadItems(_page)
         // Show data
         .then((result) {
           _items.value = result;
@@ -332,18 +415,30 @@ class ListUicController<T> {
   }
 
   Future<void> nextPage() async {
-    _page++;
-    List<T> result = await _loadItems();
-    result.addAll(await onGetItems(_page));
-    items.value = result;
+    if (_state.value == _ListUicState.progressNextPage) {
+      return;
+    }
+    _state.value = _ListUicState.progressNextPage;
+    await _loadItems(_page + 1)
+      .then((result) {
+        if (result.isNotEmpty) {
+          List<T> newItems = _items.value;
+          newItems.addAll(result);
+          _items.value = newItems;
+          _page++;
+        }
+        _state.value = _ListUicState.data;
+      })
+      .catchError((error) {
+        _state.value = _ListUicState.error;
+      });
   }
 
-  Future<List<T>> _loadItems() async {
+  Future<List<T>> _loadItems(int page) async {
     print('ListUic::_loadItems()');
-    return await onGetItems(_page) ?? List();
+    return await onGetItems(page) ?? List();
   }
 }
 
-enum _ListUicState { init,
-                      emptyData, emptyProgress, emptyError,
-                      data, progress, error }
+enum _ListUicState { emptyData, emptyProgress, emptyError,
+                      data, progress, progressNextPage, error }
