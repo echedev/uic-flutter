@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:uic/list_uic.dart';
+import 'package:uic/progress_uic.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = ListUicController<int>(
 //      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       onGetItems: (int page) => _getItems(page),
-//      initialLoading: true,
+//      initialLoading: false,
+//      allowPagination: false,
     );
   }
 
@@ -78,7 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //          ),
 //        ),
 //        errorText: "Something went wrong",
-//        errorColor: Colors.orangeAccent
+//        errorColor: Colors.orangeAccent,
+//        nextPageProgressView: ProgressUic(
+//          text: 'Loading...',
+//          textLocation: ProgressUicTextLocation.right,
+//        ),
       ),
     );
   }
