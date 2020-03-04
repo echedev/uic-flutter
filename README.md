@@ -21,7 +21,7 @@ Almost each app has screens that display a list of items. Simple task at first l
 - Progress indicator at the end of list when next page of items is loading
 - Showing snack bar on failing loading data
 
-![ListUic Demo](./assets/listuic-001.png)&nbsp;![ListUic Demo](./assets/listuic-002.png)&nbsp;![ListUic Demo](./assets/listuic-003.png)&nbsp;![ListUic Demo](./assets/listuic-004.png)
+![ListUic Demo](./assets/listuic-demo-001.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-002.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-003.gif)
 
 ## Usage
 
