@@ -3,7 +3,7 @@ library progress_uic;
 import 'package:flutter/material.dart';
 
 class ProgressUic extends StatelessWidget {
-  ProgressUic({
+  const ProgressUic({
     Key key,
     this.text = '',
     this.textLocation = ProgressUicTextLocation.bottom,
