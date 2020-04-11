@@ -73,7 +73,7 @@ Simple usage of `CheckboxUic`:
   }
 </code></pre>
 
-See more examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/checkboxuic_screen.dart).
+See more examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/checkboxuic_screen.dart).
 
 ### [ListUic](#listuic-usage)
 
