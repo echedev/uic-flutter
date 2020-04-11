@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uic/checkbox_uic.dart';
 
 class CheckboxUicScreen  extends StatelessWidget {
@@ -61,6 +63,29 @@ class CheckboxUicScreen  extends StatelessWidget {
                 print('$value');
                 final snackBar = SnackBar(content: Text('Checkbox state: $value'));
                 scaffoldKey.currentState.showSnackBar(snackBar);
+              },
+            ),
+            CheckboxUic(
+              title: "I've reviewed all examples",
+              descriptionView: Text('Thank you!'),
+              descriptionViewUnchecked: RichText(
+                text: TextSpan(
+                  text: "You can find more info in ",
+                  style: Theme.of(context).textTheme.caption,
+                  children: [
+                    TextSpan(
+                      text: "UIC package docs",
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Colors.blue,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () { launch('https://pub.dev/packages/uic'); }
+                    ),
+                  ],
+                ),
+              ),
+              onChanged: (value) {
+                print('$value');
               },
             ),
           ],
