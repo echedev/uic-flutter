@@ -11,6 +11,7 @@ Currently includes the following UI components:
 Enhanced, but still simple, check box widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it can has a title and description.
 
 - Supports all original parameters of Checkbox Flutter widget
+- Has initial value
 - Shows a title, which can be individual for checked and unchecked state
 - Optionally shows additional text description, which can be individual for checked and unchecked state
 - Supports custom widgets instead of text description
