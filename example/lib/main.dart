@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'listuic_screen.dart';
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Card(
               child: ListTile(
+                contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
                 title: Text('ListUic'),
                 subtitle: Text('Wrapper of ListView, which implements related data '
                     'loading and state management logic.'),
@@ -70,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //            ),
             Card(
               child: ListTile(
+                contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
                 title: Text('CheckboxUic'),
                 subtitle: Text('Enhanced checkbox that maintain its state, has a'
                     'title and can show additional description on each state.'),
