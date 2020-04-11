@@ -1,6 +1,10 @@
+## [0.3.0] - 2020-04-11
+
+- Added `CheckboxUic` component
+
 ## [0.2.0] - 2020-03-03
 
-- Support paginatio (infinite scrolling)
+- Support pagination (infinite scrolling)
 
 ## [0.1.0] - 2020-02-26
 
