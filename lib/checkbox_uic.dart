@@ -4,38 +4,43 @@ class CheckboxUic extends StatefulWidget {
   CheckboxUic({
     Key key,
     this.initialValue = false,
-    this.titleChecked = '',
-    this.titleUnchecked = '',
+    this.title = '',
+    this.titleUnchecked,
     this.titleTextStyle,
-    this.descriptionChecked = '',
-    this.descriptionUnchecked = '',
+    this.description,
+    this.descriptionUnchecked,
     this.descriptionTextStyle,
+    this.descriptionView,
+    this.descriptionViewUnchecked,
     //
     this.tristate = false,
-    @required this.onChanged,
+    this.onChanged,
     this.activeColor,
     this.checkColor,
     this.focusColor,
     this.hoverColor,
     this.materialTapTargetSize,
-    this.visualDensity,
     this.focusNode,
     this.autofocus = false,
   }) : super(key: key);
 
   final bool initialValue;
 
-  final String titleChecked;
+  final String title;
 
   final String titleUnchecked;
 
   final TextStyle titleTextStyle;
 
-  final String descriptionChecked;
+  final String description;
 
   final String descriptionUnchecked;
 
   final TextStyle descriptionTextStyle;
+
+  final Widget descriptionView;
+
+  final Widget descriptionViewUnchecked;
 
   final ValueChanged<bool> onChanged;
 
@@ -48,8 +53,6 @@ class CheckboxUic extends StatefulWidget {
   final bool tristate;
 
   final MaterialTapTargetSize materialTapTargetSize;
-
-  final VisualDensity visualDensity;
 
   final Color focusColor;
 
@@ -75,6 +78,13 @@ class _CheckboxUicState extends State<CheckboxUic> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle eventualTitleTextStyle = widget.titleTextStyle ??
+        Theme.of(context).textTheme.subtitle;
+    if (widget.onChanged == null) {
+      eventualTitleTextStyle = eventualTitleTextStyle.copyWith(
+        color: Theme.of(context).disabledColor,
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -94,24 +104,31 @@ class _CheckboxUicState extends State<CheckboxUic> {
               checkColor: widget.checkColor,
               tristate: widget.tristate,
               materialTapTargetSize: widget.materialTapTargetSize,
-              visualDensity: widget.visualDensity,
               focusColor: widget.focusColor,
               hoverColor: widget.hoverColor,
               focusNode: widget.focusNode,
               autofocus: widget.autofocus,
             ),
-            Text(_value ? widget.titleChecked : widget.titleUnchecked,
-              style: widget.titleTextStyle ?? Theme.of(context).textTheme.subtitle1,
+            Text(_value ? widget.title : widget.titleUnchecked ?? widget.title,
+              style: eventualTitleTextStyle,
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 48.0),
-          child: Text(_value ? widget.descriptionChecked : widget.descriptionUnchecked,
-            textAlign: TextAlign.start,
-            style: widget.descriptionTextStyle ?? Theme.of(context).textTheme.caption,
+        if (widget.description != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 48.0),
+            child: Text(_value ? widget.description
+                : widget.descriptionUnchecked ?? widget.description,
+              textAlign: TextAlign.start,
+              style: widget.descriptionTextStyle ?? Theme.of(context).textTheme.caption,
+            ),
           ),
-        )
+        if (widget.descriptionView != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 48.0),
+            child: _value ? widget.descriptionView
+                : widget.descriptionViewUnchecked ?? widget.descriptionView,
+          ),
       ],
     );
   }
