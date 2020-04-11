@@ -53,7 +53,7 @@ class LoginUic extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData eventualTheme = theme ?? Theme.of(context);
     TextStyle eventualErrorTextStyle = errorTextStyle ??
-        eventualTheme.textTheme.bodyText1.copyWith(color: Colors.redAccent);
+        eventualTheme.textTheme.body1.copyWith(color: Colors.redAccent);
     InputDecoration usernameDecoration = inputDecoration?.copyWith(
       labelText: usernameLabel,
       hintText: usernameHint,
@@ -88,6 +88,7 @@ class LoginUic extends StatelessWidget {
               builder: (context, state, child) {
                 if (state.value == LoginUicState.signInSuccess) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    controller.state.value = LoginUicState.signIn;
                     controller.onSignedIn(context);
                   });
                 }
@@ -124,7 +125,7 @@ class LoginUic extends StatelessWidget {
                     ),
                     RaisedButton(
                       child: Container(
-                        width: theme.buttonTheme.minWidth,
+                        width: eventualTheme.buttonTheme.minWidth,
                         child: (state.value == LoginUicState.signInProgress)
                             ? signInProgressView
                             : Text(signInText, textAlign: TextAlign.center,),
@@ -147,9 +148,10 @@ class LoginUicController {
   LoginUicController({
     LoginUicState initialState = LoginUicState.signIn,
     @required this.onSignIn,
-    this.onSignedIn,
+    void Function(BuildContext) onSignedIn,
   }) :  usernameController = TextEditingController(),
         passwordController = TextEditingController(),
+        this.onSignedIn = onSignedIn ?? ((_) {}),
         _state = ValueNotifier(initialState);
 
   final ValueNotifier<LoginUicState> _state;
@@ -179,9 +181,11 @@ class LoginUicController {
     try {
       await onSignIn(username, password);
       state.value = LoginUicState.signInSuccess;
-    }
-    catch (error) {
+    } on String catch (error) {
       _error = error;
+      state.value = LoginUicState.signInError;
+    } catch (error) {
+      _error = 'Sign in failed';
       state.value = LoginUicState.signInError;
     }
   }
