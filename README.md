@@ -8,7 +8,7 @@ Currently includes the following UI components:
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
 
 # [CheckboxUic](#checkboxuic)
-Enhanced, but still simple, check box widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it can has a title and description.
+Enhanced, but still simple, checkbox widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it has a title and can show an additional description.
 
 - Supports all original parameters of Checkbox Flutter widget
 - Has initial value

@@ -2,7 +2,7 @@ library checkbox_uic;
 
 import 'package:flutter/material.dart';
 
-/// Enhanced check box widget, that maintain its state, has a title can show
+/// Enhanced checkbox widget, that maintain its state, has a title and can show
 /// additional description in each state.
 ///
 /// **CheckboxUic** is an original [Checkbox] widget, composed with a [title]
@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 /// or unchecked). You can set the initial state with [initialValue] parameter.
 ///
 /// All original [Checkbox] parameters are supported.
-
+///
 /// When the state is changed, the [onChanged] callback is called with updated
 /// state. If the [onChanged] isn't, the **CheckboxUic** is disabled.
 ///
@@ -48,10 +48,10 @@ class CheckboxUic extends StatefulWidget {
     this.autofocus = false,
   }) : super(key: key);
 
-  /// Initial state of the check box
+  /// Initial state of the checkbox
   final bool initialValue;
 
-  /// Title text to display near the check box
+  /// Title text to display near the checkbox
   final String title;
 
   /// Optional title text for unchecked state
