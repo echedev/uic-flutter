@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
                 title: Text('CheckboxUic'),
                 subtitle: Text('Enhanced checkbox that maintain its state, has a'
-                    'title and can show additional description on each state.'),
+                    'title and can show additional description in each state.'),
                 onTap: () {
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) =>

@@ -5,8 +5,20 @@
 A set of Flutter widgets that simplifies implementing most used UI cases.
 
 Currently includes the following UI components:
+- `CheckboxUic` - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
 - `ListUic` - Wrapper of **ListView**, which implements related data loading and state management logic.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
+
+### CheckboxUic
+
+Enhanced, but still simple, check box widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it can has a title and description.
+
+- Supports all original parameters of Checkbox Flutter widget
+- Shows a title, which can be individual for checked and unchecked state
+- Optionally shows additional text description, which can be individual for checked and unchecked state
+- Supports custom widgets instead of text description
+
+![CheckboxUic Demo](./assets/checkboxuic-demo-001.gif)
 
 ### ListUic
 
@@ -29,8 +41,41 @@ In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
 dependencies:
-  uic: ^0.1.0
+  uic: ^0.3.0
 ```
+
+### CheckboxUic
+
+Import the package
+
+```dart
+import 'package:uic/checkbox_uic.dart';
+```
+
+Simple usage of `CheckboxUic`:
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: <b>CheckboxUic(
+          initialState: true,
+          title: 'Show additional description',
+          description: 'This is description for checked state.',
+          descriptionUnchecked: 'CheckboxUic can show description text, which can be '
+              'individual for each state (checked and unchecked).',
+          onChanged: (value) {
+            print('$value');
+          },
+      ),</b>
+    );
+  }
+</code></pre>
+
+See more examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/checkboxuic_screen.dart).
 
 ### ListUic
 
