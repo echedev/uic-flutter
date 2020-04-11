@@ -1,16 +1,13 @@
-# uic
-
-## UIC (UI Components)
+# UIC (UI Components)
 
 A set of Flutter widgets that simplifies implementing most used UI cases.
 
 Currently includes the following UI components:
-- `CheckboxUic` - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
-- `ListUic` - Wrapper of **ListView**, which implements related data loading and state management logic.
+- [CheckboxUic](#checkboxuic) - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
+- [ListUic](#listuic) - Wrapper of **ListView**, which implements related data loading and state management logic.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
 
-### CheckboxUic
-
+# [CheckboxUic](#checkboxuic)
 Enhanced, but still simple, check box widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it can has a title and description.
 
 - Supports all original parameters of Checkbox Flutter widget
@@ -20,7 +17,7 @@ Enhanced, but still simple, check box widget. Unlike original Checkbox widget, *
 
 ![CheckboxUic Demo](./assets/checkboxuic-demo-001.gif)
 
-### ListUic
+# [ListUic](#listuic)
 
 Almost each app has screens that display a list of items. Simple task at first look, it often requires much related staff to be implemented. All that boilerplate can be simplified with **ListUic** widget.
 
@@ -44,7 +41,7 @@ dependencies:
   uic: ^0.3.0
 ```
 
-### CheckboxUic
+### [CheckboxUic](#checkboxuic-usage)
 
 Import the package
 
@@ -77,7 +74,7 @@ Simple usage of `CheckboxUic`:
 
 See more examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/checkboxuic_screen.dart).
 
-### ListUic
+### [ListUic](#listuic-usage)
 
 Import the package
 
