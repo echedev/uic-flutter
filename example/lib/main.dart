@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'listuic_screen.dart';
-//import 'loginuic_screen.dart';
+import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 
 void main() => runApp(MyApp());
@@ -60,16 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-//            Card(
-//              child: ListTile(
-//                title: Text('LoginUic'),
-//                subtitle: Text('The component, implementing a login form and Sign In / Sign Up flows.'),
-//                onTap: () {
-//                  Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => LoginUicScreen(title: 'LoginUic Demo')),);
-//                },
-//              ),
-//            ),
+            Card(
+              child: ListTile(
+                contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                title: Text('LoginUic'),
+                subtitle: Text('The component, implementing a login form and Sign In / Sign Up flows.'),
+                onTap: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginUicScreen(title: 'LoginUic Demo')),);
+                },
+              ),
+            ),
             Card(
               child: ListTile(
                 contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
