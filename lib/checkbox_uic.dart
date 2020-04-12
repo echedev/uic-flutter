@@ -1,3 +1,5 @@
+library checkbox_uic;
+
 import 'package:flutter/material.dart';
 
 class CheckboxUic extends StatefulWidget {

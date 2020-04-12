@@ -1,4 +1,4 @@
-## [0.3.2] - 2020-04-11
+## [0.3.3] - 2020-04-11
 
 - Added `CheckboxUic` component
 
