@@ -4,12 +4,19 @@ import 'package:flutter/material.dart';
 class InlineTextField extends StatefulWidget {
   InlineTextField({
     Key key,
+    this.child,
     this.decoration,
     @required this.onEditingComplete,
     this.style,
     this.styleEditing,
-    @required this.value,
-  }) : super(key: key);
+    this.text,
+  }) : assert(!(style != null && text == null),
+        'Declaring style whithout text is not supported.'),
+      assert(!(child != null && text != null),
+        'Declaring both child and text is not supported.'),
+      super(key: key);
+
+  final Widget child;
 
   final InputDecoration decoration;
 
@@ -19,7 +26,7 @@ class InlineTextField extends StatefulWidget {
 
   final TextStyle styleEditing;
 
-  final String value;
+  final String text;
 
   @override
   _InlineTextFieldState createState() => _InlineTextFieldState();
@@ -37,7 +44,7 @@ class _InlineTextFieldState extends State<InlineTextField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value);
+    _controller = TextEditingController(text: widget.text);
   }
 
   @override
@@ -82,9 +89,10 @@ class _InlineTextFieldState extends State<InlineTextField> {
             isEditing = true;
           });
         },
-        child: Text(_controller.value.text,
-          style: widget.style,
-        )
+        child: widget.child ??
+          Text(_controller.value.text,
+            style: widget.style,
+          ),
       );
   }
 
