@@ -130,10 +130,28 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: <Widget>[
                                 Text('You can '),
                                 InlineTextField(
-                                  value: 'edit me',
+                                  text: 'edit me',
                                   style: Theme.of(context).textTheme.bodyText1.copyWith(
                                     color: Colors.lightBlueAccent,
                                   ),
+/*
+* Check the commented parameters below to learn available customization options
+*/
+//                                  child: Row(
+//                                    children: [
+//                                      Icon(Icons.add, color: Colors.lightBlueAccent,),
+//                                      Text('Add text',
+//                                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+//                                          color: Colors.lightBlueAccent,
+//                                        )
+//                                      ),
+//                                    ],
+//                                  ),
+//                                  styleEditing: Theme.of(context).textTheme.bodyText1.copyWith(
+//                                    color: Colors.lightBlueAccent,
+//                                  ),
+//                                  decoration: InputDecoration()
+//                                    ..applyDefaults(Theme.of(context).inputDecorationTheme),
                                   onEditingComplete: (value) {
                                     _scaffoldKey.currentState.showSnackBar(SnackBar(
                                       backgroundColor: Theme.of(context).accentColor,

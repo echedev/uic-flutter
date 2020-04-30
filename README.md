@@ -2,10 +2,13 @@
 
 A set of Flutter widgets that simplifies implementing most used UI cases.
 
-Currently includes the following UI components:
+####  Components:
 - [CheckboxUic](#checkboxuic) - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
 - [ListUic](#listuic) - Wrapper of **ListView**, which implements related data loading and state management logic.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
+
+####  Widgets:
+- [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
 
 # [CheckboxUic](#checkboxuic)
 Enhanced, but still simple, check box widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it can has a title and description.
@@ -33,13 +36,24 @@ Almost each app has screens that display a list of items. Simple task at first l
 
 ![ListUic Demo](./assets/listuic-demo-001.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-002.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-003.gif)
 
+# [InlineTextField](#inlinetextfield)
+Makes Text view editable. In the view mode is shows a normal Text widget (or your custom view). On double tap it is switching to editing mode, and allow user to inline edit the text.
+
+- Supports text styling in both view and editing mode.
+- Supports text field decoration in the editing mode.
+- Uses minimalistic appearance of text field in editing mode by default.
+- Notifies when user done editing text.
+- Supports custom widget to show in view mode instead of normal Text widget.
+
+![InlineTextField Demo](./assets/inlinetextfield-demo-001.gif)
+
 ## Usage
 
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
 dependencies:
-  uic: ^0.3.0
+  uic: ^0.4.0
 ```
 
 ### [CheckboxUic](#checkboxuic-usage)
@@ -136,3 +150,44 @@ Implement a function that will return a list of items:
 Read the docs for available customization options.
 
 Also you can check [demo app](https://github.com/ech89899/uic-flutter/tree/master/example) for details of using `ListUic` widget.
+
+### [InlineTextField](#inlinetextfieldusage)
+
+Import the package
+
+```dart
+import 'package:uic/widgets.dart';
+```
+
+Simple usage of `InlineTextWidget`:
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Row(
+          children: <Widget>[
+            Text('You can '),
+            <b>InlineTextField(
+              text: 'edit me',
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.lightBlueAccent,
+              ),
+              onEditingComplete: (value) {
+                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                  backgroundColor: Theme.of(context).accentColor,
+                  content: Text(value),
+                ));
+              },
+            )</b>,
+            Text(' right here'),
+          ],
+        ),
+    );
+  }
+</code></pre>
+
+See more available options of **InlineTextField** examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
