@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blueGrey,
         accentColor: Colors.amber,
         toggleableActiveColor: Colors.amber,
+        dividerColor: Colors.transparent,
       ),
       home: MyHomePage(title: 'UIC Demo'),
     );
@@ -50,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
           bottom: TabBar(
+            indicatorColor: Theme.of(context).accentColor,
             tabs: [
               Tab(text: 'Components',),
               Tab(text: 'Widgets'),
