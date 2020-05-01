@@ -124,6 +124,7 @@ class _InlineTextFieldState extends State<InlineTextField> {
             isEditing = true;
           });
         },
+        behavior: HitTestBehavior.translucent,
         child: widget.child ??
           Text(_controller.value.text,
             style: widget.style,
