@@ -21,42 +21,7 @@ Enhanced, but still simple, checkbox widget. Unlike original Checkbox widget, **
 
 ![CheckboxUic Demo](./assets/checkboxuic-demo-001.gif)
 
-# [ListUic](#listuic)
-
-Almost each app has screens that display a list of items. Simple task at first look, it often requires much related staff to be implemented. All that boilerplate can be simplified with **ListUic** widget.
-
-#### Features:
-- Pull to Refresh gesture to reload list data
-- Pagination (infinite scroll) to load next part of data on scroll to the end of the list
-- Progress indicator for initial data loading
-- Individual view for empty data
-- Individual error view
-- Progress indicator at the end of list when next page of items is loading
-- Showing snack bar on failing loading data
-
-![ListUic Demo](./assets/listuic-demo-001.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-002.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-003.gif)
-
-# [InlineTextField](#inlinetextfield)
-Makes Text view editable. In the view mode is shows a normal Text widget (or your custom view). On double tap it is switching to editing mode, and allow user to inline edit the text.
-
-- Supports text styling in both view and editing mode.
-- Supports text field decoration in the editing mode.
-- Uses minimalistic appearance of text field in editing mode by default.
-- Notifies when user done editing text.
-- Supports custom widget to show in view mode instead of normal Text widget.
-
-![InlineTextField Demo](./assets/inlinetextfield-demo-001.gif)
-
-## Usage
-
-In the `dependencies:` section of your `pubspec.yaml`, add the following line:
-
-```yaml
-dependencies:
-  uic: ^0.4.0
-```
-
-### [CheckboxUic](#checkboxuic-usage)
+### Usage
 
 Import the package
 
@@ -89,7 +54,22 @@ Simple usage of `CheckboxUic`:
 
 See more examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/checkboxuic_screen.dart).
 
-### [ListUic](#listuic-usage)
+# [ListUic](#listuic)
+
+Almost each app has screens that display a list of items. Simple task at first look, it often requires much related staff to be implemented. All that boilerplate can be simplified with **ListUic** widget.
+
+#### Features:
+- Pull to Refresh gesture to reload list data
+- Pagination (infinite scroll) to load next part of data on scroll to the end of the list
+- Progress indicator for initial data loading
+- Individual view for empty data
+- Individual error view
+- Progress indicator at the end of list when next page of items is loading
+- Showing snack bar on failing loading data
+
+![ListUic Demo](./assets/listuic-demo-001.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-002.gif)&nbsp;![ListUic Demo](./assets/listuic-demo-003.gif)
+
+### Usage
 
 Import the package
 
@@ -104,7 +84,7 @@ class _MyHomePageState extends State&lt;MyHomePage&gt; {
 
   <b>ListUicController&lt;int&gt; _controller;</b>
   ...
-  
+
   @override
   void initState() {
     super.initState();
@@ -151,7 +131,19 @@ Read the docs for available customization options.
 
 Also you can check [demo app](https://github.com/ech89899/uic-flutter/tree/master/example) for details of using `ListUic` widget.
 
-### [InlineTextField](#inlinetextfieldusage)
+# [InlineTextField](#inlinetextfield)
+
+Makes Text view editable. In the view mode is shows a normal Text widget (or your custom view). On double tap it is switching to editing mode, and allow user to inline edit the text.
+
+- Supports text styling in both view and editing mode.
+- Supports text field decoration in the editing mode.
+- Uses minimalistic appearance of text field in editing mode by default.
+- Notifies when user done editing text.
+- Supports custom widget to show in view mode instead of normal Text widget.
+
+![InlineTextField Demo](./assets/inlinetextfield-demo-001.gif)
+
+### Usage
 
 Import the package
 
@@ -169,7 +161,7 @@ Simple usage of `InlineTextWidget`:
         title: Text(widget.title),
       ),
       body: Row(
-          children: <Widget>[
+          children: &lt;Widget&gt;[
             Text('You can '),
             <b>InlineTextField(
               text: 'edit me',
