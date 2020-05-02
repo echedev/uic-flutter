@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 /// In editing mode you can customize input field using [styleEditing] and
 /// [decoration]. By default, the collapsed input decoration is used.
 ///
+/// Note: [InlineTextField] must be used inside a [Row] or other horizontal flex
+/// widget, because it is expanded in its editing mode.
+///
 /// See also:
 /// * [Text]
 /// * [TextField]
@@ -29,7 +32,6 @@ class InlineTextField extends StatefulWidget {
     Key key,
     this.child,
     this.decoration,
-    this.expandOnEditing = true,
     @required this.onEditingComplete,
     this.style,
     this.styleEditing,
@@ -47,8 +49,6 @@ class InlineTextField extends StatefulWidget {
   ///
   /// Defaults to [TextInputType.collapsed]
   final InputDecoration decoration;
-
-  final bool expandOnEditing;
 
   /// Called when the user indicates that they are done editing the text in the field.
   final void Function(String value) onEditingComplete;
@@ -93,39 +93,33 @@ class _InlineTextFieldState extends State<InlineTextField> {
 
   @override
   Widget build(BuildContext context) {
-    Widget textField = TextField(
-      controller: _controller,
-      style: widget.styleEditing,
-      decoration: widget.decoration?.copyWith(
-        suffixIcon: _closeButton(),
-      ) ?? InputDecoration.collapsed(
-        hintText: "",
-      ).copyWith(
-          isDense: true,
-          suffixIcon: _closeButton(),
-          suffixIconConstraints: BoxConstraints(
-            minHeight: 24.0,
-            minWidth: 24.0,
-          )
-      ),
-      textAlignVertical: TextAlignVertical.center,
-      onSubmitted: (String newValue) {
-        print("onSubmitted()");
-        setState(() {
-          isEditing = false;
-        });
-        widget.onEditingComplete(newValue);
-      },
-    );
     if (isEditing) {
-      if (widget.expandOnEditing) {
-        return Expanded(
-          child: textField,
-        );
-      }
-      else {
-        return textField;
-      }
+      return Expanded(
+        child: TextField(
+          controller: _controller,
+          style: widget.styleEditing,
+          decoration: widget.decoration?.copyWith(
+            suffixIcon: _closeButton(),
+          ) ?? InputDecoration.collapsed(
+            hintText: "",
+          ).copyWith(
+              isDense: true,
+              suffixIcon: _closeButton(),
+              suffixIconConstraints: BoxConstraints(
+                minHeight: 24.0,
+                minWidth: 24.0,
+              )
+          ),
+          textAlignVertical: TextAlignVertical.center,
+          onSubmitted: (String newValue) {
+            print("onSubmitted()");
+            setState(() {
+              isEditing = false;
+            });
+            widget.onEditingComplete(newValue);
+          },
+        ),
+      );
     }
     else {
       return GestureDetector(
