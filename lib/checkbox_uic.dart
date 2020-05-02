@@ -2,6 +2,28 @@ library checkbox_uic;
 
 import 'package:flutter/material.dart';
 
+/// Enhanced checkbox widget, that maintain its state, has a title and can show
+/// additional description in each state.
+///
+/// **CheckboxUic** is an original [Checkbox] widget, composed with a [title]
+/// and optional [description] text.
+/// For unchecked state it also allows to set individual [titleUnchecked] and
+/// [descriptionUnchecked] values.
+///
+/// For description, instead of just a text, you can pass your custom views in
+/// [descriptionView] and [descriptionViewUnchecked] parameters.
+///
+/// This widget, unlike the original [Checkbox], maintain its own state (checked
+/// or unchecked). You can set the initial state with [initialValue] parameter.
+///
+/// All original [Checkbox] parameters are supported.
+///
+/// When the state is changed, the [onChanged] callback is called with updated
+/// state. If the [onChanged] isn't, the **CheckboxUic** is disabled.
+///
+/// See also:
+/// * [Checkbox]
+///
 class CheckboxUic extends StatefulWidget {
   CheckboxUic({
     Key key,
@@ -26,24 +48,38 @@ class CheckboxUic extends StatefulWidget {
     this.autofocus = false,
   }) : super(key: key);
 
+  /// Initial state of the checkbox
   final bool initialValue;
 
+  /// Title text to display near the checkbox
   final String title;
 
+  /// Optional title text for unchecked state
   final String titleUnchecked;
 
+  /// Style of the title text
   final TextStyle titleTextStyle;
 
+  /// Optional description text
+  ///
+  /// If defined, it is displayed below the title
   final String description;
 
+  /// Optional description text for unchecked state
+  ///
+  /// If defined, it is displayed below the title
   final String descriptionUnchecked;
 
+  /// Style of description text
   final TextStyle descriptionTextStyle;
 
+  /// Widget to display in the description area
   final Widget descriptionView;
 
+  /// Widget to display in the description area for unchecked state
   final Widget descriptionViewUnchecked;
 
+  /// A callback function that is called when the check box state is changed
   final ValueChanged<bool> onChanged;
 
   //
