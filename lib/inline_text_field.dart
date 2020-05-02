@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 /// In editing mode you can customize input field using [styleEditing] and
 /// [decoration]. By default, the collapsed input decoration is used.
 ///
+/// Note: [InlineTextField] must be used inside a [Row] or other horizontal flex
+/// widget, because it is expanded in its editing mode.
+///
 /// See also:
 /// * [Text]
 /// * [TextField]
@@ -90,8 +93,8 @@ class _InlineTextFieldState extends State<InlineTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return isEditing ?
-      Expanded(
+    if (isEditing) {
+      return Expanded(
         child: TextField(
           controller: _controller,
           style: widget.styleEditing,
@@ -100,12 +103,12 @@ class _InlineTextFieldState extends State<InlineTextField> {
           ) ?? InputDecoration.collapsed(
             hintText: "",
           ).copyWith(
-            isDense: true,
-            suffixIcon: _closeButton(),
-            suffixIconConstraints: BoxConstraints(
-              minHeight: 24.0,
-              minWidth: 24.0,
-            )
+              isDense: true,
+              suffixIcon: _closeButton(),
+              suffixIconConstraints: BoxConstraints(
+                minHeight: 24.0,
+                minWidth: 24.0,
+              )
           ),
           textAlignVertical: TextAlignVertical.center,
           onSubmitted: (String newValue) {
@@ -116,8 +119,10 @@ class _InlineTextFieldState extends State<InlineTextField> {
             widget.onEditingComplete(newValue);
           },
         ),
-      ) :
-      GestureDetector(
+      );
+    }
+    else {
+      return GestureDetector(
         onDoubleTap: () {
           setState(() {
             _oldText = _controller.value.text;
@@ -125,10 +130,11 @@ class _InlineTextFieldState extends State<InlineTextField> {
           });
         },
         child: widget.child ??
-          Text(_controller.value.text,
-            style: widget.style,
-          ),
+            Text(_controller.value.text,
+              style: widget.style,
+            ),
       );
+    }
   }
 
   Widget _closeButton() {
