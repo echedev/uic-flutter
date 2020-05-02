@@ -1,3 +1,7 @@
+## [0.4.1] - 2020-05-02
+
+- Bug fixes
+
 ## [0.4.0] - 2020-04-30
 
 - Added `InlineTextField` widget

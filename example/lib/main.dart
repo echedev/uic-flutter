@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text('Makes Text widget editable. Double tap on the text '
                             'will show inline input text field instead of static text.',
-                            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                            style: Theme.of(context).textTheme.body2.copyWith(
                               color: Colors.black54,
                             ),
                           ),
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text('You can '),
                                 InlineTextField(
                                   text: 'edit me',
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                  style: Theme.of(context).textTheme.body1.copyWith(
                                     color: Colors.lightBlueAccent,
                                   ),
 /*

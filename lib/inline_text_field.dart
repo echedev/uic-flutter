@@ -105,10 +105,6 @@ class _InlineTextFieldState extends State<InlineTextField> {
           ).copyWith(
               isDense: true,
               suffixIcon: _closeButton(),
-              suffixIconConstraints: BoxConstraints(
-                minHeight: 24.0,
-                minWidth: 24.0,
-              )
           ),
           textAlignVertical: TextAlignVertical.center,
           onSubmitted: (String newValue) {
