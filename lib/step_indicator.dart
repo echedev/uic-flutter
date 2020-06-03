@@ -114,9 +114,12 @@ class StepIndicator extends StatelessWidget {
         width: lineWidth,
       ));
     }
-    result.add(incompleteStep ?? _Step(
-      color: eventualColorIncomplete,
-      size: itemSize,
+    result.add(Padding(
+      padding: padding,
+      child: incompleteStep ?? _Step(
+        color: eventualColorIncomplete,
+        size: itemSize,
+      ),
     ));
 
     return result;
