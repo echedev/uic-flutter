@@ -6,6 +6,8 @@ import 'listuic_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 
+import 'step_indicator.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -163,6 +165,30 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      child: ExpansionTile(
+                        title: Text('StepIndicator',
+                          style: GoogleFonts.robotoMono(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text('Simple, but highly customizable steps (or pages) indicator',
+                            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        children: [
+                          ...examplesStepIndicator(context),
                         ],
                       ),
                     ),

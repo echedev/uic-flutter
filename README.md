@@ -9,6 +9,7 @@ A set of Flutter widgets that simplifies implementing most used UI cases.
 
 ####  Widgets:
 - [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
+- [StepIndicator](#stepindicator) - Simple, but customizable step/page indicator.
 
 # [CheckboxUic](#checkboxuic)
 Enhanced, but still simple, checkbox widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it has a title and can show an additional description.
@@ -183,3 +184,50 @@ Simple usage of `InlineTextWidget`:
 </code></pre>
 
 See more available options of **InlineTextField** examples in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
+
+# [StepIndicator](#stepindicator)
+
+Simple, but customizable step (page) indicator. It can be useful to show a current item in sliders and carousels, or a current page in a flow where user has to pass through a sequence of screens.
+
+- Supports custom colors for completed, selected and incomplete steps.
+- Optionally shows lines connecting step items.
+- Supports custom line colors, width and length.
+- Can be expanded, to fit parent size.
+- *Horizontal or vertical orientation (NOT IMPLEMENTED YET)*
+- *Notifies when user select a step. (NOT IMPLEMENTED YET)*
+- Supports custom widgets for complete, selected and incomplete steps.
+- *Builder function that allow to define individual view for each step. (NOT IMPLEMENTED YET)*
+
+![StepIndicator Examples](./assets/stepindicator-001.png)
+
+### Usage
+
+Import the package
+
+```dart
+import 'package:uic/widgets.dart';
+```
+
+Simple usage of `StepIndicator`:
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+          child: <b>StepIndicator(
+            selectedStepIndex: 2,
+            totalSteps: 5,
+          ),</b>
+        ),
+    );
+  }
+</code></pre>
+
+You must provide the current step index and total number of steps.
+
+See more available options of **StepIndicator** in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.

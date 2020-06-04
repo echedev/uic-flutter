@@ -117,7 +117,7 @@ class _CheckboxUicState extends State<CheckboxUic> {
   @override
   Widget build(BuildContext context) {
     TextStyle eventualTitleTextStyle = widget.titleTextStyle ??
-        Theme.of(context).textTheme.subtitle;
+        Theme.of(context).textTheme.subtitle2;
     if (widget.onChanged == null) {
       eventualTitleTextStyle = eventualTitleTextStyle.copyWith(
         color: Theme.of(context).disabledColor,
