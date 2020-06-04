@@ -6,6 +6,8 @@ import 'listuic_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 
+import 'step_indicator.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -186,38 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: <Widget>[
-                                StepIndicator(
-                                  selectedStepIndex: 2,
-                                  totalSteps: 5,
-/*
-* Check the commented parameters below to learn available customization options
-*/
-//                                  completedStep: Icon(Icons.check_circle,
-//                                    color: Theme.of(context).primaryColor,
-//                                  ),
-//                                  incompleteStep: Icon(Icons.radio_button_unchecked,
-//                                    color: Theme.of(context).primaryColor,
-//                                  ),
-//                                  selectedStep: Icon(Icons.radio_button_checked,
-//                                    color: Theme.of(context).accentColor,
-//                                  ),
-//                                  colorCompleted: Theme.of(context).primaryColor,
-//                                  colorIncomplete: Colors.black12,
-//                                  colorLineIncomplete: Colors.transparent,
-//                                  colorSelected: Theme.of(context).accentColor,
-//                                  expanded: true,
-//                                  itemSize: 32.0,
-//                                  lineLength: 50.0,
-//                                  lineWidth: 1.0,
-//                                  padding: const EdgeInsets.all(0.0),
-                                ),
-                              ],
-                            ),
-                          )
+                          ...examplesStepIndicator(context),
                         ],
                       ),
                     ),

@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
 
+/// A widget to display progress through a sequence of steps.
+///
+/// StepIndicator can be useful to show a current item in sliders and carousels, or
+/// a current page in a flow where user has to pass through a sequence of screens.
+///
+/// The default view is a row of filled circles, optionally connected by lines.
+///
+/// You must specify the [totalSteps] and [selectedStepIndex] values.
+///
+/// Basic customization options for StepIndicator are [itemSize], [expanded],
+/// [padding], [showLines] and [lineLength].
+///
+/// The color of step items is defined by [colorCompleted], [colorSelected] and
+/// [colorIncomplete] parameters.
+/// You can provide your custom step widgets for each step state in [completedStep],
+/// [selectedStep] and [incompleteStep].
+///
+/// Connecting lines are not shown by default. Use [showLines] to turn lines on.
+/// The following option can be used to customize lines appearance: [colorLineCompleted],
+/// [colorLineIncomplete], [lineWidth].
+///
 class StepIndicator extends StatelessWidget {
   StepIndicator({
     Key key,
     this.colorCompleted,
+    Color colorLineCompleted,
     this.colorIncomplete,
     Color colorLineIncomplete,
     this.colorSelected,
@@ -15,38 +37,109 @@ class StepIndicator extends StatelessWidget {
     this.lineWidth,
     this.padding = const EdgeInsets.all(4.0),
     this.selectedStep,
+    this.showLines = false,
     @required this.selectedStepIndex,
     @required this.totalSteps,
   }) :
+      this.colorLineCompleted = colorLineCompleted ?? colorCompleted,
       this.colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
       super(key: key);
 
+  /// The color of completed steps.
+  ///
+  /// It is applied when the default step widget is used.
+  /// Also this color is used to draw lines, connecting completed steps.
+  /// Defaults to primary color of the current theme.
   final Color colorCompleted;
 
+  /// The color of incomplete steps.
+  ///
+  /// It is applied when the default step widget is used.
+  /// Also this color is used to draw lines, connecting incomplete steps.
+  /// Defaults to 'black12' color.
   final Color colorIncomplete;
 
+  /// The color of lines connecting completed steps.
+  ///
+  /// Use this value to define the color of completed lines, when it have to be
+  /// different from the color of completed step items.
+  ///
+  /// Defaults to [colorCompleted].
+  final Color colorLineCompleted;
+
+  /// The color of lines connecting incomplete steps.
+  ///
+  /// Use this value to define the color of incomplete lines, when it have to be
+  /// different from the color of incomplete step items.
+  ///
+  /// Defaults to [colorIncomplete].
   final Color colorLineIncomplete;
 
+  /// The color of currently selected step.
+  ///
+  /// It is applied when the default step widget is used.
+  /// Defaults to accent color of the current theme.
   final Color colorSelected;
 
+  /// A widget to show for completed steps
+  ///
+  /// If it is not defined, the default filled circle widget is used.
   final Widget completedStep;
 
+  /// Should the step indicator expand in its main axis to all available space.
+  ///
+  /// When set to 'true', step items are spaced evenly and connecting lines are
+  /// expanded between them. The [lineLength] is ignored in this case.
+  /// Defaults to 'false'. In this case step items are grouped in center and the
+  /// [lineLength] controls a distance between them.
   final bool expanded;
 
+  /// A widget to show for incomplete steps.
+  ///
+  /// If it is not defined, the default filled circle widget is used.
   final Widget incompleteStep;
 
+  /// The size of step item.
+  ///
+  /// It is applied when the default step widget is used.
+  /// Defaults to '16.0'.
   final double itemSize;
 
+  /// The length of connecting line.
+  ///
+  /// The line is drawn between step items and defines a distance between them.
+  /// Defaults to '16.0'.
   final double lineLength;
 
+  /// The width of connecting line.
+  ///
+  /// The line is drawn between step items and defines a distance between them.
+  /// Defaults to '2.0'.
   final double lineWidth;
 
+  /// Defines an empty space around the step item.
+  ///
+  /// Defaults to '4.0'.
   final EdgeInsetsGeometry padding;
 
+  /// A widget to show for currently selected step.
+  ///
+  /// If it is not defined, the default filled circle widget is used.
   final Widget selectedStep;
 
+  /// Index of selected step.
+  ///
+  /// The selected step item is drawn as defined in [selectedStep].
+  /// All step items before selected step are drawn as [completedStep] and all
+  /// step items after it are drawn as [incompleteStep].
   final int selectedStepIndex;
 
+  /// Should the step items to be connected by lines.
+  ///
+  /// Defaults to 'false'.
+  final bool showLines;
+
+  /// The total number of steps.
   final int totalSteps;
 
   @override
@@ -63,7 +156,8 @@ class StepIndicator extends StatelessWidget {
   List<Widget> _buildSteps(BuildContext context) {
     Color eventualColorCompleted = colorCompleted ?? Theme.of(context).primaryColor;
     Color eventualColorIncomplete = colorIncomplete ?? Colors.black12;
-    Color eventualColorLineIncomplete = colorLineIncomplete ?? eventualColorIncomplete;
+    Color eventualColorLineCompleted = showLines ? colorLineCompleted ?? eventualColorCompleted : Colors.transparent;
+    Color eventualColorLineIncomplete = showLines ? colorLineIncomplete ?? eventualColorIncomplete : Colors.transparent;
     Color eventualColorSelected = colorSelected ?? Theme.of(context).accentColor;
     List<Widget> result = [];
     // Completed steps
@@ -76,7 +170,7 @@ class StepIndicator extends StatelessWidget {
        ),
      ));
      result.add(_Line(
-       color: eventualColorCompleted,
+       color: eventualColorLineCompleted,
        expanded: expanded,
        length: lineLength,
        width: lineWidth,
