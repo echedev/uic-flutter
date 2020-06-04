@@ -36,11 +36,11 @@ class InlineTextField extends StatefulWidget {
     this.style,
     this.styleEditing,
     this.text,
-  }) : assert(!(style != null && text == null),
-        'Declaring style whithout text is not supported.'),
-      assert(!(child != null && text != null),
-        'Declaring both child and text is not supported.'),
-      super(key: key);
+  })  : assert(!(style != null && text == null),
+            'Declaring style whithout text is not supported.'),
+        assert(!(child != null && text != null),
+            'Declaring both child and text is not supported.'),
+        super(key: key);
 
   /// A widget to display in view mode
   final Widget child;
@@ -68,17 +68,15 @@ class InlineTextField extends StatefulWidget {
 
   @override
   _InlineTextFieldState createState() => _InlineTextFieldState();
-
 }
 
 class _InlineTextFieldState extends State<InlineTextField> {
-
   bool isEditing = false;
-  
+
   TextEditingController _controller;
 
   String _oldText;
-  
+
   @override
   void initState() {
     super.initState();
@@ -99,13 +97,14 @@ class _InlineTextFieldState extends State<InlineTextField> {
           controller: _controller,
           style: widget.styleEditing,
           decoration: widget.decoration?.copyWith(
-            suffixIcon: _closeButton(),
-          ) ?? InputDecoration.collapsed(
-            hintText: "",
-          ).copyWith(
-              isDense: true,
-              suffixIcon: _closeButton(),
-          ),
+                suffixIcon: _closeButton(),
+              ) ??
+              InputDecoration.collapsed(
+                hintText: "",
+              ).copyWith(
+                isDense: true,
+                suffixIcon: _closeButton(),
+              ),
           textAlignVertical: TextAlignVertical.center,
           onSubmitted: (String newValue) {
             print("onSubmitted()");
@@ -116,8 +115,7 @@ class _InlineTextFieldState extends State<InlineTextField> {
           },
         ),
       );
-    }
-    else {
+    } else {
       return GestureDetector(
         onDoubleTap: () {
           setState(() {
@@ -126,7 +124,8 @@ class _InlineTextFieldState extends State<InlineTextField> {
           });
         },
         child: widget.child ??
-            Text(_controller.value.text,
+            Text(
+              _controller.value.text,
               style: widget.style,
             ),
       );

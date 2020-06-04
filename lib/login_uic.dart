@@ -53,7 +53,7 @@ class LoginUic extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData eventualTheme = theme ?? Theme.of(context);
     TextStyle eventualErrorTextStyle = errorTextStyle ??
-        eventualTheme.textTheme.body1.copyWith(color: Colors.redAccent);
+        eventualTheme.textTheme.bodyText2.copyWith(color: Colors.redAccent);
     InputDecoration usernameDecoration = inputDecoration?.copyWith(
       labelText: usernameLabel,
       hintText: usernameHint,

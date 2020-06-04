@@ -7,8 +7,7 @@ class ProgressUic extends StatelessWidget {
     Key key,
     this.text = '',
     this.textLocation = ProgressUicTextLocation.bottom,
-  }) :
-    super(key: key);
+  }) : super(key: key);
 
   /// Text to display near the progress indicator
   final String text;
@@ -48,15 +47,15 @@ class ProgressUic extends StatelessWidget {
 
   List<Widget> _getViews(BuildContext context) {
     List<Widget> result = List();
-    if (textLocation == ProgressUicTextLocation.top
-        || textLocation == ProgressUicTextLocation.left) {
+    if (textLocation == ProgressUicTextLocation.top ||
+        textLocation == ProgressUicTextLocation.left) {
       if (text.isNotEmpty) {
         result.add(_buildText(context));
       }
     }
     result.add(CircularProgressIndicator());
-    if (textLocation == ProgressUicTextLocation.bottom
-        || textLocation == ProgressUicTextLocation.right) {
+    if (textLocation == ProgressUicTextLocation.bottom ||
+        textLocation == ProgressUicTextLocation.right) {
       if (text.isNotEmpty) {
         result.add(_buildText(context));
       }
@@ -67,7 +66,8 @@ class ProgressUic extends StatelessWidget {
   Widget _buildText(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(text,
+      child: Text(
+        text,
         style: Theme.of(context).textTheme.headline,
       ),
     );

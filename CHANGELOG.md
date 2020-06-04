@@ -1,3 +1,8 @@
+## [0.5.0] - 2020-06-04
+
+- Added `StepIndicator` widget
+- Update docs
+
 ## [0.4.2] - 2020-05-02
 
 - Bug fixes
