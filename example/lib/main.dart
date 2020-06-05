@@ -5,6 +5,7 @@ import 'package:uic/widgets.dart';
 import 'listuic_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
+import 'progressuic_screen.dart';
 
 import 'step_indicator.dart';
 
@@ -99,6 +100,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) =>
                               CheckboxUicScreen(title: 'CheckboxUic Demo')),);
+                      },
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text('ProgressUic',
+                        style: GoogleFonts.robotoMono(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text('Use it either as an individual progress indicator '
+                            'with additional customizable features, or as a wrapper '
+                            'of content view that can be in progress state.'),
+                      ),
+                      onTap: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>
+                              ProgressUicScreen(title: 'ProgressUic Demo')),);
                       },
                     ),
                   ),
