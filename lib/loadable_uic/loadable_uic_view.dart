@@ -19,17 +19,17 @@ class LoadableUic<T> extends StatelessWidget {
         builder: (context, loadableData, child) {
           switch (loadableData.state) {
             case LoadableDataState.initialLoading:
-              return Container();
+              return Container(color: Colors.green,);
             case LoadableDataState.initialLoadingError:
-              return Container();
+              return Container(color: Colors.red);
             case LoadableDataState.empty:
-              return Container();
+              return Container(color: Colors.yellow);
             case LoadableDataState.ready:
-              return Container();
+              return Container(color: Colors.blue);
             case LoadableDataState.loading:
-              return Container();
+              return Container(color: Colors.orange);
             case LoadableDataState.error:
-              return Container();
+              return Container(color: Colors.red);
           }
           return Container();
         },

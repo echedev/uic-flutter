@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
-  LoadableData() : super(_LoadableDataValue<T>());
+  LoadableData({
+    @required this.onLoad,
+  }) : super(_LoadableDataValue<T>()) {
+    loadData();
+  }
 
   T get data => value.data;
 
@@ -36,8 +40,26 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
     }
   }
 
-  T Function() onLoad;
+  Future<T> Function() onLoad;
 
+  Future<void> loadData() async {
+    if (!value.isLoading) {
+      value = value.copyWith(isLoading: true);
+    }
+    try {
+      T result = await onLoad();
+      value = value.copyWith(
+        data: result,
+        isLoading: false,
+      );
+    }
+    catch (e) {
+      value = value.copyWith(
+        error: LoadableDataError(message: e.toString()),
+        isLoading: false,
+      );
+    }
+  }
 }
 
 class _LoadableDataValue<T> {
@@ -53,6 +75,17 @@ class _LoadableDataValue<T> {
 
   bool isLoading;
 
+  _LoadableDataValue<T> copyWith({
+    T data,
+    LoadableDataError error,
+    bool isLoading,
+  }) {
+    return _LoadableDataValue<T>(
+      data: data ?? this.data,
+      error: isLoading ? null : (error ?? this.error),
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 }
 
 enum LoadableDataState {
