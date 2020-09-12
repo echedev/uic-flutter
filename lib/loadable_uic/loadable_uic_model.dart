@@ -9,6 +9,8 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
 
   T get data => value.data;
 
+  LoadableDataError get error => value.error;
+
   bool get isLoading => value.isLoading;
 
   LoadableDataState get state {
