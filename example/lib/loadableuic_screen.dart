@@ -73,6 +73,9 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
           header: 'Header',
           message: 'This is your content');
     }
+    else if (_loadingAttempts == 4) {
+      throw Exception();
+    }
     return ExampleData(
         header: 'Header',
         message: 'Your content was updated');

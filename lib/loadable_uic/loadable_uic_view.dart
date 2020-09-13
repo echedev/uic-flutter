@@ -8,6 +8,7 @@ class LoadableUic<T> extends StatelessWidget {
     Key key,
     @required this.builder,
     this.emptyView,
+    this.errorBuilder,
     this.initialLoadingView,
     this.initialLoadingErrorView,
     @required this.loadableData,
@@ -17,6 +18,8 @@ class LoadableUic<T> extends StatelessWidget {
   final Widget Function(BuildContext context, T data) builder;
 
   final Widget emptyView;
+
+  final Widget Function(BuildContext context, T data, LoadableDataError error) errorBuilder;
 
   final Widget initialLoadingView;
 
@@ -50,7 +53,23 @@ class LoadableUic<T> extends StatelessWidget {
                   child: builder(context, loadableData.data),
                 );
             case LoadableDataState.error:
-              return Container(color: Colors.red);
+              if (errorBuilder != null) {
+                return errorBuilder(context, loadableData.data, loadableData.error);
+              }
+              else {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Scaffold.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                        SnackBar(
+                          content: Text(loadableData.error.message),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.redAccent,
+                        )// SnackBar
+                    );
+                });
+                return builder(context, loadableData.data);
+              }
           }
           return Container();
         },
