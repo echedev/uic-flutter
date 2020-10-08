@@ -2,10 +2,16 @@ import 'package:flutter/foundation.dart';
 
 class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
   LoadableData({
+    this.isEmpty,
     @required this.onLoad,
   }) : super(_LoadableDataValue<T>()) {
+    isEmpty ??= (T data) => data == null;
     loadData();
   }
+
+  bool Function(T data) isEmpty;
+
+  final Future<T> Function() onLoad;
 
   T get data => value.data;
 
@@ -15,7 +21,7 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
 
   LoadableDataState get state {
     if (value.isLoading) {
-      if (value.data == null) {
+      if (isEmpty(data)) {
         return LoadableDataState.initialLoading;
       }
       else {
@@ -24,7 +30,7 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
     }
     else {
       if (value.error == null) {
-        if (data == null) {
+        if (isEmpty(data)) {
           return LoadableDataState.empty;
         }
         else {
@@ -41,8 +47,6 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
       }
     }
   }
-
-  Future<T> Function() onLoad;
 
   Future<void> loadData() async {
     if (!value.isLoading) {

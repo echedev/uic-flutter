@@ -18,6 +18,7 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
   void initState() {
     super.initState();
     _data = LoadableData<ExampleData>(
+//      isEmpty: (data) => true,
       onLoad: _loadData,
     );
   }
