@@ -64,6 +64,7 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
         error: LoadableDataError(message: e.toString()),
         isLoading: false,
       );
+      rethrow;
     }
   }
 }

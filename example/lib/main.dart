@@ -103,8 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('Shows animated placeholder while data is loading, '
-                            'the data on successful loading, or the error view if the loading failed.',
+                        child: Text('A widget to display a data that should be loaded. '
+                            'Incapsulate data loading flow and automatically refreshes when data is changed.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.black54,
                           ),
