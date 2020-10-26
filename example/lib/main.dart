@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
@@ -190,6 +191,103 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListView(
                 children: <Widget>[
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      child: ExpansionTile(
+                        title: Text('Deck',
+                          style: GoogleFonts.robotoMono(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text('Display stacked cards with only headers visible, '
+                                      'and allow to expand each card',
+                            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                            child: Deck(
+                              items: <DeckItem>[
+                                DeckItem(
+                                  child: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.lightBlueAccent,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                  childExpanded: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                DeckItem(
+                                  child: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.lightBlue,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                  childExpanded: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.yellow,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                DeckItem(
+                                  child: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                  childExpanded: Container(
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
