@@ -31,7 +31,7 @@ class Deck extends StatelessWidget {
     );
     return Container(
       height: eventualHeight,
-      child: SingleChildScrollView(
+//      child: SingleChildScrollView(
         child: Container(
           height: items.length * eventualExpandedSize,
           child: Flow(
@@ -53,7 +53,7 @@ class Deck extends StatelessWidget {
             ))],
           ),
         ),
-      ),
+//      ),
     );
   }
 

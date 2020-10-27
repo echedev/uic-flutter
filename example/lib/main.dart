@@ -203,8 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Display stacked cards with only headers visible, '
-                                      'and allow to expand each card',
+                          child: Text('Displays stacked cards where only headers visible initially, '
+                                      'and allows to expand each card',
                             style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Colors.black54,
                             ),
