@@ -58,7 +58,15 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
             ),
             children: [...widget.items.map((item) =>
               GestureDetector(
-                child: _data.expandedStates[item] ? item.childExpanded ?? item.child : item.child,
+                child: (_data.expandedStates[item] ?? false) ?
+                  Container(
+                    height: eventualExpandedSize + widget.collapsedSize,
+                    child: item.childExpanded ?? item.child,
+                  ) :
+                  Container(
+                    height: widget.collapsedSize + widget.collapsedSize,
+                    child: item.child
+                  ),
                 onTap: () {
                   setState(() {
                     _data.setExpanded(item, !_data.expandedStates[item]);
@@ -92,10 +100,9 @@ class DeckFlowDelegate extends FlowDelegate {
 
   @override
   Size getSize(BoxConstraints constraints) {
-    print('getSize');
     double childrenHeight = data.items
         .map((item) => (data.expandedStates[item]) ?
-          max(expandedSize, collapsedSize) :
+          expandedSize :
           collapsedSize)
         .fold(0.0, (previousValue, element) => previousValue + element);
     return Size(constraints.maxWidth, min(constraints.maxHeight, childrenHeight));
@@ -103,7 +110,6 @@ class DeckFlowDelegate extends FlowDelegate {
 
   @override
   void paintChildren(FlowPaintingContext context) {
-    print('paintChildren');
     List<double> childrenHeight = data.items
         .map((item) => (data.expandedStates[item]) ?
           max(expandedSize * data.animations[item].value, collapsedSize) :
@@ -127,13 +133,11 @@ class DeckFlowDelegate extends FlowDelegate {
       if (data.expandedStates[item] != oldDelegate._expandedStates[item])
         return true;
     }
-    print('shouldRelayout(): false');
     return false;
   }
 
   @override
   bool shouldRepaint(DeckFlowDelegate oldDelegate) {
-    print('shouldRepaint');
     return false;
   }
 }
