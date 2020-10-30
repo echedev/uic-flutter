@@ -9,6 +9,7 @@ import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 import 'progressuic_screen.dart';
 
+import 'deck.dart';
 import 'step_indicator.dart';
 
 void main() => runApp(MyApp());
@@ -211,79 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                            child: Deck(
-                              items: <DeckItem>[
-                                DeckItem(
-                                  child: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightBlueAccent,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                  childExpanded: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                DeckItem(
-                                  child: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightBlue,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                  childExpanded: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.yellow,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                DeckItem(
-                                  child: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                  childExpanded: Container(
-                                    height: 48.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20.0),
-                                        topRight: const Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
+                          ...examplesDeck(context),
                         ],
                       ),
                     ),

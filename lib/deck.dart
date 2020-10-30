@@ -1,6 +1,22 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+/// Displays stacked child widgets (typically cards), so the only headers are visible
+/// initially. Each item in a [Deck] can be expanded.
+///
+/// List of [DeckItem] objects, provided in the [items] parameter, defines the
+/// content of child widgets in their collapsed and expanded states.
+///
+/// The widget height is adjusted to fit all children in respect their expanded state.
+/// The size is limited by [mainAxisSize], which defaults to half of the device screen height.
+///
+/// Deck item size is defined by [collapsedSize] and [expandedSize] parameters.
+/// When they are not set, an item in the collapsed state takes 48p, and its
+/// expanded size is calculated by number of items and total Deck size.
+///
+/// See also:
+/// * [DeckItem]
+///
 class Deck extends StatefulWidget {
   Deck({
     Key key,
@@ -10,12 +26,23 @@ class Deck extends StatefulWidget {
     this.mainAxisSize,
   }) : super (key: key);
 
+  /// The size of child widget in the collapsed state.
+  ///
+  /// Defaults to 48.0.
   final double collapsedSize;
 
+  /// The size of child widget in the expanded state.
+  ///
+  /// By default, it is calculated based on items number and total widget size.
   final double expandedSize;
 
+  /// The list of [DeckItem] data objects, where the content of child widgets is
+  /// defined for both collapsed and expanded states.
   final List<DeckItem> items;
 
+  /// The maximum Deck size.
+  ///
+  /// Defaults to half of the screen size.
   final double mainAxisSize;
 
   @override
@@ -24,14 +51,14 @@ class Deck extends StatefulWidget {
 
 class _DeckState extends State<Deck> with TickerProviderStateMixin {
 
-  DeckData _data;
+  _DeckData _data;
 
   double _eventualHeight;
 
   @override
   void initState() {
     super.initState();
-    _data = DeckData(
+    _data = _DeckData(
       items: widget.items,
       vsync: this,
     );
@@ -47,11 +74,9 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
           minHeight: widget.collapsedSize * widget.items.length,
           maxHeight: _eventualHeight,
         ),
-//      child: SingleChildScrollView(
-//        child: Container(
-//          height: items.length * eventualExpandedSize,
+      child: SingleChildScrollView(
           child: Flow(
-            delegate: DeckFlowDelegate(
+            delegate: _DeckFlowDelegate(
               collapsedSize: widget.collapsedSize,
               expandedSize: eventualExpandedSize,
               data: _data,
@@ -76,14 +101,13 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                 }),
               )],
           ),
-//        ),
-//      ),
+      ),
     );
   }
 }
 
-class DeckFlowDelegate extends FlowDelegate {
-  DeckFlowDelegate({
+class _DeckFlowDelegate extends FlowDelegate {
+  _DeckFlowDelegate({
     @required this.data,
     this.collapsedSize,
     this.expandedSize,
@@ -92,7 +116,7 @@ class DeckFlowDelegate extends FlowDelegate {
 
   final double collapsedSize;
 
-  final DeckData data;
+  final _DeckData data;
 
   final double expandedSize;
 
@@ -128,7 +152,7 @@ class DeckFlowDelegate extends FlowDelegate {
   }
 
   @override
-  bool shouldRelayout(DeckFlowDelegate oldDelegate) {
+  bool shouldRelayout(_DeckFlowDelegate oldDelegate) {
     for (DeckItem item in data.expandedStates.keys) {
       if (data.expandedStates[item] != oldDelegate._expandedStates[item])
         return true;
@@ -137,11 +161,14 @@ class DeckFlowDelegate extends FlowDelegate {
   }
 
   @override
-  bool shouldRepaint(DeckFlowDelegate oldDelegate) {
+  bool shouldRepaint(_DeckFlowDelegate oldDelegate) {
     return false;
   }
 }
 
+/// A data object, that represents collapsed and expanded content of the
+/// [Deck] item.
+///
 class DeckItem {
   DeckItem({
     Key key,
@@ -149,17 +176,15 @@ class DeckItem {
     this.childExpanded,
   });
 
+  /// The widget to display when the item is collapsed
   final Widget child;
 
+  /// The widget to display when the item is expanded
   final Widget childExpanded;
 }
 
-class DeckData extends ChangeNotifier {
-  DeckData({
-//    this.animationValues,
-//    this.animations,
-//    this.expandedStates,
-//    this.height,
+class _DeckData extends ChangeNotifier {
+  _DeckData({
     this.items,
     this.vsync,
   }) {
@@ -176,22 +201,13 @@ class DeckData extends ChangeNotifier {
     expandedStates = Map.fromIterable(items, key: (item) => item, value: (item) => false);
   }
 
-//  final List<double> animationValues;
-
   Map<DeckItem, AnimationController> animations;
 
   Map<DeckItem, bool> expandedStates;
 
-//  final double height;
-
   final List<DeckItem> items;
 
   final TickerProvider vsync;
-
-//  void setAnimationValue(int i, double value) {
-//    animationValues[i] = value;
-//    notifyListeners();
-//  }
 
   void setExpanded(DeckItem item, bool value) {
     expandedStates[item] = value;
