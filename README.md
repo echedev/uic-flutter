@@ -8,6 +8,7 @@ A set of Flutter widgets that simplifies implementing most used UI cases.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
 
 ####  Widgets:
+- [Deck](#deck) - Shows stacked cards, that can be expanded and collapsed.
 - [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
 - [StepIndicator](#stepindicator) - Simple, but customizable step/page indicator.
 
@@ -131,6 +132,71 @@ Implement a function that will return a list of items:
 Read the docs for available customization options.
 
 Also you can check [demo app](https://github.com/ech89899/uic-flutter/tree/master/example) for details of using `ListUic` widget.
+
+# [Deck](#deck)
+
+Displays stacked child widgets (typically cards), so the only headers are visible
+initially. Each `Deck` item can be expanded and collapsed.
+
+This is an alternative to a BottomSheet widget, if you need to display multiple bottom sheets, which are coordinated.
+
+- Supports separate views for collapsed and expanded state for each item.
+- Animates expanding and collapsing.
+
+![Deck Example](./assets/deck-001.gif)
+
+### Usage
+
+Import the package
+
+```dart
+import 'package:uic/widgets.dart';
+```
+
+Typically you will use `Deck` in a Stack, where the first layer is your main content and a `Deck` will overlap the conten.
+The usage might look like this:
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Stack(
+        children: [
+          YourMainWidget(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: <b>Deck(
+                items: [
+                  DeckItem(
+                    child: YourFirstItemCollapsedView(),
+                    childExpanded: YourFirstItemExpandedView(),
+                  ),
+                  DeckItem(
+                    child: YourSecondItemCollapsedView(),
+                    childExpanded: YourSecondItemExpandedView(),
+                  ),
+                ],
+            ),</b>
+          ),
+        ]),
+    );
+  }
+</code></pre>
+
+You must provide the list of `DeckItem` objects, which defines both the collapsed and expanded appearance of your Deck items.
+
+Additional parameters of `Deck` widget:
+
+| Name | Description |
+|---|---|
+| `collapsedSize`  | The size of child widget in the collapsed state.
+| `expandedSize`  | The size of child widget in the expanded state.
+| `mainAxisSize`  | The maximum Deck size.
+
+See full example of **Deck** usage in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
 
 # [InlineTextField](#inlinetextfield)
 
