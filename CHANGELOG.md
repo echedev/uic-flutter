@@ -1,3 +1,7 @@
+## [0.6.0] - 2020-10-31
+
+- Added `Deck` widget
+
 ## [0.5.0] - 2020-06-04
 
 - Added `StepIndicator` widget

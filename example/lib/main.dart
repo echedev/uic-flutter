@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
 
 import 'listuic_screen.dart';
+import 'loadableuic_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 import 'progressuic_screen.dart';
 
+import 'deck.dart';
 import 'step_indicator.dart';
 
 void main() => runApp(MyApp());
@@ -70,9 +73,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   Card(
                     child: ListTile(
                       contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('ListUic'),
-                      subtitle: Text('Wrapper of ListView, which implements related data '
-                          'loading and state management logic.'),
+                      title: Text('ListUic',
+                        style: GoogleFonts.robotoMono(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.lightBlueAccent,
+                      ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text('Wrapper of ListView, which implements related data '
+                            'loading and state management logic.',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ListUicScreen(title: 'ListUic Demo')),);
@@ -82,8 +97,44 @@ class _MyHomePageState extends State<MyHomePage> {
                   Card(
                     child: ListTile(
                       contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('LoginUic'),
-                      subtitle: Text('The component, implementing a login form and Sign In / Sign Up flows.'),
+                      title: Text('LoadableUic',
+                        style: GoogleFonts.robotoMono(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text('A widget to display a data that should be loaded. '
+                            'Incapsulate data loading flow and automatically refreshes when data is changed.',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LoadableUicScreen()),);
+                      },
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text('LoginUic',
+                        style: GoogleFonts.robotoMono(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text('The component, implementing a login form and Sign In / Sign Up flows.',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginUicScreen(title: 'LoginUic Demo')),);
@@ -93,9 +144,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   Card(
                     child: ListTile(
                       contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('CheckboxUic'),
-                      subtitle: Text('Enhanced checkbox that maintain its state, has a'
-                          'title and can show additional description in each state.'),
+                      title: Text('CheckboxUic',
+                        style: GoogleFonts.robotoMono(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text('Enhanced checkbox that maintain its state, has a'
+                            'title and can show additional description in each state.',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) =>
@@ -133,6 +196,31 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
                       child: ExpansionTile(
+                        title: Text('Deck',
+                          style: GoogleFonts.robotoMono(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text('Displays stacked cards where only headers visible initially, '
+                                      'and allows to expand each card',
+                            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        children: [
+                          ...examplesDeck(context),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      child: ExpansionTile(
                         title: Text('InlineTextField',
                           style: GoogleFonts.robotoMono(
                             fontWeight: FontWeight.bold,
@@ -143,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text('Makes Text widget editable. Double tap on the text '
                             'will show inline input text field instead of static text.',
-                            style: Theme.of(context).textTheme.body2.copyWith(
+                            style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Colors.black54,
                             ),
                           ),
@@ -156,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text('You can '),
                                 InlineTextField(
                                   text: 'edit me',
-                                  style: Theme.of(context).textTheme.body1.copyWith(
+                                  style: Theme.of(context).textTheme.bodyText2.copyWith(
                                     color: Colors.lightBlueAccent,
                                   ),
 /*
