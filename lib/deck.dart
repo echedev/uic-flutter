@@ -24,7 +24,7 @@ class Deck extends StatefulWidget {
     this.expandedSize,
     @required this.items,
     this.mainAxisSize,
-  }) : super (key: key);
+  }) : super(key: key);
 
   /// The size of child widget in the collapsed state.
   ///
@@ -50,7 +50,6 @@ class Deck extends StatefulWidget {
 }
 
 class _DeckState extends State<Deck> with TickerProviderStateMixin {
-
   _DeckData _data;
 
   double _eventualHeight;
@@ -67,40 +66,44 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // TODO: We should honor 'Deck' orientation to apply 'mainAxisSize' either on height or width
-    _eventualHeight = widget.mainAxisSize ?? MediaQuery.of(context).size.height / 2;
-    double eventualExpandedSize = widget.expandedSize ?? _eventualHeight / widget.items.length;
+    _eventualHeight =
+        widget.mainAxisSize ?? MediaQuery.of(context).size.height / 2;
+    double eventualExpandedSize =
+        widget.expandedSize ?? _eventualHeight / widget.items.length;
     return Container(
-        constraints: BoxConstraints(
-          minHeight: widget.collapsedSize * widget.items.length,
-          maxHeight: _eventualHeight,
-        ),
+      constraints: BoxConstraints(
+        minHeight: widget.collapsedSize * widget.items.length,
+        maxHeight: _eventualHeight,
+      ),
       child: SingleChildScrollView(
-          child: Flow(
-            delegate: _DeckFlowDelegate(
-              collapsedSize: widget.collapsedSize,
-              expandedSize: eventualExpandedSize,
-              data: _data,
-            ),
-            children: [...widget.items.map((item) =>
-              GestureDetector(
-                child: (_data.expandedStates[item] ?? false) ?
-                  Container(
-                    height: eventualExpandedSize + widget.collapsedSize,
-                    child: item.childExpanded ?? item.child,
-                  ) :
-                  Container(
-                    height: widget.collapsedSize + widget.collapsedSize,
-                    child: item.child
-                  ),
-                onTap: () {
-                  setState(() {
-                    _data.setExpanded(item, !_data.expandedStates[item]);
-                    _data.expandedStates[item] ?
-                      _data.animations[item].forward() : _data.animations[item].reverse();
-                  });
-                }),
-              )],
+        child: Flow(
+          delegate: _DeckFlowDelegate(
+            collapsedSize: widget.collapsedSize,
+            expandedSize: eventualExpandedSize,
+            data: _data,
           ),
+          children: [
+            ...widget.items.map(
+              (item) => GestureDetector(
+                  child: (_data.expandedStates[item] ?? false)
+                      ? Container(
+                          height: eventualExpandedSize + widget.collapsedSize,
+                          child: item.childExpanded ?? item.child,
+                        )
+                      : Container(
+                          height: widget.collapsedSize + widget.collapsedSize,
+                          child: item.child),
+                  onTap: () {
+                    setState(() {
+                      _data.setExpanded(item, !_data.expandedStates[item]);
+                      _data.expandedStates[item]
+                          ? _data.animations[item].forward()
+                          : _data.animations[item].reverse();
+                    });
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -111,7 +114,7 @@ class _DeckFlowDelegate extends FlowDelegate {
     @required this.data,
     this.collapsedSize,
     this.expandedSize,
-  }) : _expandedStates = Map.from(data.expandedStates),
+  })  : _expandedStates = Map.from(data.expandedStates),
         super(repaint: data);
 
   final double collapsedSize;
@@ -125,26 +128,28 @@ class _DeckFlowDelegate extends FlowDelegate {
   @override
   Size getSize(BoxConstraints constraints) {
     double childrenHeight = data.items
-        .map((item) => (data.expandedStates[item]) ?
-          expandedSize :
-          collapsedSize)
+        .map((item) =>
+            (data.expandedStates[item]) ? expandedSize : collapsedSize)
         .fold(0.0, (previousValue, element) => previousValue + element);
-    return Size(constraints.maxWidth, min(constraints.maxHeight, childrenHeight));
+    return Size(
+        constraints.maxWidth, min(constraints.maxHeight, childrenHeight));
   }
 
   @override
   void paintChildren(FlowPaintingContext context) {
     List<double> childrenHeight = data.items
-        .map((item) => (data.expandedStates[item]) ?
-          max(expandedSize * data.animations[item].value, collapsedSize) :
-          collapsedSize)
+        .map((item) => (data.expandedStates[item])
+            ? max(expandedSize * data.animations[item].value, collapsedSize)
+            : collapsedSize)
         .toList();
     for (int i = 0; i < context.childCount; ++i) {
-      context.paintChild(i,
+      context.paintChild(
+        i,
         transform: Matrix4.translationValues(
           0,
-          context.size.height - childrenHeight.sublist(i, context.childCount)
-              .fold(0.0, (previousValue, element) => previousValue + element),
+          context.size.height -
+              childrenHeight.sublist(i, context.childCount).fold(
+                  0.0, (previousValue, element) => previousValue + element),
           0,
         ),
       );
@@ -188,17 +193,18 @@ class _DeckData extends ChangeNotifier {
     this.items,
     this.vsync,
   }) {
-    animations = Map.fromIterable(items, key: (item) => item,
-      value: (item) {
-        AnimationController animation = AnimationController(
-          duration: const Duration(milliseconds: 300),
-          vsync: vsync,
-        );
-        animation.addListener(() => notifyListeners());
-        return animation;
-      }
-    );
-    expandedStates = Map.fromIterable(items, key: (item) => item, value: (item) => false);
+    animations = Map.fromIterable(items,
+        key: (item) => item,
+        value: (item) {
+          AnimationController animation = AnimationController(
+            duration: const Duration(milliseconds: 300),
+            vsync: vsync,
+          );
+          animation.addListener(() => notifyListeners());
+          return animation;
+        });
+    expandedStates =
+        Map.fromIterable(items, key: (item) => item, value: (item) => false);
   }
 
   Map<DeckItem, AnimationController> animations;

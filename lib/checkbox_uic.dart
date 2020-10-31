@@ -105,7 +105,6 @@ class CheckboxUic extends StatefulWidget {
 }
 
 class _CheckboxUicState extends State<CheckboxUic> {
-
   bool _value;
 
   @override
@@ -116,8 +115,8 @@ class _CheckboxUicState extends State<CheckboxUic> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle eventualTitleTextStyle = widget.titleTextStyle ??
-        Theme.of(context).textTheme.subtitle2;
+    TextStyle eventualTitleTextStyle =
+        widget.titleTextStyle ?? Theme.of(context).textTheme.subtitle2;
     if (widget.onChanged == null) {
       eventualTitleTextStyle = eventualTitleTextStyle.copyWith(
         color: Theme.of(context).disabledColor,
@@ -131,12 +130,14 @@ class _CheckboxUicState extends State<CheckboxUic> {
           children: [
             Checkbox(
               value: _value,
-              onChanged: widget.onChanged == null ? null : (value) {
-                widget.onChanged(value);
-                setState(() {
-                  _value = value;
-                });
-              },
+              onChanged: widget.onChanged == null
+                  ? null
+                  : (value) {
+                      widget.onChanged(value);
+                      setState(() {
+                        _value = value;
+                      });
+                    },
               //
               activeColor: widget.activeColor,
               checkColor: widget.checkColor,
@@ -147,7 +148,8 @@ class _CheckboxUicState extends State<CheckboxUic> {
               focusNode: widget.focusNode,
               autofocus: widget.autofocus,
             ),
-            Text(_value ? widget.title : widget.titleUnchecked ?? widget.title,
+            Text(
+              _value ? widget.title : widget.titleUnchecked ?? widget.title,
               style: eventualTitleTextStyle,
             ),
           ],
@@ -155,16 +157,20 @@ class _CheckboxUicState extends State<CheckboxUic> {
         if (widget.description != null)
           Padding(
             padding: const EdgeInsets.only(left: 48.0),
-            child: Text(_value ? widget.description
-                : widget.descriptionUnchecked ?? widget.description,
+            child: Text(
+              _value
+                  ? widget.description
+                  : widget.descriptionUnchecked ?? widget.description,
               textAlign: TextAlign.start,
-              style: widget.descriptionTextStyle ?? Theme.of(context).textTheme.caption,
+              style: widget.descriptionTextStyle ??
+                  Theme.of(context).textTheme.caption,
             ),
           ),
         if (widget.descriptionView != null)
           Padding(
             padding: const EdgeInsets.only(left: 48.0),
-            child: _value ? widget.descriptionView
+            child: _value
+                ? widget.descriptionView
                 : widget.descriptionViewUnchecked ?? widget.descriptionView,
           ),
       ],
