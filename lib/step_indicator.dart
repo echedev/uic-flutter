@@ -40,10 +40,9 @@ class StepIndicator extends StatelessWidget {
     this.showLines = false,
     @required this.selectedStepIndex,
     @required this.totalSteps,
-  }) :
-      this.colorLineCompleted = colorLineCompleted ?? colorCompleted,
-      this.colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
-      super(key: key);
+  })  : this.colorLineCompleted = colorLineCompleted ?? colorCompleted,
+        this.colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
+        super(key: key);
 
   /// The color of completed steps.
   ///
@@ -145,7 +144,8 @@ class StepIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: expanded ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
+      mainAxisAlignment:
+          expanded ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ..._buildSteps(context),
@@ -154,35 +154,43 @@ class StepIndicator extends StatelessWidget {
   }
 
   List<Widget> _buildSteps(BuildContext context) {
-    Color eventualColorCompleted = colorCompleted ?? Theme.of(context).primaryColor;
+    Color eventualColorCompleted =
+        colorCompleted ?? Theme.of(context).primaryColor;
     Color eventualColorIncomplete = colorIncomplete ?? Colors.black12;
-    Color eventualColorLineCompleted = showLines ? colorLineCompleted ?? eventualColorCompleted : Colors.transparent;
-    Color eventualColorLineIncomplete = showLines ? colorLineIncomplete ?? eventualColorIncomplete : Colors.transparent;
-    Color eventualColorSelected = colorSelected ?? Theme.of(context).accentColor;
+    Color eventualColorLineCompleted = showLines
+        ? colorLineCompleted ?? eventualColorCompleted
+        : Colors.transparent;
+    Color eventualColorLineIncomplete = showLines
+        ? colorLineIncomplete ?? eventualColorIncomplete
+        : Colors.transparent;
+    Color eventualColorSelected =
+        colorSelected ?? Theme.of(context).accentColor;
     List<Widget> result = [];
     // Completed steps
     for (int i = 1; i < selectedStepIndex; i++) {
-     result.add(Padding(
-       padding: padding,
-       child: completedStep ?? _Step(
-         color: eventualColorCompleted,
-         size: itemSize,
-       ),
-     ));
-     result.add(_Line(
-       color: eventualColorLineCompleted,
-       expanded: expanded,
-       length: lineLength,
-       width: lineWidth,
-     ));
+      result.add(Padding(
+        padding: padding,
+        child: completedStep ??
+            _Step(
+              color: eventualColorCompleted,
+              size: itemSize,
+            ),
+      ));
+      result.add(_Line(
+        color: eventualColorLineCompleted,
+        expanded: expanded,
+        length: lineLength,
+        width: lineWidth,
+      ));
     }
     // Selected step
     result.add(Padding(
       padding: padding,
-      child: selectedStep ?? _Step(
-        color: eventualColorSelected,
-        size: itemSize,
-      ),
+      child: selectedStep ??
+          _Step(
+            color: eventualColorSelected,
+            size: itemSize,
+          ),
     ));
     if (selectedStepIndex < totalSteps) {
       result.add(_Line(
@@ -196,10 +204,11 @@ class StepIndicator extends StatelessWidget {
     for (int i = selectedStepIndex + 1; i <= totalSteps - 1; i++) {
       result.add(Padding(
         padding: padding,
-        child: incompleteStep ?? _Step(
-          color: eventualColorIncomplete,
-          size: itemSize,
-        ),
+        child: incompleteStep ??
+            _Step(
+              color: eventualColorIncomplete,
+              size: itemSize,
+            ),
       ));
       result.add(_Line(
         color: eventualColorLineIncomplete,
@@ -210,10 +219,11 @@ class StepIndicator extends StatelessWidget {
     }
     result.add(Padding(
       padding: padding,
-      child: incompleteStep ?? _Step(
-        color: eventualColorIncomplete,
-        size: itemSize,
-      ),
+      child: incompleteStep ??
+          _Step(
+            color: eventualColorIncomplete,
+            size: itemSize,
+          ),
     ));
 
     return result;
@@ -251,7 +261,7 @@ class _Line extends StatelessWidget {
     this.expanded = false,
     double length,
     double width,
-  }) : this.length = expanded ? double.infinity : length ?? 16.0,
+  })  : this.length = expanded ? double.infinity : length ?? 16.0,
         this.width = width ?? 2.0,
         super(key: key);
 
@@ -277,8 +287,7 @@ class _Line extends StatelessWidget {
         child: child,
         flex: 1,
       );
-    }
-    else {
+    } else {
       return child;
     }
   }

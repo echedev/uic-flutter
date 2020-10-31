@@ -57,12 +57,18 @@ class ListUic<T> extends StatelessWidget {
     Key key,
     @required this.controller,
     @required this.itemBuilder,
-    this.emptyDataIcon = const Icon(Icons.sentiment_dissatisfied,
-      size: 96.0, color: Colors.black26,),
+    this.emptyDataIcon = const Icon(
+      Icons.sentiment_dissatisfied,
+      size: 96.0,
+      color: Colors.black26,
+    ),
     this.emptyDataText = 'No results',
     Widget emptyDataView,
-    this.emptyErrorIcon = const Icon(Icons.error_outline,
-      size: 96.0, color: Colors.black26,),
+    this.emptyErrorIcon = const Icon(
+      Icons.error_outline,
+      size: 96.0,
+      color: Colors.black26,
+    ),
     this.emptyErrorText = 'Error loading data',
     Widget emptyErrorView,
     this.emptyProgressText = 'Loading...',
@@ -70,17 +76,21 @@ class ListUic<T> extends StatelessWidget {
     Widget nextPageProgressView,
     this.errorText = 'Error loading data',
     this.errorColor = Colors.redAccent,
-  }) : assert(emptyDataView != null || emptyDataText != null),
-        emptyDataView = emptyDataView ?? ListUicEmptyView(
-            controller: controller,
-            icon: emptyDataIcon,
-            text: emptyDataText),
-        emptyErrorView = emptyErrorView ?? ListUicEmptyView(
-            controller: controller,
-            icon: emptyErrorIcon,
-            text: emptyErrorText),
-        emptyProgressView = emptyProgressView ?? ListUicEmptyProgressView(text: emptyProgressText),
-        nextPageProgressView = nextPageProgressView ?? ListUicNextPageProgressView(),
+  })  : assert(emptyDataView != null || emptyDataText != null),
+        emptyDataView = emptyDataView ??
+            ListUicEmptyView(
+                controller: controller,
+                icon: emptyDataIcon,
+                text: emptyDataText),
+        emptyErrorView = emptyErrorView ??
+            ListUicEmptyView(
+                controller: controller,
+                icon: emptyErrorIcon,
+                text: emptyErrorText),
+        emptyProgressView = emptyProgressView ??
+            ListUicEmptyProgressView(text: emptyProgressText),
+        nextPageProgressView =
+            nextPageProgressView ?? ListUicNextPageProgressView(),
         super(key: key);
 
   /// Manages the list state
@@ -153,24 +163,25 @@ class ListUic<T> extends StatelessWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Scaffold.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(
-              content: Text(errorText),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: errorColor,
-            )// SnackBar
-          );
+          ..showSnackBar(SnackBar(
+            content: Text(errorText),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: errorColor,
+          ) // SnackBar
+              );
       });
     }
     if (state == _ListUicState.progressNextPage) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
-            curve: Curves.linear, duration: Duration (milliseconds: 500));
+        controller.scrollController.animateTo(
+            controller.scrollController.position.maxScrollExtent,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: 500));
       });
     }
-    int itemCount = (state != _ListUicState.progressNextPage) ?
-        controller.items.value.length :
-        controller.items.value.length + 1;
+    int itemCount = (state != _ListUicState.progressNextPage)
+        ? controller.items.value.length
+        : controller.items.value.length + 1;
     return RefreshIndicator(
       onRefresh: controller.refresh,
       child: ListView.builder(
@@ -178,10 +189,10 @@ class ListUic<T> extends StatelessWidget {
         controller: controller.scrollController,
         itemCount: itemCount,
         itemBuilder: (context, index) {
-          if (state == _ListUicState.progressNextPage && index == itemCount - 1) {
+          if (state == _ListUicState.progressNextPage &&
+              index == itemCount - 1) {
             return nextPageProgressView;
-          }
-          else {
+          } else {
             return itemBuilder(controller.items.value[index]);
           }
         },
@@ -220,7 +231,8 @@ class ListUicEmptyView extends StatelessWidget {
           icon,
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(text,
+            child: Text(
+              text,
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
@@ -328,12 +340,10 @@ class ListUicController<T> {
       if (initialLoading) {
         _state = ValueNotifier(_ListUicState.emptyProgress);
         refresh();
-      }
-      else {
+      } else {
         _state = ValueNotifier(_ListUicState.emptyData);
       }
-    }
-    else {
+    } else {
       _state = ValueNotifier(_ListUicState.data);
     }
 
@@ -345,8 +355,7 @@ class ListUicController<T> {
             _readyForNextPage = false;
             nextPage();
           }
-        }
-        else if (_scrollController.position.pixels <=
+        } else if (_scrollController.position.pixels <=
             _scrollController.position.maxScrollExtent - 10.0) {
           _readyForNextPage = true;
         }
@@ -358,6 +367,7 @@ class ListUicController<T> {
   ValueNotifier<_ListUicState> get state => _state;
 
   ValueNotifier<List<T>> _items;
+
   /// Items to show in the list
   ValueNotifier<List<T>> get items => _items;
 
@@ -383,11 +393,10 @@ class ListUicController<T> {
 
   Future<void> refresh() async {
     // Show progress view
-    if (_state.value == _ListUicState.emptyData
-          || _state.value == _ListUicState.emptyError) {
+    if (_state.value == _ListUicState.emptyData ||
+        _state.value == _ListUicState.emptyError) {
       _state.value = _ListUicState.emptyProgress;
-    }
-    else if (_state.value != _ListUicState.emptyProgress){
+    } else if (_state.value != _ListUicState.emptyProgress) {
       _state.value = _ListUicState.progress;
     }
     // Load first page of the data
@@ -395,23 +404,21 @@ class ListUicController<T> {
     await _loadItems(_page)
         // Show data
         .then((result) {
-          _items.value = result;
-          if (_items.value.isEmpty) {
-            _state.value = _ListUicState.emptyData;
-          }
-          else {
-            _state.value = _ListUicState.data;
-          }
-        })
+      _items.value = result;
+      if (_items.value.isEmpty) {
+        _state.value = _ListUicState.emptyData;
+      } else {
+        _state.value = _ListUicState.data;
+      }
+    })
         // Show error
         .catchError((error) {
-          if (_state.value == _ListUicState.emptyProgress) {
-            _state.value = _ListUicState.emptyError;
-          }
-          else {
-            _state.value = _ListUicState.error;
-          }
-        });
+      if (_state.value == _ListUicState.emptyProgress) {
+        _state.value = _ListUicState.emptyError;
+      } else {
+        _state.value = _ListUicState.error;
+      }
+    });
   }
 
   Future<void> nextPage() async {
@@ -419,19 +426,17 @@ class ListUicController<T> {
       return;
     }
     _state.value = _ListUicState.progressNextPage;
-    await _loadItems(_page + 1)
-      .then((result) {
-        if (result.isNotEmpty) {
-          List<T> newItems = _items.value;
-          newItems.addAll(result);
-          _items.value = newItems;
-          _page++;
-        }
-        _state.value = _ListUicState.data;
-      })
-      .catchError((error) {
-        _state.value = _ListUicState.error;
-      });
+    await _loadItems(_page + 1).then((result) {
+      if (result.isNotEmpty) {
+        List<T> newItems = _items.value;
+        newItems.addAll(result);
+        _items.value = newItems;
+        _page++;
+      }
+      _state.value = _ListUicState.data;
+    }).catchError((error) {
+      _state.value = _ListUicState.error;
+    });
   }
 
   Future<List<T>> _loadItems(int page) async {
@@ -440,5 +445,12 @@ class ListUicController<T> {
   }
 }
 
-enum _ListUicState { emptyData, emptyProgress, emptyError,
-                      data, progress, progressNextPage, error }
+enum _ListUicState {
+  emptyData,
+  emptyProgress,
+  emptyError,
+  data,
+  progress,
+  progressNextPage,
+  error
+}

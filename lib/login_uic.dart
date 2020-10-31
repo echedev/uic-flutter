@@ -20,7 +20,7 @@ class LoginUic extends StatelessWidget {
     this.theme,
     this.inputDecoration,
     this.errorTextStyle,
-  }) : this.signInProgressView = signInProgressView ?? const ProgressUic(),
+  })  : this.signInProgressView = signInProgressView ?? const ProgressUic(),
         super(key: key);
 
   final LoginUicController controller;
@@ -55,21 +55,23 @@ class LoginUic extends StatelessWidget {
     TextStyle eventualErrorTextStyle = errorTextStyle ??
         eventualTheme.textTheme.bodyText2.copyWith(color: Colors.redAccent);
     InputDecoration usernameDecoration = inputDecoration?.copyWith(
-      labelText: usernameLabel,
-      hintText: usernameHint,
-    ) ?? InputDecoration(
-      labelText: usernameLabel,
-      hintText: usernameHint,
-      filled: true,
-    );
+          labelText: usernameLabel,
+          hintText: usernameHint,
+        ) ??
+        InputDecoration(
+          labelText: usernameLabel,
+          hintText: usernameHint,
+          filled: true,
+        );
     InputDecoration passwordDecoration = inputDecoration?.copyWith(
-      labelText: passwordLabel,
-      hintText: passwordHint,
-    ) ?? InputDecoration(
-      labelText: passwordLabel,
-      hintText: passwordHint,
-      filled: true,
-    );
+          labelText: passwordLabel,
+          hintText: passwordHint,
+        ) ??
+        InputDecoration(
+          labelText: passwordLabel,
+          hintText: passwordHint,
+          filled: true,
+        );
     VoidCallback onSignInAction = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -99,7 +101,8 @@ class LoginUic extends StatelessWidget {
                     if (state.value == LoginUicState.signInError)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
-                        child: Text(controller.error,
+                        child: Text(
+                          controller.error,
                           style: eventualErrorTextStyle,
                           textAlign: TextAlign.center,
                         ),
@@ -128,10 +131,14 @@ class LoginUic extends StatelessWidget {
                         width: eventualTheme.buttonTheme.minWidth,
                         child: (state.value == LoginUicState.signInProgress)
                             ? signInProgressView
-                            : Text(signInText, textAlign: TextAlign.center,),
+                            : Text(
+                                signInText,
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                       onPressed: (state.value == LoginUicState.signInProgress)
-                          ? null : onSignInAction,
+                          ? null
+                          : onSignInAction,
                     ),
                   ],
                 );
@@ -149,7 +156,7 @@ class LoginUicController {
     LoginUicState initialState = LoginUicState.signIn,
     @required this.onSignIn,
     void Function(BuildContext) onSignedIn,
-  }) :  usernameController = TextEditingController(),
+  })  : usernameController = TextEditingController(),
         passwordController = TextEditingController(),
         this.onSignedIn = onSignedIn ?? ((_) {}),
         _state = ValueNotifier(initialState);
@@ -192,5 +199,8 @@ class LoginUicController {
 }
 
 enum LoginUicState {
-  signIn, signInProgress, signInSuccess, signInError,
+  signIn,
+  signInProgress,
+  signInSuccess,
+  signInError,
 }

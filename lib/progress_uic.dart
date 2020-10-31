@@ -12,8 +12,10 @@ class ProgressUic extends StatelessWidget {
     this.inProgress = true,
     this.text = '',
     this.textLocation = ProgressUicTextLocation.bottom,
-  }) : assert(!(!inProgress && child == null), "You must define 'child', when 'inProgress' is false"),
-        assert(!(inProgress && dimContent && child == null), "You must define 'child', when 'dimContent' is true"),
+  })  : assert(!(!inProgress && child == null),
+            "You must define 'child', when 'inProgress' is false"),
+        assert(!(inProgress && dimContent && child == null),
+            "You must define 'child', when 'dimContent' is true"),
         super(key: key);
 
   /// Content to display.
@@ -69,14 +71,12 @@ class ProgressUic extends StatelessWidget {
             ),
           ],
         );
-      }
-      else {
+      } else {
         return Center(
           child: _layoutViews(context),
         );
       }
-    }
-    else {
+    } else {
       return child;
     }
   }

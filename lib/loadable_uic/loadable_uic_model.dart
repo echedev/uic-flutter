@@ -23,25 +23,20 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
     if (value.isLoading) {
       if (isEmpty(data)) {
         return LoadableDataState.initialLoading;
-      }
-      else {
+      } else {
         return LoadableDataState.loading;
       }
-    }
-    else {
+    } else {
       if (value.error == null) {
         if (isEmpty(data)) {
           return LoadableDataState.empty;
-        }
-        else {
+        } else {
           return LoadableDataState.ready;
         }
-      }
-      else {
+      } else {
         if (data == null) {
           return LoadableDataState.initialLoadingError;
-        }
-        else {
+        } else {
           return LoadableDataState.error;
         }
       }
@@ -58,8 +53,7 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
         data: result,
         isLoading: false,
       );
-    }
-    catch (e) {
+    } catch (e) {
       value = value.copyWith(
         error: LoadableDataError(message: e.toString()),
         isLoading: false,
@@ -110,5 +104,4 @@ class LoadableDataError {
   });
 
   String message;
-
 }

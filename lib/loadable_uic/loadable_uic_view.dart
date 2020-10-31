@@ -19,7 +19,8 @@ class LoadableUic<T> extends StatelessWidget {
 
   final Widget emptyView;
 
-  final Widget Function(BuildContext context, T data, LoadableDataError error) errorBuilder;
+  final Widget Function(BuildContext context, T data, LoadableDataError error)
+      errorBuilder;
 
   final Widget initialLoadingView;
 
@@ -38,35 +39,40 @@ class LoadableUic<T> extends StatelessWidget {
           switch (loadableData.state) {
             case LoadableDataState.initialLoading:
               return initialLoadingView ??
-                LoadableUicInitialLoadingView(text: 'Loading...',);
+                  LoadableUicInitialLoadingView(
+                    text: 'Loading...',
+                  );
             case LoadableDataState.initialLoadingError:
               return initialLoadingErrorView ??
-                LoadableUicInitialLoadingErrorView(loadableData: loadableData,);
+                  LoadableUicInitialLoadingErrorView(
+                    loadableData: loadableData,
+                  );
             case LoadableDataState.empty:
               return emptyView ??
-                LoadableUicEmptyView(loadableData: loadableData,);
+                  LoadableUicEmptyView(
+                    loadableData: loadableData,
+                  );
             case LoadableDataState.ready:
               return builder(context, loadableData.data);
             case LoadableDataState.loading:
               return loadingView ??
-                LoadableUicLoadingView(
-                  child: builder(context, loadableData.data),
-                );
+                  LoadableUicLoadingView(
+                    child: builder(context, loadableData.data),
+                  );
             case LoadableDataState.error:
               if (errorBuilder != null) {
-                return errorBuilder(context, loadableData.data, loadableData.error);
-              }
-              else {
+                return errorBuilder(
+                    context, loadableData.data, loadableData.error);
+              } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Scaffold.of(context)
                     ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                        SnackBar(
-                          content: Text(loadableData.error.message),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.redAccent,
-                        )// SnackBar
-                    );
+                    ..showSnackBar(SnackBar(
+                      content: Text(loadableData.error.message),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.redAccent,
+                    ) // SnackBar
+                        );
                 });
                 return builder(context, loadableData.data);
               }
@@ -93,11 +99,15 @@ class LoadableUicEmptyView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(Icons.sentiment_dissatisfied,
-            size: 96.0, color: Colors.black26,),
+          const Icon(
+            Icons.sentiment_dissatisfied,
+            size: 96.0,
+            color: Colors.black26,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text('No results',
+            child: Text(
+              'No results',
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
@@ -145,11 +155,15 @@ class LoadableUicInitialLoadingErrorView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline,
-            size: 96.0, color: Colors.black26,),
+          const Icon(
+            Icons.error_outline,
+            size: 96.0,
+            color: Colors.black26,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(loadableData.error.message,
+            child: Text(
+              loadableData.error.message,
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
