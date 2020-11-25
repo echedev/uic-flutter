@@ -32,7 +32,24 @@ class _ActionButtonState extends State<ActionButton> {
 
   Future<void>  _action;
 
-  ConnectionState _previousActionState;
+  bool _actionInProgress = false;
+
+  final GlobalKey _buttonKey = GlobalKey();
+
+  Size _buttonSize;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_buttonSize == null) {
+        final RenderBox renderBox = _buttonKey.currentContext
+            .findRenderObject();
+        _buttonSize = renderBox.size;
+        print(_buttonSize.toString());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +57,22 @@ class _ActionButtonState extends State<ActionButton> {
       future: _action,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          _previousActionState = snapshot.connectionState;
-          return widget.progressView ?? _buildAction(ProgressUic(looseConstraints: true,));
+          _actionInProgress = true;
+          return widget.progressView ?? _buildAction(
+              SizedBox(
+                width: _buttonSize.width - 16.0,
+                child: ProgressUic(
+                  size: _buttonSize.height - 32.0,
+                  color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
+                ),
+              ),
+          );
         }
         else {
-          if (_previousActionState == ConnectionState.waiting) {
+          if (_actionInProgress) {
             widget.onActionCompleted?.call();
+            _actionInProgress = false;
           }
-          _previousActionState = snapshot.connectionState;
           return _buildAction(widget.child);
         }
       },
@@ -56,11 +81,14 @@ class _ActionButtonState extends State<ActionButton> {
 
   Widget _buildAction(Widget child) {
     return TextButton(
+      key: _buttonSize == null ? _buttonKey : null,
       onPressed: () {
-        widget.onActionStarted?.call();
-        setState(() {
-          _action = widget.action();
-        });
+        if (!_actionInProgress) {
+          widget.onActionStarted?.call();
+          setState(() {
+            _action = widget.action();
+          });
+        }
       },
       style: widget.style,
       child: child,

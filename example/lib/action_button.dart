@@ -15,12 +15,9 @@ List<Widget> examplesActionButton(BuildContext context) {
         action: () {
           return Future.delayed(Duration(seconds: 5));
         },
-//        onActionCompleted: () => print('Action completed'),
-//        onActionStarted: () => print('Action started'),
         style: TextButton.styleFrom(
           primary: Colors.white,
           backgroundColor: Theme.of(context).accentColor,
-          minimumSize: Size(100.0, 32.0),
         ),
         child: Text('Action Button'),
       ),
