@@ -51,6 +51,25 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 8.0),
+                      child: Text('Custom color and size'.toUpperCase(),
+                        style: Theme.of(context).textTheme.caption,
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ProgressUic(
+                      color: Colors.redAccent,
+                      size: 20.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Card(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Text('Message'.toUpperCase(),
                         style: Theme.of(context).textTheme.caption,
                       )
@@ -80,6 +99,9 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                       inProgress: _inProgress3,
                       text: 'Loading...',
                       textLocation: ProgressUicTextLocation.bottom,
+                      textStyle: Theme.of(context).textTheme.headline5.copyWith(
+                        color: Colors.white,
+                      ),
                       dimContent: true,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -88,7 +110,7 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                             Text('This is a content view.'),
                             Text('When it is in progress state, ProgressUic will dim the content'),
                             RaisedButton(
-                              child: Text('Start progress'),
+                              child: Text('Start progress',),
                               onPressed: () {
                                 setState(() {
                                   _inProgress3 = true;

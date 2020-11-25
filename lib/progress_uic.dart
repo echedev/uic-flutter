@@ -2,16 +2,21 @@ library progress_uic;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ProgressUic extends StatelessWidget {
   const ProgressUic({
     Key key,
     this.child,
+    this.color,
     this.dimColor = Colors.black38,
     this.dimContent = false,
     this.inProgress = true,
+    this.looseConstraints = false,
+    this.size,
     this.text = '',
     this.textLocation = ProgressUicTextLocation.bottom,
+    this.textStyle,
   })  : assert(!(!inProgress && child == null),
             "You must define 'child', when 'inProgress' is false"),
         assert(!(inProgress && dimContent && child == null),
@@ -20,6 +25,11 @@ class ProgressUic extends StatelessWidget {
 
   /// Content to display.
   final Widget child;
+
+  /// A color of progress indicator.
+  ///
+  /// Defaults to [ThemeData.accentColor].
+  final Color color;
 
   /// A color to dim the content with.
   ///
@@ -40,6 +50,17 @@ class ProgressUic extends StatelessWidget {
   /// Progress indicator is shown if this set to 'true'.
   final bool inProgress;
 
+  /// Whether or not the widget size will be as small as possible, assuming
+  /// the [size].
+  ///
+  /// Defaults to 'false', that means the widget will fit all available space.
+  final bool looseConstraints;
+
+  /// The size of the progress indicator
+  ///
+  /// Defaults to 36.0, which is specified in [CircularProjectIndicator]
+  final double size;
+
   /// Text to display near the progress indicator
   final String text;
 
@@ -48,6 +69,11 @@ class ProgressUic extends StatelessWidget {
   /// Can be one of [ProgressUicTextLocation] values - *top*, *bottom*, *left* or
   /// *right*. Defaults to *bottom*
   final ProgressUicTextLocation textLocation;
+
+  /// A text style.
+  ///
+  /// Defaults to [TextTheme.headline5].
+  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +99,8 @@ class ProgressUic extends StatelessWidget {
         );
       } else {
         return Center(
+          widthFactor: looseConstraints ? 1.0 : null,
+          heightFactor: looseConstraints ? 1.0 : null,
           child: _layoutViews(context),
         );
       }
@@ -109,7 +137,14 @@ class ProgressUic extends StatelessWidget {
         result.add(_buildText(context));
       }
     }
-    result.add(CircularProgressIndicator());
+    result.add(SizedBox(
+      width: size,
+      height: size,
+      child: Theme(
+        data: Theme.of(context).copyWith(accentColor: color),
+        child: CircularProgressIndicator()
+      ),
+    ));
     if (textLocation == ProgressUicTextLocation.bottom ||
         textLocation == ProgressUicTextLocation.right) {
       if (text.isNotEmpty) {
@@ -124,7 +159,7 @@ class ProgressUic extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.headline5,
+        style: textStyle ?? Theme.of(context).textTheme.headline5,
       ),
     );
   }

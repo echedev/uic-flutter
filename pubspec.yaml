@@ -5,7 +5,7 @@ homepage: https://github.com/ech89899/uic-flutter
 repository: https://github.com/ech89899/uic-flutter
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
