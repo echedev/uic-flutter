@@ -46,7 +46,6 @@ class _ActionButtonState extends State<ActionButton> {
         final RenderBox renderBox = _buttonKey.currentContext
             .findRenderObject();
         _buttonSize = renderBox.size;
-        print(_buttonSize.toString());
       }
     });
   }
@@ -70,7 +69,13 @@ class _ActionButtonState extends State<ActionButton> {
         }
         else {
           if (_actionInProgress) {
-            widget.onActionCompleted?.call();
+            if (snapshot.hasError) {
+              // TODO: Add 'onError' callback
+              print("Error");
+            }
+            else {
+              widget.onActionCompleted?.call();
+            }
             _actionInProgress = false;
           }
           return _buildAction(widget.child);
