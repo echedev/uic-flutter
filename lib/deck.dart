@@ -64,6 +64,22 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
   }
 
   @override
+  void didUpdateWidget(Deck oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _data?.dispose();
+    _data = _DeckData(
+      items: widget.items,
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _data?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: We should honor 'Deck' orientation to apply 'mainAxisSize' either on height or width
     _eventualHeight =
@@ -219,4 +235,11 @@ class _DeckData extends ChangeNotifier {
     expandedStates[item] = value;
     notifyListeners();
   }
+
+  void dispose() {
+    for (AnimationController animation in animations.values) {
+      animation.dispose();
+    }
+  }
+
 }
