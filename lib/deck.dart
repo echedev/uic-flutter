@@ -95,7 +95,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                           child: item.child),
                   onTap: () {
                     setState(() {
-                      _data.setExpanded(item, !_data.expandedStates[item]);
+                      _data.setExpanded(item, !(_data.expandedStates[item] ?? false));
                       _data.expandedStates[item]
                           ? _data.animations[item].forward()
                           : _data.animations[item].reverse();
