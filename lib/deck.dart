@@ -21,6 +21,7 @@ class Deck extends StatefulWidget {
   Deck({
     Key key,
     this.collapsedSize = 48.0,
+    this.collapseOnTap = true,
     this.expandedSize,
     @required this.items,
     this.mainAxisSize,
@@ -30,6 +31,8 @@ class Deck extends StatefulWidget {
   ///
   /// Defaults to 48.0.
   final double collapsedSize;
+
+  final bool collapseOnTap;
 
   /// The size of child widget in the expanded state.
   ///
@@ -109,19 +112,32 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                       : Container(
                           height: widget.collapsedSize + widget.collapsedSize,
                           child: item.child),
-                  onTap: () {
-                    setState(() {
-                      _data.setExpanded(item, !(_data.expandedStates[item] ?? false));
-                      _data.expandedStates[item]
-                          ? _data.animations[item].forward()
-                          : _data.animations[item].reverse();
-                    });
-                  }),
+                  onTap: (!(_data.expandedStates[item] ?? false) || widget.collapseOnTap)
+                    ? () {
+                      _updateState(item);
+                    } : null,
+                  onVerticalDragUpdate: ((_data.expandedStates[item] ?? false) && !widget.collapseOnTap)
+                    ? (details) {
+                      if (details.primaryDelta > 0.0) {
+                        _updateState(item);
+                      }
+                    } : null,
+              ),
             )
           ],
         ),
       ),
     );
+  }
+
+  void _updateState(DeckItem item) {
+    setState(() {
+      _data.setExpanded(item, !(_data.expandedStates[item] ??
+          false));
+      _data.expandedStates[item]
+          ? _data.animations[item].forward()
+          : _data.animations[item].reverse();
+    });
   }
 }
 

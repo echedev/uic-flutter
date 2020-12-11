@@ -7,6 +7,7 @@ List<Widget> examplesDeck(BuildContext context) {
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Deck(
         collapsedSize: 48.0,
+//        collapseOnTap: false,
 //                              expandedSize: 200.0,
 //                              mainAxisSize: 600,
         items: <DeckItem>[

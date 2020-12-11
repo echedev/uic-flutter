@@ -205,8 +205,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Displays stacked cards where only headers visible initially, '
-                              'and allows to expand each card',
+                          child: Text('A wrapper on button, that manages an action state, '
+                              'and allows to lock the button and to change its appearance '
+                              'while the action is in progress.',
                             style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Colors.black54,
                             ),
