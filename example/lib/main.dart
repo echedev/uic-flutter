@@ -214,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         children: [
-                          ...examplesActionButton(context),
+                          ...examplesActionButton(context, _scaffoldKey),
                         ],
                       ),
                     ),

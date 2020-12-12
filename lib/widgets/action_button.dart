@@ -5,8 +5,10 @@ class ActionButton extends StatefulWidget {
   ActionButton({
     Key key,
     @required this.action,
+    this.buttonType = ActionButtonType.text,
     @required this.child,
     this.onActionCompleted,
+    this.onActionError,
     this.onActionStarted,
     this.progressView,
     this.style,
@@ -14,9 +16,13 @@ class ActionButton extends StatefulWidget {
 
   final Future<void> Function() action;
 
+  final ActionButtonType buttonType;
+
   final Widget child;
 
   final VoidCallback onActionCompleted;
+
+  final void Function(Object error) onActionError;
 
   final VoidCallback onActionStarted;
 
@@ -46,6 +52,7 @@ class _ActionButtonState extends State<ActionButton> {
         final RenderBox renderBox = _buttonKey.currentContext
             .findRenderObject();
         _buttonSize = renderBox.size;
+        print(_buttonSize.toString());
       }
     });
   }
@@ -57,12 +64,14 @@ class _ActionButtonState extends State<ActionButton> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           _actionInProgress = true;
-          return widget.progressView ?? _buildAction(
+          return _buildAction(
               SizedBox(
-                width: _buttonSize.width - 16.0,
-                child: ProgressUic(
-                  size: _buttonSize.height - 32.0,
-                  color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
+                width: _buttonSize.width - (widget.progressView == null ? 0 : 32.0),
+                height: _buttonSize.height - (widget.progressView == null ? 0 : 16.0),
+                child: widget.progressView ?? ProgressUic(
+                    size: _buttonSize.height,
+                    looseConstraints: true,
+                    color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
                 ),
               ),
           );
@@ -70,33 +79,62 @@ class _ActionButtonState extends State<ActionButton> {
         else {
           if (_actionInProgress) {
             if (snapshot.hasError) {
-              // TODO: Add 'onError' callback
-              print("Error");
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.onActionError?.call(snapshot.error);
+              });
             }
             else {
-              widget.onActionCompleted?.call();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.onActionCompleted?.call();
+              });
             }
             _actionInProgress = false;
           }
-          return _buildAction(widget.child);
+          return _buildAction(SizedBox(
+            key: widget.progressView == null ? _buttonKey : null,
+            child: widget.child,
+          ));
         }
       },
     );
   }
 
   Widget _buildAction(Widget child) {
-    return TextButton(
-      key: _buttonSize == null ? _buttonKey : null,
-      onPressed: () {
-        if (!_actionInProgress) {
-          widget.onActionStarted?.call();
-          setState(() {
-            _action = widget.action();
-          });
-        }
-      },
-      style: widget.style,
-      child: child,
-    );
+    switch (widget.buttonType) {
+      case ActionButtonType.text:
+        return TextButton(
+          key: widget.progressView == null ? null : _buttonKey,
+          onPressed: _onPressed,
+          style: widget.style,
+          child: child,
+        );
+      case ActionButtonType.elevated:
+        return ElevatedButton(
+          key: widget.progressView == null ? null : _buttonKey,
+          onPressed: _onPressed,
+          style: widget.style,
+          child: child,
+        );
+      case ActionButtonType.outlined:
+        return OutlinedButton(
+          key: widget.progressView == null ? null : _buttonKey,
+          onPressed: _onPressed,
+          style: widget.style,
+          child: child,
+        );
+      default:
+        return Container();
+    }
+  }
+
+  VoidCallback _onPressed() {
+    if (!_actionInProgress) {
+      widget.onActionStarted?.call();
+      setState(() {
+        _action = widget.action();
+      });
+    }
   }
 }
+
+enum ActionButtonType { text, elevated, outlined }
