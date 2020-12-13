@@ -8,6 +8,7 @@ A set of Flutter widgets that simplifies implementing most used UI cases.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
 
 ####  Widgets:
+- [ActionButton](#actionbutton) - Wrapper of Material button, that manages a state of an action which is performed on the button click, and shows progress while the action is performed.
 - [Deck](#deck) - Shows stacked cards, that can be expanded and collapsed.
 - [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
 - [StepIndicator](#stepindicator) - Simple, but customizable step/page indicator.
@@ -132,6 +133,59 @@ Implement a function that will return a list of items:
 Read the docs for available customization options.
 
 Also you can check [demo app](https://github.com/ech89899/uic-flutter/tree/master/example) for details of using `ListUic` widget.
+
+# [ActionButton](#actionbutton)
+
+A wrapper of Material buttons, that incapsulates managing of the local state of an action which is
+performed on the button click, and updates the button content to display the progress view when the action is performed.
+
+- Uses TextButton, ElevatedButton or OutlineButton as an underlying button widget.
+- Supports all attributes of standard buttons.
+- Allows to display a simple progress indicator or a custom view when the action is performed.
+- Provides callbacks on action state changes.
+
+![ActionButton Example](./assets/actionbutton-001.gif)
+
+### Usage
+
+Import the package
+
+```dart
+import 'package:uic/widgets.dart';
+```
+
+You can use `ActionButton` the same way you are using normal button widgets. But instead of 'onPressed', you provide action function in the `action` attribute.
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: <b>ActionButton(
+          action: () async {
+            return Future.delayed(Duration(seconds: 5));
+          },
+          child: Text('Button title'),
+        ),</b>
+      ),
+    );
+  }
+</code></pre>
+
+Additional parameters of `ActionButton` widget:
+
+| Name | Description |
+|---|---|
+| `buttonType`  | Defines the underlying Material button widget - TextButton, ElevatedButton or OutlineButton.
+| `onActionCompleted`  | Called when the action successfully completed.
+| `onActionError`  | Called when the action finished with error.
+| `onActionStarted`  | Called immediately after the button pressed.
+| `progressView`  | Custom view that is shown as a button child during the action.
+
+See full example of **ActionButton** usage in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
 
 # [Deck](#deck)
 

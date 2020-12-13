@@ -1,3 +1,7 @@
+## [0.7.0] - 2020-12-12
+
+- Added `ActionButton` widget
+
 ## [0.6.5] - 2020-10-31
 
 - Added `Deck` widget

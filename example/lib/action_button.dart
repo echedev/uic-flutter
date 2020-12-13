@@ -16,20 +16,20 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ActionButton(
-            action: () {
+            action: () async {
               return Future.delayed(Duration(seconds: 5));
             },
             child: Text('Text'),
           ),
           ActionButton(
-            action: () {
+            action: () async {
               return Future.delayed(Duration(seconds: 5));
             },
             buttonType: ActionButtonType.elevated,
             child: Text('Elevated'),
           ),
           ActionButton(
-            action: () {
+            action: () async {
               return Future.delayed(Duration(seconds: 5));
             },
             buttonType: ActionButtonType.outlined,
