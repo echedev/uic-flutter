@@ -155,8 +155,12 @@ class ProgressUic extends StatelessWidget {
   }
 
   Widget _buildText(BuildContext context) {
+    double top = textLocation == ProgressUicTextLocation.bottom ? 16.0 : 0;
+    double bottom = textLocation == ProgressUicTextLocation.top ? 16.0 : 0;
+    double left = textLocation == ProgressUicTextLocation.right ? 16.0 : 0;
+    double right = textLocation == ProgressUicTextLocation.left ? 16.0 : 0;
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
       child: Text(
         text,
         style: textStyle ?? Theme.of(context).textTheme.headline5,
