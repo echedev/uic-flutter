@@ -1,8 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uic/progress_uic.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:uic/checkbox_uic.dart';
 
 class ProgressUicScreen  extends StatefulWidget {
   ProgressUicScreen({Key key, this.title}) : super(key: key);

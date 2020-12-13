@@ -256,6 +256,7 @@ class _DeckData extends ChangeNotifier {
     for (AnimationController animation in animations.values) {
       animation.dispose();
     }
+    super.dispose();
   }
 
 }

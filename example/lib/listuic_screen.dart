@@ -36,8 +36,8 @@ class _ListUicScreenState extends State<ListUicScreen> {
         controller: _controller,
         itemBuilder: (item) {
           return ListTile(
-            title: Text('Title ${item}'),
-            subtitle: Text('Subtitle ${item}'),
+            title: Text('Title $item'),
+            subtitle: Text('Subtitle $item'),
           );
         },
 //        emptyDataIcon: Icon(Icons.refresh, size: 72.0, color: Colors.amberAccent),
