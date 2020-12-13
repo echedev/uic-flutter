@@ -141,9 +141,8 @@ class ProgressUic extends StatelessWidget {
       width: size,
       height: size,
       child: Theme(
-        data: Theme.of(context).copyWith(accentColor: color),
-        child: CircularProgressIndicator()
-      ),
+          data: Theme.of(context).copyWith(accentColor: color),
+          child: CircularProgressIndicator()),
     ));
     if (textLocation == ProgressUicTextLocation.bottom ||
         textLocation == ProgressUicTextLocation.right) {
@@ -160,7 +159,8 @@ class ProgressUic extends StatelessWidget {
     double left = textLocation == ProgressUicTextLocation.right ? 16.0 : 0;
     double right = textLocation == ProgressUicTextLocation.left ? 16.0 : 0;
     return Padding(
-      padding: EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
+      padding:
+          EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
       child: Text(
         text,
         style: textStyle ?? Theme.of(context).textTheme.headline5,

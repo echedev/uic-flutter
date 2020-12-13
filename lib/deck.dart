@@ -104,24 +104,28 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
           children: [
             ...widget.items.map(
               (item) => GestureDetector(
-                  child: (_data.expandedStates[item] ?? false)
-                      ? Container(
-                          height: eventualExpandedSize + widget.collapsedSize,
-                          child: item.childExpanded ?? item.child,
-                        )
-                      : Container(
-                          height: widget.collapsedSize + widget.collapsedSize,
-                          child: item.child),
-                  onTap: (!(_data.expandedStates[item] ?? false) || widget.collapseOnTap)
+                child: (_data.expandedStates[item] ?? false)
+                    ? Container(
+                        height: eventualExpandedSize + widget.collapsedSize,
+                        child: item.childExpanded ?? item.child,
+                      )
+                    : Container(
+                        height: widget.collapsedSize + widget.collapsedSize,
+                        child: item.child),
+                onTap: (!(_data.expandedStates[item] ?? false) ||
+                        widget.collapseOnTap)
                     ? () {
-                      _updateState(item);
-                    } : null,
-                  onVerticalDragUpdate: ((_data.expandedStates[item] ?? false) && !widget.collapseOnTap)
-                    ? (details) {
-                      if (details.primaryDelta > 0.0) {
                         _updateState(item);
                       }
-                    } : null,
+                    : null,
+                onVerticalDragUpdate: ((_data.expandedStates[item] ?? false) &&
+                        !widget.collapseOnTap)
+                    ? (details) {
+                        if (details.primaryDelta > 0.0) {
+                          _updateState(item);
+                        }
+                      }
+                    : null,
               ),
             )
           ],
@@ -132,8 +136,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
 
   void _updateState(DeckItem item) {
     setState(() {
-      _data.setExpanded(item, !(_data.expandedStates[item] ??
-          false));
+      _data.setExpanded(item, !(_data.expandedStates[item] ?? false));
       _data.expandedStates[item]
           ? _data.animations[item].forward()
           : _data.animations[item].reverse();
@@ -258,5 +261,4 @@ class _DeckData extends ChangeNotifier {
     }
     super.dispose();
   }
-
 }
