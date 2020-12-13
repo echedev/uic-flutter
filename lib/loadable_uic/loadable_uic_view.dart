@@ -65,7 +65,7 @@ class LoadableUic<T> extends StatelessWidget {
                     context, loadableData.data, loadableData.error);
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Scaffold.of(context)
+                  ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(SnackBar(
                       content: Text(loadableData.error.message),

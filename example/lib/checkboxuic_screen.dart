@@ -62,7 +62,7 @@ class CheckboxUicScreen  extends StatelessWidget {
               onChanged: (value) {
                 print('$value');
                 final snackBar = SnackBar(content: Text('Checkbox state: $value'));
-                scaffoldKey.currentState.showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),
             CheckboxUic(

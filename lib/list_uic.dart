@@ -161,7 +161,7 @@ class ListUic<T> extends StatelessWidget {
   Widget _buildDataView(BuildContext context, _ListUicState state) {
     if (state == _ListUicState.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(errorText),

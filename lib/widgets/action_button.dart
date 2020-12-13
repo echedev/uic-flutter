@@ -186,7 +186,7 @@ class _ActionButtonState extends State<ActionButton> {
     }
   }
 
-  VoidCallback _onPressed() {
+  void _onPressed() {
     if (!_actionInProgress) {
       widget.onActionStarted?.call();
       setState(() {

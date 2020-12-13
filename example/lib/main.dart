@@ -293,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                                  decoration: InputDecoration()
 //                                    ..applyDefaults(Theme.of(context).inputDecorationTheme),
                                   onEditingComplete: (value) {
-                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                       backgroundColor: Theme.of(context).accentColor,
                                       content: Text(value),
                                     ));

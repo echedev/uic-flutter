@@ -130,7 +130,7 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
               return Future.delayed(Duration(seconds: 5));
             },
             onActionStarted: () {
-              scaffoldKey.currentState.showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.redAccent,
                 content: Text('Action started'),
               ));
@@ -142,7 +142,7 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
               return Future.delayed(Duration(seconds: 5));
             },
             onActionCompleted: () {
-              scaffoldKey.currentState.showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.redAccent,
                 content: Text('Action completed'),
               ));
@@ -155,7 +155,7 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
               return Future.error('Some error');
             },
             onActionError: (error) {
-              scaffoldKey.currentState.showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.redAccent,
                 content: Text('Action error: ${error.toString()}'),
               ));
