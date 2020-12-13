@@ -85,8 +85,7 @@ class ActionButton extends StatefulWidget {
 }
 
 class _ActionButtonState extends State<ActionButton> {
-
-  Future<void>  _action;
+  Future<void> _action;
 
   bool _actionInProgress = false;
 
@@ -99,8 +98,8 @@ class _ActionButtonState extends State<ActionButton> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_buttonSize == null) {
-        final RenderBox renderBox = _buttonKey.currentContext
-            .findRenderObject();
+        final RenderBox renderBox =
+            _buttonKey.currentContext.findRenderObject();
         _buttonSize = renderBox.size;
         print(_buttonSize.toString());
       }
@@ -115,25 +114,27 @@ class _ActionButtonState extends State<ActionButton> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           _actionInProgress = true;
           return _buildAction(
-              SizedBox(
-                width: _buttonSize.width - (widget.progressView == null ? 0 : 32.0),
-                height: _buttonSize.height - (widget.progressView == null ? 0 : 16.0),
-                child: widget.progressView ?? ProgressUic(
+            SizedBox(
+              width:
+                  _buttonSize.width - (widget.progressView == null ? 0 : 32.0),
+              height:
+                  _buttonSize.height - (widget.progressView == null ? 0 : 16.0),
+              child: widget.progressView ??
+                  ProgressUic(
                     size: _buttonSize.height,
                     looseConstraints: true,
-                    color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
-                ),
-              ),
+                    color: widget.style?.foregroundColor
+                        ?.resolve({MaterialState.focused}),
+                  ),
+            ),
           );
-        }
-        else {
+        } else {
           if (_actionInProgress) {
             if (snapshot.hasError) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 widget.onActionError?.call(snapshot.error);
               });
-            }
-            else {
+            } else {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 widget.onActionCompleted?.call();
               });
