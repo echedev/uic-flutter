@@ -38,24 +38,24 @@ class LoadableUic<T> extends StatelessWidget {
         builder: (context, loadableData, child) {
           switch (loadableData.state) {
             case LoadableDataState.initialLoading:
-              return initialLoadingView ??
+              return initialLoadingView ?? LoadableUicViews.of(context)?.initialLoading ??
                   LoadableUicInitialLoadingView(
                     text: 'Loading...',
                   );
             case LoadableDataState.initialLoadingError:
-              return initialLoadingErrorView ??
+              return initialLoadingErrorView ?? LoadableUicViews.of(context)?.initialLoadingError ??
                   LoadableUicInitialLoadingErrorView(
                     loadableData: loadableData,
                   );
             case LoadableDataState.empty:
-              return emptyView ??
+              return emptyView ?? LoadableUicViews.of(context)?.empty ??
                   LoadableUicEmptyView(
                     loadableData: loadableData,
                   );
             case LoadableDataState.ready:
               return builder(context, loadableData.data);
             case LoadableDataState.loading:
-              return loadingView ??
+              return loadingView ?? LoadableUicViews.of(context)?.loading ??
                   LoadableUicLoadingView(
                     child: builder(context, loadableData.data),
                   );
@@ -82,6 +82,33 @@ class LoadableUic<T> extends StatelessWidget {
       ),
     );
   }
+}
+
+class LoadableUicViews extends InheritedWidget {
+  LoadableUicViews({
+    Key key,
+    this.empty,
+    this.initialLoading,
+    this.initialLoadingError,
+    this.loading,
+    @required Widget child,
+  }) : super(child: child);
+
+  final Widget empty;
+
+  final Widget initialLoading;
+
+  final Widget initialLoadingError;
+
+  final Widget loading;
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => false;
+
+  static LoadableUicViews of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<LoadableUicViews>();
+  }
+
 }
 
 class LoadableUicEmptyView extends StatelessWidget {

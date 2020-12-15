@@ -293,7 +293,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.7.0"
+    version: "0.7.2"
   url_launcher:
     dependency: transitive
     description:
