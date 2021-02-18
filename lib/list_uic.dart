@@ -161,14 +161,20 @@ class ListUic<T> extends StatelessWidget {
   Widget _buildDataView(BuildContext context, _ListUicState state) {
     if (state == _ListUicState.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text(errorText),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: errorColor,
-          ) // SnackBar
-              );
+        Scaffold.of(context).hideCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(errorText),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: errorColor,
+        ));
+//        ScaffoldMessenger.of(context)
+//          ..hideCurrentSnackBar()
+//          ..showSnackBar(SnackBar(
+//            content: Text(errorText),
+//            behavior: SnackBarBehavior.floating,
+//            backgroundColor: errorColor,
+//          ) // SnackBar
+//              );
       });
     }
     if (state == _ListUicState.progressNextPage) {

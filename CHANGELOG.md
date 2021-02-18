@@ -1,3 +1,7 @@
+## [0.7.3] - 2020-02-18
+
+- Fix static analysis issues
+
 ## [0.7.2] - 2020-12-12
 
 - Added `ActionButton` widget

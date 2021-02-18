@@ -39,16 +39,19 @@ class LoadableUic<T> extends StatelessWidget {
           switch (loadableData.state) {
             case LoadableDataState.initialLoading:
               return initialLoadingView ??
+                  LoadableUicViews.of(context)?.initialLoading ??
                   LoadableUicInitialLoadingView(
                     text: 'Loading...',
                   );
             case LoadableDataState.initialLoadingError:
               return initialLoadingErrorView ??
+                  LoadableUicViews.of(context)?.initialLoadingError ??
                   LoadableUicInitialLoadingErrorView(
                     loadableData: loadableData,
                   );
             case LoadableDataState.empty:
               return emptyView ??
+                  LoadableUicViews.of(context)?.empty ??
                   LoadableUicEmptyView(
                     loadableData: loadableData,
                   );
@@ -56,6 +59,7 @@ class LoadableUic<T> extends StatelessWidget {
               return builder(context, loadableData.data);
             case LoadableDataState.loading:
               return loadingView ??
+                  LoadableUicViews.of(context)?.loading ??
                   LoadableUicLoadingView(
                     child: builder(context, loadableData.data),
                   );
@@ -65,14 +69,20 @@ class LoadableUic<T> extends StatelessWidget {
                     context, loadableData.data, loadableData.error);
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                      content: Text(loadableData.error.message),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.redAccent,
-                    ) // SnackBar
-                        );
+                  Scaffold.of(context).hideCurrentSnackBar();
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(loadableData.error.message),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.redAccent,
+                  ));
+//                  ScaffoldMessenger.of(context)
+//                    ..hideCurrentSnackBar()
+//                    ..showSnackBar(SnackBar(
+//                      content: Text(loadableData.error.message),
+//                      behavior: SnackBarBehavior.floating,
+//                      backgroundColor: Colors.redAccent,
+//                    ) // SnackBar
+//                        );
                 });
                 return builder(context, loadableData.data);
               }
@@ -81,6 +91,32 @@ class LoadableUic<T> extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class LoadableUicViews extends InheritedWidget {
+  LoadableUicViews({
+    Key key,
+    this.empty,
+    this.initialLoading,
+    this.initialLoadingError,
+    this.loading,
+    @required Widget child,
+  }) : super(child: child);
+
+  final Widget empty;
+
+  final Widget initialLoading;
+
+  final Widget initialLoadingError;
+
+  final Widget loading;
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => false;
+
+  static LoadableUicViews of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<LoadableUicViews>();
   }
 }
 

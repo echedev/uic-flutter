@@ -69,7 +69,6 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(Deck oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _data?.dispose();
     _data = _DeckData(
       items: widget.items,
       vsync: this,
