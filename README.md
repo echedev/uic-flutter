@@ -141,7 +141,9 @@ A Login form, that encapsulates most of UI logic for 'Sign in' feature, but stil
 
 #### Features:
 - Displays a standard sign in form with username and password fields, and 'Sign In' button
+- Implements basic username and password validation logic
 - Provides a callback to perform the signing in action
+- Handles signing in errors
 - Allows to customize the form UI according to your app design
 
 ![LoginUic Demo](./assets/loginuic-001.gif)
