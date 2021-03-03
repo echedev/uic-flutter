@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uic/login_uic.dart';
 
-class LoginUicScreen  extends StatefulWidget {
+class LoginUicScreen extends StatefulWidget {
   LoginUicScreen({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -11,29 +11,22 @@ class LoginUicScreen  extends StatefulWidget {
 }
 
 class _LoginUicScreenState extends State<LoginUicScreen> {
-
-  LoginUicController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = LoginUicController(
-      initialState: LoginUicState.signIn,
-      onSignIn: (username, password) => _signIn(username, password),
-      onSignedIn: (context) => Navigator.push(context,
-        MaterialPageRoute(builder: (context) =>
-            LoginUicSignedInScreen(title: 'LoginUic Demo')),),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: LoginUic(
-        controller: _controller,
+      body: Center(
+        child: LoginUic(
+          onSignIn: (username, password) => _signIn(username, password),
+          onSignInCompleted: (context) => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    LoginUicSignedInScreen(title: 'LoginUic Demo')),
+          ),
+        ),
       ),
     );
   }

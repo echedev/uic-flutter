@@ -5,6 +5,7 @@ A set of Flutter widgets that simplifies implementing most used UI cases.
 ####  Components:
 - [CheckboxUic](#checkboxuic) - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
 - [ListUic](#listuic) - Wrapper of **ListView**, which implements related data loading and state management logic.
+- [LoginUic](#loginuic) - A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.
 - `ProgressUic` - Wrapper of **ProgressIndicator** with additional text.
 
 ####  Widgets:
@@ -134,6 +135,66 @@ Read the docs for available customization options.
 
 Also you can check [demo app](https://github.com/ech89899/uic-flutter/tree/master/example) for details of using `ListUic` widget.
 
+# [LoginUic](#loginuic)
+
+A Login form, that encapsulates most of UI logic for 'Sign in' feature, but still highly customizable to fit your app design.
+
+#### Features:
+- Displays a standard sign in form with username and password fields, and 'Sign In' button
+- Provides a callback to perform the signing in action
+- Allows to customize the form UI according to your app design
+
+![LoginUic Demo](./assets/loginuic-001.gif)
+
+### Usage
+
+Import the package
+
+```dart
+import 'package:uic/login_uic.dart';
+```
+
+Add `LoginUic` widget to your widget tree:
+
+<pre><code>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: <b>LoginUic(
+          onSignIn: (username, password) => _signIn(username, password),
+          onSignInCompleted: (context) => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    LoginUicSignedInScreen(title: 'LoginUic Demo')),
+          ),</b>
+        ),
+      ),
+    );
+  }
+</code></pre>
+
+Implement a function that performs sign in action according to your business logic:
+
+<pre><code>
+  Future&lt;void&gt; _signIn(String username, String password) async {
+    ...
+  }
+</code></pre>
+
+`LoginUic` required parameters:
+
+| Name | Description |
+|---|---|
+| `onSignIn`  | A callback that perform sign in action. It is called when users clicks 'Sign In' button.
+| `onSignInCompleted`  | Called when a user successfully signed in. Can be used to navigate to another screen.
+
+See full example of **LoginUic** usage in the [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
+
 # [ActionButton](#actionbutton)
 
 A wrapper of Material buttons, that incapsulates managing of the local state of an action which is
@@ -185,7 +246,7 @@ Additional parameters of `ActionButton` widget:
 | `onActionStarted`  | Called immediately after the button pressed.
 | `progressView`  | Custom view that is shown as a button child during the action.
 
-See full example of **ActionButton** usage in [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
+See full example of **ActionButton** usage in the [demo app](https://github.com/ech89899/uic-flutter/tree/master/example/lib/main.dart) and package docs.
 
 # [Deck](#deck)
 

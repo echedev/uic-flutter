@@ -45,7 +45,7 @@ class ActionButton extends StatefulWidget {
 
   /// An action, that is performed on button pressed.
   ///
-  /// Until the future, returned by this function is not completed, the
+  /// Until the future, returned by this function, is completed, the
   /// button's child is changed to [progressView].
   final Future<void> Function() action;
 

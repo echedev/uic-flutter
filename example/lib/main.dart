@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('The component, implementing a login form and Sign In / Sign Up flows.',
+                        child: Text('A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.black54,
                           ),

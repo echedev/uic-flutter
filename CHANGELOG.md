@@ -2,6 +2,11 @@
 
 - Fix static analysis issues
 
+## [0.8.0] - 2020-03-03
+
+- Added `LoginUic` component
+- Minor fixes
+
 ## [0.7.2] - 2020-12-12
 
 - Added `ActionButton` widget
