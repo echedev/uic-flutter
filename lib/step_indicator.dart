@@ -23,11 +23,11 @@ import 'package:flutter/material.dart';
 ///
 class StepIndicator extends StatelessWidget {
   StepIndicator({
-    Key key,
+    Key? key,
     this.colorCompleted,
-    Color colorLineCompleted,
+    Color? colorLineCompleted,
     this.colorIncomplete,
-    Color colorLineIncomplete,
+    Color? colorLineIncomplete,
     this.colorSelected,
     this.completedStep,
     this.expanded = false,
@@ -38,8 +38,8 @@ class StepIndicator extends StatelessWidget {
     this.padding = const EdgeInsets.all(4.0),
     this.selectedStep,
     this.showLines = false,
-    @required this.selectedStepIndex,
-    @required this.totalSteps,
+    required this.selectedStepIndex,
+    required this.totalSteps,
   })  : this.colorLineCompleted = colorLineCompleted ?? colorCompleted,
         this.colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
         super(key: key);
@@ -49,14 +49,14 @@ class StepIndicator extends StatelessWidget {
   /// It is applied when the default step widget is used.
   /// Also this color is used to draw lines, connecting completed steps.
   /// Defaults to primary color of the current theme.
-  final Color colorCompleted;
+  final Color? colorCompleted;
 
   /// The color of incomplete steps.
   ///
   /// It is applied when the default step widget is used.
   /// Also this color is used to draw lines, connecting incomplete steps.
   /// Defaults to 'black12' color.
-  final Color colorIncomplete;
+  final Color? colorIncomplete;
 
   /// The color of lines connecting completed steps.
   ///
@@ -64,7 +64,7 @@ class StepIndicator extends StatelessWidget {
   /// different from the color of completed step items.
   ///
   /// Defaults to [colorCompleted].
-  final Color colorLineCompleted;
+  final Color? colorLineCompleted;
 
   /// The color of lines connecting incomplete steps.
   ///
@@ -72,18 +72,18 @@ class StepIndicator extends StatelessWidget {
   /// different from the color of incomplete step items.
   ///
   /// Defaults to [colorIncomplete].
-  final Color colorLineIncomplete;
+  final Color? colorLineIncomplete;
 
   /// The color of currently selected step.
   ///
   /// It is applied when the default step widget is used.
   /// Defaults to accent color of the current theme.
-  final Color colorSelected;
+  final Color? colorSelected;
 
   /// A widget to show for completed steps
   ///
   /// If it is not defined, the default filled circle widget is used.
-  final Widget completedStep;
+  final Widget? completedStep;
 
   /// Should the step indicator expand in its main axis to all available space.
   ///
@@ -96,7 +96,7 @@ class StepIndicator extends StatelessWidget {
   /// A widget to show for incomplete steps.
   ///
   /// If it is not defined, the default filled circle widget is used.
-  final Widget incompleteStep;
+  final Widget? incompleteStep;
 
   /// The size of step item.
   ///
@@ -108,13 +108,13 @@ class StepIndicator extends StatelessWidget {
   ///
   /// The line is drawn between step items and defines a distance between them.
   /// Defaults to '16.0'.
-  final double lineLength;
+  final double? lineLength;
 
   /// The width of connecting line.
   ///
   /// The line is drawn between step items and defines a distance between them.
   /// Defaults to '2.0'.
-  final double lineWidth;
+  final double? lineWidth;
 
   /// Defines an empty space around the step item.
   ///
@@ -124,7 +124,7 @@ class StepIndicator extends StatelessWidget {
   /// A widget to show for currently selected step.
   ///
   /// If it is not defined, the default filled circle widget is used.
-  final Widget selectedStep;
+  final Widget? selectedStep;
 
   /// Index of selected step.
   ///
@@ -232,12 +232,12 @@ class StepIndicator extends StatelessWidget {
 
 class _Step extends StatelessWidget {
   const _Step({
-    Key key,
+    Key? key,
     this.color,
     this.size = 16.0,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   final double size;
 
@@ -256,16 +256,16 @@ class _Step extends StatelessWidget {
 
 class _Line extends StatelessWidget {
   const _Line({
-    Key key,
+    Key? key,
     this.color,
     this.expanded = false,
-    double length,
-    double width,
+    double? length,
+    double? width,
   })  : this.length = expanded ? double.infinity : length ?? 16.0,
         this.width = width ?? 2.0,
         super(key: key);
 
-  final Color color;
+  final Color? color;
 
   final bool expanded;
 
