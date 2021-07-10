@@ -1,43 +1,68 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
-class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
-  LoadableData({
-    this.isEmpty,
-    @required this.onLoad,
-  }) : super(_LoadableDataValue<T>()) {
-    isEmpty ??= (T data) => data == null;
+class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
+  StatefulData({
+    this.isEmpty = _defaultIsEmpty,
+    required Future<T> Function() loader,
+  }) : super(_StatefulDataValue<T>()) {
+    _loader = loader;
+    _watcher = null;
     loadData();
   }
 
-  bool Function(T data) isEmpty;
+  StatefulData.watch({
+    this.isEmpty = _defaultIsEmpty,
+    required Stream<T> Function() onLoad,
+  }) : super(_StatefulDataValue<T>()) {
+    _loader = null;
+    _watcher = onLoad;
+    loadData();
+  }
 
-  final Future<T> Function() onLoad;
+  static bool _defaultIsEmpty(dynamic data) => data == null;
 
-  T get data => value.data;
+  bool Function(T? data)? isEmpty;
 
-  LoadableDataError get error => value.error;
+  Future<T> Function()? _loader;
+
+  Stream<T> Function()? _watcher;
+
+  StreamSubscription? _subscription;
+
+  T? get data => value.data;
+
+  StatefulDataError? get error => value.error;
 
   bool get isLoading => value.isLoading;
 
-  LoadableDataState get state {
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+
+  StatefulDataState get state {
     if (value.isLoading) {
-      if (isEmpty(data)) {
-        return LoadableDataState.initialLoading;
+      if (isEmpty?.call(data) ?? true) {
+        return StatefulDataState.initialLoading;
       } else {
-        return LoadableDataState.loading;
+        return StatefulDataState.loading;
       }
     } else {
       if (value.error == null) {
-        if (isEmpty(data)) {
-          return LoadableDataState.empty;
+        if (isEmpty?.call(data) ?? true) {
+          return StatefulDataState.empty;
         } else {
-          return LoadableDataState.ready;
+          return StatefulDataState.ready;
         }
       } else {
         if (data == null) {
-          return LoadableDataState.initialLoadingError;
+          return StatefulDataState.initialLoadingError;
         } else {
-          return LoadableDataState.error;
+          return StatefulDataState.error;
         }
       }
     }
@@ -48,14 +73,37 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
       value = value.copyWith(isLoading: true);
     }
     try {
-      T result = await onLoad();
-      value = value.copyWith(
-        data: result,
-        isLoading: false,
-      );
+      // One-time data loading
+      if (_loader != null) {
+        T result = await _loader!();
+        value = value.copyWith(
+          data: result,
+          isLoading: false,
+        );
+      }
+      // Watching on data changes
+      else if (_watcher != null) {
+        _subscription = _watcher!().listen((result) {
+          value = value.copyWith(
+            data: result,
+            isLoading: false,
+          );
+        },
+        onError: () {
+          value = value.copyWith(
+            error: StatefulDataError(message: 'Unexpected error while watching the data'),
+            isLoading: false,
+          );
+        },
+        cancelOnError: false,);
+      }
+      else {
+        // We should not hit this branch.
+        throw Exception('StatefulData must have either "loader" or "watcher"');
+      }
     } catch (e) {
       value = value.copyWith(
-        error: LoadableDataError(message: e.toString()),
+        error: StatefulDataError(message: e.toString(), originalError: e),
         isLoading: false,
       );
       rethrow;
@@ -63,33 +111,33 @@ class LoadableData<T> extends ValueNotifier<_LoadableDataValue<T>> {
   }
 }
 
-class _LoadableDataValue<T> {
-  _LoadableDataValue({
+class _StatefulDataValue<T> {
+  _StatefulDataValue({
     this.data,
     this.error,
     this.isLoading = true,
   });
 
-  T data;
+  T? data;
 
-  LoadableDataError error;
+  StatefulDataError? error;
 
   bool isLoading;
 
-  _LoadableDataValue<T> copyWith({
-    T data,
-    LoadableDataError error,
-    bool isLoading,
+  _StatefulDataValue<T> copyWith({
+    T? data,
+    StatefulDataError? error,
+    bool? isLoading,
   }) {
-    return _LoadableDataValue<T>(
+    return _StatefulDataValue<T>(
       data: data ?? this.data,
-      error: isLoading ? null : (error ?? this.error),
+      error: (isLoading ?? true) ? null : (error ?? this.error),
       isLoading: isLoading ?? this.isLoading,
     );
   }
 }
 
-enum LoadableDataState {
+enum StatefulDataState {
   initialLoading,
   initialLoadingError,
   empty,
@@ -98,10 +146,13 @@ enum LoadableDataState {
   error,
 }
 
-class LoadableDataError {
-  LoadableDataError({
+class StatefulDataError {
+  StatefulDataError({
     this.message,
+    this.originalError,
   });
 
-  String message;
+  String? message;
+
+  Object? originalError;
 }

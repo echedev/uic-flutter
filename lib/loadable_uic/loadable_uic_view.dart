@@ -19,14 +19,14 @@ class LoadableUic<T> extends StatelessWidget {
 
   final Widget emptyView;
 
-  final Widget Function(BuildContext context, T data, LoadableDataError error)
+  final Widget Function(BuildContext context, T data, StatefulDataError error)
       errorBuilder;
 
   final Widget initialLoadingView;
 
   final Widget initialLoadingErrorView;
 
-  final LoadableData<T> loadableData;
+  final StatefulData<T> loadableData;
 
   final Widget loadingView;
 
@@ -34,36 +34,36 @@ class LoadableUic<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: loadableData,
-      child: Consumer<LoadableData<T>>(
+      child: Consumer<StatefulData<T>>(
         builder: (context, loadableData, child) {
           switch (loadableData.state) {
-            case LoadableDataState.initialLoading:
+            case StatefulDataState.initialLoading:
               return initialLoadingView ??
                   LoadableUicViews.of(context)?.initialLoading ??
                   LoadableUicInitialLoadingView(
                     text: 'Loading...',
                   );
-            case LoadableDataState.initialLoadingError:
+            case StatefulDataState.initialLoadingError:
               return initialLoadingErrorView ??
                   LoadableUicViews.of(context)?.initialLoadingError ??
                   LoadableUicInitialLoadingErrorView(
                     loadableData: loadableData,
                   );
-            case LoadableDataState.empty:
+            case StatefulDataState.empty:
               return emptyView ??
                   LoadableUicViews.of(context)?.empty ??
                   LoadableUicEmptyView(
                     loadableData: loadableData,
                   );
-            case LoadableDataState.ready:
+            case StatefulDataState.ready:
               return builder(context, loadableData.data);
-            case LoadableDataState.loading:
+            case StatefulDataState.loading:
               return loadingView ??
                   LoadableUicViews.of(context)?.loading ??
                   LoadableUicLoadingView(
                     child: builder(context, loadableData.data),
                   );
-            case LoadableDataState.error:
+            case StatefulDataState.error:
               if (errorBuilder != null) {
                 return errorBuilder(
                     context, loadableData.data, loadableData.error);
@@ -126,7 +126,7 @@ class LoadableUicEmptyView extends StatelessWidget {
     @required this.loadableData,
   }) : super(key: key);
 
-  final LoadableData loadableData;
+  final StatefulData loadableData;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +182,7 @@ class LoadableUicInitialLoadingErrorView extends StatelessWidget {
     @required this.loadableData,
   }) : super(key: key);
 
-  final LoadableData loadableData;
+  final StatefulData loadableData;
 
   @override
   Widget build(BuildContext context) {

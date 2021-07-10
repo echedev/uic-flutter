@@ -10,16 +10,16 @@ class LoadableUicScreen  extends StatefulWidget {
 
 class _LoadableUicScreenState extends State<LoadableUicScreen> {
 
-  LoadableData<ExampleData> _data;
+  StatefulData<ExampleData> _data;
 
   int _loadingAttempts = 0;
 
   @override
   void initState() {
     super.initState();
-    _data = LoadableData<ExampleData>(
+    _data = StatefulData<ExampleData>(
 //      isEmpty: (data) => true,
-      onLoad: _loadData,
+      loader: _loadData,
     );
   }
 
