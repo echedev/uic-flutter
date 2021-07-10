@@ -182,7 +182,7 @@ class _LoginUicState extends State<LoginUic> {
                             enabled: state.value !=
                                 _InternalLoginUicState.inProgress,
                             validator: widget.usernameValidator ??
-                                (value) => (value?.isEmpty ?? false)
+                                (value) => (value?.isEmpty ?? true)
                                     ? widget.strings.usernameErrorEmpty
                                     : null,
                             onSaved: (newValue) => username = (newValue ?? ''),
@@ -196,7 +196,7 @@ class _LoginUicState extends State<LoginUic> {
                             enabled: state.value !=
                                 _InternalLoginUicState.inProgress,
                             validator: widget.passwordValidator ??
-                                (value) => (value?.isEmpty ?? false)
+                                (value) => (value?.isEmpty ?? true)
                                     ? widget.strings.passwordErrorEmpty
                                     : null,
                             onSaved: (newValue) => password = (newValue ?? ''),

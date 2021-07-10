@@ -62,7 +62,7 @@ class ProgressUic extends StatelessWidget {
   final double? size;
 
   /// Text to display near the progress indicator
-  final String text;
+  final String? text;
 
   /// Where the text is located related to progress indicator
   ///
@@ -134,7 +134,7 @@ class ProgressUic extends StatelessWidget {
     final result = <Widget>[];
     if (textLocation == ProgressUicTextLocation.top ||
         textLocation == ProgressUicTextLocation.left) {
-      if (text.isNotEmpty) {
+      if (text?.isNotEmpty ?? false) {
         result.add(_buildText(context));
       }
     }
@@ -147,7 +147,7 @@ class ProgressUic extends StatelessWidget {
     ));
     if (textLocation == ProgressUicTextLocation.bottom ||
         textLocation == ProgressUicTextLocation.right) {
-      if (text.isNotEmpty) {
+      if (text?.isNotEmpty ?? false) {
         result.add(_buildText(context));
       }
     }
@@ -163,7 +163,7 @@ class ProgressUic extends StatelessWidget {
       padding:
           EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
       child: Text(
-        text,
+        text ?? '',
         style: textStyle ?? Theme.of(context).textTheme.headline5,
       ),
     );

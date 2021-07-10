@@ -54,26 +54,26 @@ import 'progress_uic.dart';
 ///
 class ListUic<T> extends StatelessWidget {
   ListUic({
-    Key key,
-    @required this.controller,
-    @required this.itemBuilder,
+    Key? key,
+    required this.controller,
+    required this.itemBuilder,
     this.emptyDataIcon = const Icon(
       Icons.sentiment_dissatisfied,
       size: 96.0,
       color: Colors.black26,
     ),
     this.emptyDataText = 'No results',
-    Widget emptyDataView,
+    Widget? emptyDataView,
     this.emptyErrorIcon = const Icon(
       Icons.error_outline,
       size: 96.0,
       color: Colors.black26,
     ),
     this.emptyErrorText = 'Error loading data',
-    Widget emptyErrorView,
+    Widget? emptyErrorView,
     this.emptyProgressText = 'Loading...',
-    Widget emptyProgressView,
-    Widget nextPageProgressView,
+    Widget? emptyProgressView,
+    Widget? nextPageProgressView,
     this.errorText = 'Error loading data',
     this.errorColor = Colors.redAccent,
   })  : assert(emptyDataView != null || emptyDataText != null),
@@ -160,9 +160,9 @@ class ListUic<T> extends StatelessWidget {
 
   Widget _buildDataView(BuildContext context, _ListUicState state) {
     if (state == _ListUicState.error) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Scaffold.of(context).hideCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(SnackBar(
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(errorText),
           behavior: SnackBarBehavior.floating,
           backgroundColor: errorColor,
@@ -178,7 +178,7 @@ class ListUic<T> extends StatelessWidget {
       });
     }
     if (state == _ListUicState.progressNextPage) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         controller.scrollController.animateTo(
             controller.scrollController.position.maxScrollExtent,
             curve: Curves.linear,
@@ -216,10 +216,10 @@ class ListUic<T> extends StatelessWidget {
 ///
 class ListUicEmptyView extends StatelessWidget {
   const ListUicEmptyView({
-    Key key,
-    @required this.controller,
-    this.icon,
-    this.text,
+    Key? key,
+    required this.controller,
+    required this.icon,
+    required this.text,
   }) : super(key: key);
 
   final ListUicController controller;
@@ -244,7 +244,7 @@ class ListUicEmptyView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: RaisedButton(
+            child: ElevatedButton(
               child: Text('Refresh'),
               onPressed: () => controller.refresh(),
             ),
@@ -264,11 +264,11 @@ class ListUicEmptyView extends StatelessWidget {
 ///
 class ListUicEmptyProgressView extends StatelessWidget {
   const ListUicEmptyProgressView({
-    Key key,
+    Key? key,
     this.text,
   }) : super(key: key);
 
-  final String text;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +287,7 @@ class ListUicEmptyProgressView extends StatelessWidget {
 ///
 class ListUicNextPageProgressView extends StatelessWidget {
   const ListUicNextPageProgressView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -335,12 +335,12 @@ class ListUicNextPageProgressView extends StatelessWidget {
 
 class ListUicController<T> {
   ListUicController({
-    List<T> items,
-    @required this.onGetItems,
+    List<T>? items,
+    required this.onGetItems,
     this.initialLoading = true,
     this.allowPagination = true,
   }) {
-    _items = ValueNotifier(items ?? List());
+    _items = ValueNotifier(items ?? <T>[]);
     _page = 1;
     if (_items.value.isEmpty) {
       if (initialLoading) {
@@ -369,10 +369,10 @@ class ListUicController<T> {
     }
   }
 
-  ValueNotifier<_ListUicState> _state;
+  late final ValueNotifier<_ListUicState> _state;
   ValueNotifier<_ListUicState> get state => _state;
 
-  ValueNotifier<List<T>> _items;
+  late final ValueNotifier<List<T>> _items;
 
   /// Items to show in the list
   ValueNotifier<List<T>> get items => _items;
@@ -387,10 +387,10 @@ class ListUicController<T> {
   /// Defaults to 'true'
   bool allowPagination;
 
-  int _page;
+  late int _page;
 
   /// Callback to load list items by the page
-  Future<List<T>> Function(int) onGetItems;
+  Future<List<T>?> Function(int) onGetItems;
 
   ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
@@ -446,8 +446,7 @@ class ListUicController<T> {
   }
 
   Future<List<T>> _loadItems(int page) async {
-    print('ListUic::_loadItems()');
-    return await onGetItems(page) ?? List();
+    return await onGetItems(page) ?? <T>[];
   }
 }
 
