@@ -29,10 +29,10 @@ import 'package:flutter/material.dart';
 ///
 class InlineTextField extends StatefulWidget {
   InlineTextField({
-    Key key,
+    Key? key,
     this.child,
     this.decoration,
-    @required this.onEditingComplete,
+    required this.onEditingComplete,
     this.style,
     this.styleEditing,
     this.text,
@@ -43,12 +43,12 @@ class InlineTextField extends StatefulWidget {
         super(key: key);
 
   /// A widget to display in view mode
-  final Widget child;
+  final Widget? child;
 
   /// The decoration to show around the text field.
   ///
   /// Defaults to [TextInputType.collapsed]
-  final InputDecoration decoration;
+  final InputDecoration? decoration;
 
   /// Called when the user indicates that they are done editing the text in the field.
   final void Function(String value) onEditingComplete;
@@ -56,15 +56,15 @@ class InlineTextField extends StatefulWidget {
   /// The text style in view mode
   ///
   /// If not specified, the theme's text style is used
-  final TextStyle style;
+  final TextStyle? style;
 
   /// The text style of [TextField] in the editing mode
   ///
   /// If not specified, the theme's text style is used
-  final TextStyle styleEditing;
+  final TextStyle? styleEditing;
 
   /// Initial text value
-  final String text;
+  final String? text;
 
   @override
   _InlineTextFieldState createState() => _InlineTextFieldState();
@@ -73,9 +73,9 @@ class InlineTextField extends StatefulWidget {
 class _InlineTextFieldState extends State<InlineTextField> {
   bool isEditing = false;
 
-  TextEditingController _controller;
+  late TextEditingController _controller;
 
-  String _oldText;
+  String? _oldText;
 
   @override
   void initState() {
@@ -137,7 +137,7 @@ class _InlineTextFieldState extends State<InlineTextField> {
       child: Icon(Icons.close, size: 24.0),
       onTap: () {
         setState(() {
-          _controller.text = _oldText;
+          _controller.text = _oldText ?? '';
           isEditing = false;
         });
       },
