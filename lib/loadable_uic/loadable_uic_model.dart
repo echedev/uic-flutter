@@ -14,10 +14,10 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
 
   StatefulData.watch({
     this.isEmpty = _defaultIsEmpty,
-    required Stream<T> Function() onLoad,
+    required Stream<T> Function() watcher,
   }) : super(_StatefulDataValue<T>()) {
     _loader = null;
-    _watcher = onLoad;
+    _watcher = watcher;
     loadData();
   }
 
