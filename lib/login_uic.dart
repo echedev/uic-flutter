@@ -29,10 +29,10 @@ import 'widgets.dart';
 ///
 class LoginUic extends StatefulWidget {
   LoginUic({
-    Key key,
+    Key? key,
     this.errorTextStyle,
     this.inputDecoration,
-    @required this.onSignIn,
+    required this.onSignIn,
     this.onSignInCompleted,
     this.passwordValidator,
     this.signInProgressView,
@@ -50,35 +50,35 @@ class LoginUic extends StatefulWidget {
   ///
   /// The current [BuildContext]  is provided, which can be used to navigate to
   /// another screen.
-  final void Function(BuildContext context) onSignInCompleted;
+  final void Function(BuildContext context)? onSignInCompleted;
 
   /// A function that validates user's password
   ///
   /// The default validator checks if the user entered non-empty value.
   /// If the 'Password' field is empty, the [LoginUicStrings.passwordErrorEmpty]
   /// message is displayed.
-  final String Function(String) passwordValidator;
+  final String Function(String?)? passwordValidator;
 
   /// A custom view to show on the 'Sign In' button, while the signing in is
   /// is performed.
   ///
   /// Defaults to [CircularProgressIndicator]
-  final Widget signInProgressView;
+  final Widget? signInProgressView;
 
   /// A theme, which is used to display a Login form
   ///
   /// When it is omitted, the current theme is used.
-  final ThemeData theme;
+  final ThemeData? theme;
 
   /// Decoration of the 'Username' and 'Password' text fields.
   ///
   /// Defaults to current theme.
-  final InputDecoration inputDecoration;
+  final InputDecoration? inputDecoration;
 
   /// A style of error messages in the 'Username' and 'Password' text fields.
   ///
   /// Defaults to current theme.
-  final TextStyle errorTextStyle;
+  final TextStyle? errorTextStyle;
 
   /// A set of strings that are used in the Login form.
   ///
@@ -92,7 +92,7 @@ class LoginUic extends StatefulWidget {
   /// The default validator checks if the user entered non-empty value.
   /// If the 'Username' field is empty, the [LoginUicStrings.usernameErrorEmpty]
   /// message is displayed.
-  final String Function(String) usernameValidator;
+  final String Function(String?)? usernameValidator;
 
   @override
   _LoginUicState createState() => _LoginUicState();
@@ -101,7 +101,7 @@ class LoginUic extends StatefulWidget {
 class _LoginUicState extends State<LoginUic> {
   final _formKey = GlobalKey<FormState>();
 
-  String _error;
+  String _error = '';
 
   final ValueNotifier<_InternalLoginUicState> _state =
       ValueNotifier(_InternalLoginUicState.ready);
@@ -119,8 +119,8 @@ class _LoginUicState extends State<LoginUic> {
   @override
   Widget build(BuildContext context) {
     ThemeData eventualTheme = widget.theme ?? Theme.of(context);
-    TextStyle eventualErrorTextStyle = widget.errorTextStyle ??
-        eventualTheme.textTheme.bodyText2.copyWith(color: Colors.redAccent);
+    TextStyle? eventualErrorTextStyle = widget.errorTextStyle ??
+        eventualTheme.textTheme.bodyText2?.copyWith(color: Colors.redAccent);
     InputDecoration usernameDecoration = widget.inputDecoration?.copyWith(
           labelText: widget.strings.usernameLabel,
           hintText: widget.strings.usernameHint,
@@ -151,13 +151,13 @@ class _LoginUicState extends State<LoginUic> {
               Consumer<ValueNotifier<_InternalLoginUicState>>(
                 builder: (context, state, child) {
                   if (state.value == _InternalLoginUicState.success) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                    WidgetsBinding.instance?.addPostFrameCallback((_) {
                       _state.value = _InternalLoginUicState.ready;
-                      widget.onSignInCompleted(context);
+                      widget.onSignInCompleted?.call(context);
                     });
                   } else if (state.value ==
                       _InternalLoginUicState.validationError) {
-                    _formKey.currentState.validate();
+                    _formKey.currentState?.validate();
                   }
                   return Form(
                     key: _formKey,
@@ -182,10 +182,10 @@ class _LoginUicState extends State<LoginUic> {
                             enabled: state.value !=
                                 _InternalLoginUicState.inProgress,
                             validator: widget.usernameValidator ??
-                                (value) => value.isEmpty
+                                (value) => (value?.isEmpty ?? false)
                                     ? widget.strings.usernameErrorEmpty
                                     : null,
-                            onSaved: (newValue) => username = newValue,
+                            onSaved: (newValue) => username = (newValue ?? ''),
                           ),
                         ),
                         Padding(
@@ -196,10 +196,10 @@ class _LoginUicState extends State<LoginUic> {
                             enabled: state.value !=
                                 _InternalLoginUicState.inProgress,
                             validator: widget.passwordValidator ??
-                                (value) => value.isEmpty
+                                (value) => (value?.isEmpty ?? false)
                                     ? widget.strings.passwordErrorEmpty
                                     : null,
-                            onSaved: (newValue) => password = newValue,
+                            onSaved: (newValue) => password = (newValue ?? ''),
                             obscureText: true,
                           ),
                         ),
@@ -211,7 +211,7 @@ class _LoginUicState extends State<LoginUic> {
               ActionButton(
                 action: () async {
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState?.validate() ?? false) {
                     await widget.onSignIn(username, password);
                   } else {
                     await Future.error(_InternalLoginUicState.validationError);
