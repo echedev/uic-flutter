@@ -26,7 +26,7 @@ import 'package:flutter/material.dart';
 ///
 class CheckboxUic extends StatefulWidget {
   CheckboxUic({
-    Key key,
+    Key? key,
     this.initialValue = false,
     this.title = '',
     this.titleUnchecked,
@@ -55,48 +55,48 @@ class CheckboxUic extends StatefulWidget {
   final String title;
 
   /// Optional title text for unchecked state
-  final String titleUnchecked;
+  final String? titleUnchecked;
 
   /// Style of the title text
-  final TextStyle titleTextStyle;
+  final TextStyle? titleTextStyle;
 
   /// Optional description text
   ///
   /// If defined, it is displayed below the title
-  final String description;
+  final String? description;
 
   /// Optional description text for unchecked state
   ///
   /// If defined, it is displayed below the title
-  final String descriptionUnchecked;
+  final String? descriptionUnchecked;
 
   /// Style of description text
-  final TextStyle descriptionTextStyle;
+  final TextStyle? descriptionTextStyle;
 
   /// Widget to display in the description area
-  final Widget descriptionView;
+  final Widget? descriptionView;
 
   /// Widget to display in the description area for unchecked state
-  final Widget descriptionViewUnchecked;
+  final Widget? descriptionViewUnchecked;
 
   /// A callback function that is called when the check box state is changed
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool?>? onChanged;
 
   //
 
-  final Color activeColor;
+  final Color? activeColor;
 
-  final Color checkColor;
+  final Color? checkColor;
 
   final bool tristate;
 
-  final MaterialTapTargetSize materialTapTargetSize;
+  final MaterialTapTargetSize? materialTapTargetSize;
 
-  final Color focusColor;
+  final Color? focusColor;
 
-  final Color hoverColor;
+  final Color? hoverColor;
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   final bool autofocus;
 
@@ -105,7 +105,7 @@ class CheckboxUic extends StatefulWidget {
 }
 
 class _CheckboxUicState extends State<CheckboxUic> {
-  bool _value;
+  bool? _value;
 
   @override
   void initState() {
@@ -115,10 +115,10 @@ class _CheckboxUicState extends State<CheckboxUic> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle eventualTitleTextStyle =
+    TextStyle? eventualTitleTextStyle =
         widget.titleTextStyle ?? Theme.of(context).textTheme.subtitle2;
     if (widget.onChanged == null) {
-      eventualTitleTextStyle = eventualTitleTextStyle.copyWith(
+      eventualTitleTextStyle = eventualTitleTextStyle?.copyWith(
         color: Theme.of(context).disabledColor,
       );
     }
@@ -133,7 +133,7 @@ class _CheckboxUicState extends State<CheckboxUic> {
               onChanged: widget.onChanged == null
                   ? null
                   : (value) {
-                      widget.onChanged(value);
+                      widget.onChanged!(value);
                       setState(() {
                         _value = value;
                       });
@@ -149,7 +149,7 @@ class _CheckboxUicState extends State<CheckboxUic> {
               autofocus: widget.autofocus,
             ),
             Text(
-              _value ? widget.title : widget.titleUnchecked ?? widget.title,
+              (_value ?? false) ? widget.title : widget.titleUnchecked ?? widget.title,
               style: eventualTitleTextStyle,
             ),
           ],
@@ -158,9 +158,9 @@ class _CheckboxUicState extends State<CheckboxUic> {
           Padding(
             padding: const EdgeInsets.only(left: 48.0),
             child: Text(
-              _value
-                  ? widget.description
-                  : widget.descriptionUnchecked ?? widget.description,
+              (_value ?? false)
+                  ? widget.description ?? ''
+                  : widget.descriptionUnchecked ?? widget.description ?? '',
               textAlign: TextAlign.start,
               style: widget.descriptionTextStyle ??
                   Theme.of(context).textTheme.caption,
@@ -169,7 +169,7 @@ class _CheckboxUicState extends State<CheckboxUic> {
         if (widget.descriptionView != null)
           Padding(
             padding: const EdgeInsets.only(left: 48.0),
-            child: _value
+            child: (_value ?? false)
                 ? widget.descriptionView
                 : widget.descriptionViewUnchecked ?? widget.descriptionView,
           ),
