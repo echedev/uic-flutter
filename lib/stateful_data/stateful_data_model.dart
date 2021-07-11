@@ -4,30 +4,30 @@ import 'package:flutter/foundation.dart';
 
 class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
   StatefulData({
-    this.isEmpty = _defaultIsEmpty,
-    required Future<T> Function() loader,
+    this.isEmptyValidator = _defaultIsEmptyValidator,
+    required Future<T?> Function() loader,
   }) : super(_StatefulDataValue<T>()) {
     _loader = loader;
-    _watcher = null;
+    _source = null;
     loadData();
   }
 
   StatefulData.watch({
-    this.isEmpty = _defaultIsEmpty,
-    required Stream<T> Function() watcher,
+    this.isEmptyValidator = _defaultIsEmptyValidator,
+    required Stream<T?> Function() source,
   }) : super(_StatefulDataValue<T>()) {
     _loader = null;
-    _watcher = watcher;
+    _source = source;
     loadData();
   }
 
-  static bool _defaultIsEmpty(dynamic data) => data == null;
+  static bool _defaultIsEmptyValidator(dynamic data) => data == null;
 
-  bool Function(T? data)? isEmpty;
+  bool Function(T? data) isEmptyValidator;
 
-  Future<T> Function()? _loader;
+  Future<T?> Function()? _loader;
 
-  Stream<T> Function()? _watcher;
+  Stream<T?> Function()? _source;
 
   StreamSubscription? _subscription;
 
@@ -46,14 +46,14 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
 
   StatefulDataState get state {
     if (value.isLoading) {
-      if (isEmpty?.call(data) ?? true) {
+      if (isEmptyValidator.call(data)) {
         return StatefulDataState.initialLoading;
       } else {
         return StatefulDataState.loading;
       }
     } else {
       if (value.error == null) {
-        if (isEmpty?.call(data) ?? true) {
+        if (isEmptyValidator.call(data)) {
           return StatefulDataState.empty;
         } else {
           return StatefulDataState.ready;
@@ -75,27 +75,33 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
     try {
       // One-time data loading
       if (_loader != null) {
-        T result = await _loader!();
+        T? result = await _loader!();
         value = value.copyWith(
           data: result,
           isLoading: false,
         );
       }
       // Watching on data changes
-      else if (_watcher != null) {
-        _subscription = _watcher!().listen((result) {
-          value = value.copyWith(
-            data: result,
-            isLoading: false,
-          );
-        },
-        onError: () {
-          value = value.copyWith(
-            error: StatefulDataError(message: 'Unexpected error while watching the data'),
-            isLoading: false,
-          );
-        },
-        cancelOnError: false,);
+      else if (_source != null) {
+        await _subscription?.cancel();
+        _subscription = _source!().listen(
+          (result) {
+            value = value.copyWith(
+              data: result,
+              isLoading: false,
+            );
+          },
+          onError: (error) {
+            value = value.copyWith(
+              error: StatefulDataError(
+                message: 'Unexpected error while watching the data',
+                originalError: error,
+              ),
+              isLoading: false,
+            );
+          },
+          cancelOnError: false,
+        );
       }
       else {
         // We should not hit this branch.

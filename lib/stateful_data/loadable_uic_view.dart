@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uic/loadable_uic/loadable_uic.dart';
+
+import 'package:uic/stateful_data/loadable_uic.dart';
 import '../progress_uic.dart';
 
 class LoadableUic<T> extends StatelessWidget {
   LoadableUic({
-    Key key,
-    @required this.builder,
+    Key? key,
+    required this.builder,
     this.emptyView,
     this.errorBuilder,
     this.initialLoadingView,
     this.initialLoadingErrorView,
-    @required this.loadableData,
+    required this.loadableData,
     this.loadingView,
   }) : super(key: key);
 
   final Widget Function(BuildContext context, T data) builder;
 
-  final Widget emptyView;
+  final Widget? emptyView;
 
-  final Widget Function(BuildContext context, T data, StatefulDataError error)
+  final Widget Function(BuildContext context, T? data, StatefulDataError? error)?
       errorBuilder;
 
-  final Widget initialLoadingView;
+  final Widget? initialLoadingView;
 
-  final Widget initialLoadingErrorView;
+  final Widget? initialLoadingErrorView;
 
   final StatefulData<T> loadableData;
 
-  final Widget loadingView;
+  final Widget? loadingView;
 
   @override
   Widget build(BuildContext context) {
@@ -56,35 +57,35 @@ class LoadableUic<T> extends StatelessWidget {
                     loadableData: loadableData,
                   );
             case StatefulDataState.ready:
-              return builder(context, loadableData.data);
+              return builder(context, loadableData.data!);
             case StatefulDataState.loading:
               return loadingView ??
                   LoadableUicViews.of(context)?.loading ??
                   LoadableUicLoadingView(
-                    child: builder(context, loadableData.data),
+                    child: loadableData.data == null ? SizedBox.shrink() : builder(context, loadableData.data!),
                   );
             case StatefulDataState.error:
               if (errorBuilder != null) {
-                return errorBuilder(
+                return errorBuilder!(
                     context, loadableData.data, loadableData.error);
               } else {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(loadableData.error.message),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.redAccent,
-                  ));
-//                  ScaffoldMessenger.of(context)
-//                    ..hideCurrentSnackBar()
-//                    ..showSnackBar(SnackBar(
-//                      content: Text(loadableData.error.message),
-//                      behavior: SnackBarBehavior.floating,
-//                      backgroundColor: Colors.redAccent,
-//                    ) // SnackBar
-//                        );
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //   content: Text(loadableData.error?.message ?? ''),
+                  //   behavior: SnackBarBehavior.floating,
+                  //   backgroundColor: Colors.redAccent,
+                  // ));
+                 ScaffoldMessenger.of(context)
+                   ..hideCurrentSnackBar()
+                   ..showSnackBar(SnackBar(
+                     content: Text(loadableData.error?.message ?? ''),
+                     behavior: SnackBarBehavior.floating,
+                     backgroundColor: Colors.redAccent,
+                   ) // SnackBar
+                       );
                 });
-                return builder(context, loadableData.data);
+                return loadableData.data == null ? SizedBox.shrink() : builder(context, loadableData.data!);
               }
           }
           return Container();
@@ -96,34 +97,35 @@ class LoadableUic<T> extends StatelessWidget {
 
 class LoadableUicViews extends InheritedWidget {
   LoadableUicViews({
-    Key key,
+    Key? key,
     this.empty,
     this.initialLoading,
     this.initialLoadingError,
     this.loading,
-    @required Widget child,
+    required Widget child,
   }) : super(child: child);
+  // TODO: Add assert if no views are defined
 
-  final Widget empty;
+  final Widget? empty;
 
-  final Widget initialLoading;
+  final Widget? initialLoading;
 
-  final Widget initialLoadingError;
+  final Widget? initialLoadingError;
 
-  final Widget loading;
+  final Widget? loading;
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => false;
 
-  static LoadableUicViews of(BuildContext context) {
+  static LoadableUicViews? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<LoadableUicViews>();
   }
 }
 
 class LoadableUicEmptyView extends StatelessWidget {
   LoadableUicEmptyView({
-    Key key,
-    @required this.loadableData,
+    Key? key,
+    required this.loadableData,
   }) : super(key: key);
 
   final StatefulData loadableData;
@@ -149,7 +151,7 @@ class LoadableUicEmptyView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: RaisedButton(
+            child: ElevatedButton(
               child: Text('Try again'),
               onPressed: () => loadableData.loadData(),
             ),
@@ -162,11 +164,11 @@ class LoadableUicEmptyView extends StatelessWidget {
 
 class LoadableUicInitialLoadingView extends StatelessWidget {
   LoadableUicInitialLoadingView({
-    Key key,
+    Key? key,
     this.text,
   }) : super(key: key);
 
-  final String text;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +180,8 @@ class LoadableUicInitialLoadingView extends StatelessWidget {
 
 class LoadableUicInitialLoadingErrorView extends StatelessWidget {
   LoadableUicInitialLoadingErrorView({
-    Key key,
-    @required this.loadableData,
+    Key? key,
+    required this.loadableData,
   }) : super(key: key);
 
   final StatefulData loadableData;
@@ -199,7 +201,7 @@ class LoadableUicInitialLoadingErrorView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
-              loadableData.error.message,
+              loadableData.error?.message ?? '',
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
@@ -218,8 +220,8 @@ class LoadableUicInitialLoadingErrorView extends StatelessWidget {
 
 class LoadableUicLoadingView extends StatelessWidget {
   LoadableUicLoadingView({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   final Widget child;

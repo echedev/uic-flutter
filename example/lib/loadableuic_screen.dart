@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uic/loadable_uic/loadable_uic.dart';
+import 'package:uic/stateful_data//loadable_uic.dart';
 
 class LoadableUicScreen  extends StatefulWidget {
   LoadableUicScreen({Key key}) : super(key: key);
@@ -45,7 +45,7 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text('Reload'),
                     onPressed: () => _data.loadData(),
                   ),
