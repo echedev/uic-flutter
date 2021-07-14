@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:uic/stateful_data/loadable_uic.dart';
+import 'package:uic/stateful_data/stateful_data.dart';
 import '../progress_uic.dart';
 
 class LoadableUic<T> extends StatelessWidget {
