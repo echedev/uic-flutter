@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
+class StatefulData<T> extends ValueNotifier<StatefulDataValue<T>> {
   StatefulData({
     this.isEmptyValidator = _defaultIsEmptyValidator,
     required Future<T?> Function() loader,
-  }) : super(_StatefulDataValue<T>()) {
+  }) : super(StatefulDataValue<T>()) {
     _loader = loader;
     _source = null;
     loadData();
@@ -15,7 +15,7 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
   StatefulData.watch({
     this.isEmptyValidator = _defaultIsEmptyValidator,
     required Stream<T?> Function() source,
-  }) : super(_StatefulDataValue<T>()) {
+  }) : super(StatefulDataValue<T>()) {
     _loader = null;
     _source = source;
     loadData();
@@ -25,9 +25,9 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
 
   bool Function(T? data) isEmptyValidator;
 
-  Future<T?> Function()? _loader;
+  late final Future<T?> Function()? _loader;
 
-  Stream<T?> Function()? _source;
+  late final Stream<T?> Function()? _source;
 
   StreamSubscription? _subscription;
 
@@ -36,13 +36,6 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
   StatefulDataError? get error => value.error;
 
   bool get isLoading => value.isLoading;
-
-
-  @override
-  void dispose() {
-    _subscription?.cancel();
-    super.dispose();
-  }
 
   StatefulDataState get state {
     if (value.isLoading) {
@@ -66,6 +59,13 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
         }
       }
     }
+  }
+
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   Future<void> loadData() async {
@@ -117,8 +117,8 @@ class StatefulData<T> extends ValueNotifier<_StatefulDataValue<T>> {
   }
 }
 
-class _StatefulDataValue<T> {
-  _StatefulDataValue({
+class StatefulDataValue<T> {
+  StatefulDataValue({
     this.data,
     this.error,
     this.isLoading = true,
@@ -130,12 +130,12 @@ class _StatefulDataValue<T> {
 
   bool isLoading;
 
-  _StatefulDataValue<T> copyWith({
+  StatefulDataValue<T> copyWith({
     T? data,
     StatefulDataError? error,
     bool? isLoading,
   }) {
-    return _StatefulDataValue<T>(
+    return StatefulDataValue<T>(
       data: data ?? this.data,
       error: (isLoading ?? true) ? null : (error ?? this.error),
       isLoading: isLoading ?? this.isLoading,

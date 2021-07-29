@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:uic/stateful_data//loadable_uic.dart';
+import 'package:uic/stateful_data/stateful_data.dart';
 
-class LoadableUicScreen  extends StatefulWidget {
-  LoadableUicScreen({Key key}) : super(key: key);
+class UicStatefulDataViewScreen  extends StatefulWidget {
+  UicStatefulDataViewScreen({Key key}) : super(key: key);
 
   @override
-  _LoadableUicScreenState createState() => _LoadableUicScreenState();
+  _UicStatefulDataViewScreenState createState() => _UicStatefulDataViewScreenState();
 }
 
-class _LoadableUicScreenState extends State<LoadableUicScreen> {
+class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
   StatefulData<ExampleData> _data;
 
@@ -30,7 +30,7 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
         title: Text('LoadableUic Demo'),
       ),
       body: LoadableUic<ExampleData>(
-        loadableData: _data,
+        statefulData: _data,
         builder: (context, data) {
           return Center(
             child: Column(

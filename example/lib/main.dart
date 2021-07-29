@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
 
 import 'listuic_screen.dart';
-import 'loadableuic_screen.dart';
+import 'stateful_data_view_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 import 'progressuic_screen.dart';
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onTap: () {
                         Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoadableUicScreen()),);
+                          MaterialPageRoute(builder: (context) => UicStatefulDataViewScreen()),);
                       },
                     ),
                   ),
