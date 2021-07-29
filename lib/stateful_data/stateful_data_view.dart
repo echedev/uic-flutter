@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import '../progress_uic.dart';
 
 import 'package:uic/stateful_data/stateful_data.dart';
-import '../progress_uic.dart';
 
 class UicStatefulDataView<T> extends StatelessWidget {
   UicStatefulDataView({
@@ -89,11 +89,6 @@ class UicStatefulDataView<T> extends StatelessWidget {
             return SizedBox.shrink();
         }
       },
-      child: Consumer<StatefulData<T>>(
-        builder: (context, loadableData, child) {
-          return Container();
-        },
-      ),
     );
   }
 }
