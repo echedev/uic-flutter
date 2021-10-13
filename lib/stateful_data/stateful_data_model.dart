@@ -21,7 +21,7 @@ class StatefulData<T> extends ValueNotifier<StatefulDataValue<T>> {
     loadData();
   }
 
-  static bool _defaultIsEmptyValidator(dynamic data) => data == null;
+  static bool _defaultIsEmptyValidator(Object? data) => data == null;
 
   bool Function(T? data) isEmptyValidator;
 

@@ -29,7 +29,7 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
       appBar: AppBar(
         title: Text('LoadableUic Demo'),
       ),
-      body: LoadableUic<ExampleData>(
+      body: UicStatefulDataView<ExampleData>(
         statefulData: _data,
         builder: (context, data) {
           return Center(
