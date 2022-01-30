@@ -4,7 +4,7 @@ import '../progress_uic.dart';
 
 import 'package:uic/stateful_data/stateful_data.dart';
 
-class UicStatefulDataView<T> extends StatelessWidget {
+class UicStatefulDataView<T> extends StatefulWidget {
   UicStatefulDataView({
     Key? key,
     required this.statefulData,
@@ -31,65 +31,90 @@ class UicStatefulDataView<T> extends StatelessWidget {
   final Widget? loadingView;
 
   @override
+  _UicStatefulDataViewState<T> createState() => _UicStatefulDataViewState<T>();
+}
+
+class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
+  @override
+  void initState() {
+    super.initState();
+    widget.statefulData.addListener(_onStatefulDataChanged);
+  }
+
+  @override
+  void didUpdateWidget(UicStatefulDataView<T> oldWidget) {
+    if (widget.statefulData != oldWidget.statefulData) {
+      oldWidget.statefulData.removeListener(_onStatefulDataChanged);
+      widget.statefulData.addListener(_onStatefulDataChanged);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    widget.statefulData.removeListener(_onStatefulDataChanged);
+    super.dispose();
+  }
+
+  void _onStatefulDataChanged() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<StatefulDataValue<T>>(
-      valueListenable: statefulData,
-      builder: (context, value, child) {
-        switch (statefulData.state) {
-          case StatefulDataState.initialLoading:
-            return initialLoadingView ??
-                UicStatefulDataDefaultViews.of(context)?.initialLoading ??
-                UicStatefulDataInitialLoadingView(
-                  text: 'Loading...',
-                );
-          case StatefulDataState.initialLoadingError:
-            return initialLoadingErrorView ??
-                UicStatefulDataDefaultViews.of(context)?.initialLoadingError ??
-                UicStatefulDataInitialLoadingErrorView(
-                  statefulData: statefulData,
-                );
-          case StatefulDataState.empty:
-            return emptyView ??
-                UicStatefulDataDefaultViews.of(context)?.empty ??
-                UicStatefulDataEmptyView(
-                  statefulData: statefulData,
-                );
-          case StatefulDataState.ready:
-            return builder(context, value.data!);
-          case StatefulDataState.loading:
-            return loadingView ??
-                UicStatefulDataDefaultViews.of(context)?.loading ??
-                UicStatefulDataLoadingView(
-                  child: value.data == null ? SizedBox.shrink() : builder(context, value.data!),
-                );
-          case StatefulDataState.error:
-            if (errorBuilder != null) {
-              return errorBuilder!(
-                  context, value.data, value.error);
-            } else {
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
-                // ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   content: Text(loadableData.error?.message ?? ''),
-                //   behavior: SnackBarBehavior.floating,
-                //   backgroundColor: Colors.redAccent,
-                // ));
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                    content: Text(value.error?.message ?? ''),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.redAccent,
-                  ) // SnackBar
-                  );
-              });
-              return value.data == null ? SizedBox.shrink() : builder(context, value.data!);
-            }
-          default:
-            return SizedBox.shrink();
+    switch (widget.statefulData.state) {
+      case StatefulDataState.initialLoading:
+        return widget.initialLoadingView ??
+            UicStatefulDataDefaultViews.of(context)?.initialLoading ??
+            UicStatefulDataInitialLoadingView(
+              text: 'Loading...',
+            );
+      case StatefulDataState.initialLoadingError:
+        return widget.initialLoadingErrorView ??
+            UicStatefulDataDefaultViews.of(context)?.initialLoadingError ??
+            UicStatefulDataInitialLoadingErrorView(
+              statefulData: widget.statefulData,
+            );
+      case StatefulDataState.empty:
+        return widget.emptyView ??
+            UicStatefulDataDefaultViews.of(context)?.empty ??
+            UicStatefulDataEmptyView(
+              statefulData: widget.statefulData,
+            );
+      case StatefulDataState.ready:
+        return widget.builder(context, widget.statefulData.data!);
+      case StatefulDataState.loading:
+        return widget.loadingView ??
+            UicStatefulDataDefaultViews.of(context)?.loading ??
+            UicStatefulDataLoadingView(
+              child: widget.statefulData.data == null ? SizedBox.shrink() : widget.builder(context, widget.statefulData.data!),
+            );
+      case StatefulDataState.error:
+        if (widget.errorBuilder != null) {
+          return widget.errorBuilder!(
+              context, widget.statefulData.data, widget.statefulData.error);
+        } else {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
+            // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //   content: Text(loadableData.error?.message ?? ''),
+            //   behavior: SnackBarBehavior.floating,
+            //   backgroundColor: Colors.redAccent,
+            // ));
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text(widget.statefulData.error?.message ?? ''),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.redAccent,
+              ) // SnackBar
+              );
+          });
+          return widget.statefulData.data == null ? SizedBox.shrink() : widget.builder(context, widget.statefulData.data!);
         }
-      },
-    );
+      default:
+        return SizedBox.shrink();
+    }
   }
 }
 
