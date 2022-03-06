@@ -1,7 +1,7 @@
-## \[0.9.0\] - 2022-03-06
+## \[0.9.1\] - 2022-03-06
 
-- Added `LoginUic` component
-- Minor fixes
+- Added `StatefulData/StatefulDataView` component
+- Migration to null safety
 
 ## \[0.8.0\] - 2020-03-03
 
