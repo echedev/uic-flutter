@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:uic/loadable_uic/loadable_uic.dart';
+import 'package:uic/stateful_data/stateful_data.dart';
 
-class LoadableUicScreen  extends StatefulWidget {
-  LoadableUicScreen({Key key}) : super(key: key);
+class UicStatefulDataViewScreen  extends StatefulWidget {
+  UicStatefulDataViewScreen({Key key}) : super(key: key);
 
   @override
-  _LoadableUicScreenState createState() => _LoadableUicScreenState();
+  _UicStatefulDataViewScreenState createState() => _UicStatefulDataViewScreenState();
 }
 
-class _LoadableUicScreenState extends State<LoadableUicScreen> {
+class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
-  LoadableData<ExampleData> _data;
+  StatefulData<ExampleData> _data;
 
   int _loadingAttempts = 0;
 
   @override
   void initState() {
     super.initState();
-    _data = LoadableData<ExampleData>(
+    _data = StatefulData<ExampleData>(
 //      isEmpty: (data) => true,
-      onLoad: _loadData,
+      loader: _loadData,
     );
   }
 
@@ -29,8 +29,8 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
       appBar: AppBar(
         title: Text('LoadableUic Demo'),
       ),
-      body: LoadableUic<ExampleData>(
-        loadableData: _data,
+      body: UicStatefulDataView<ExampleData>(
+        statefulData: _data,
         builder: (context, data) {
           return Center(
             child: Column(
@@ -45,7 +45,7 @@ class _LoadableUicScreenState extends State<LoadableUicScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text('Reload'),
                     onPressed: () => _data.loadData(),
                   ),

@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
 
 import 'listuic_screen.dart';
-import 'loadableuic_screen.dart';
+import 'stateful_data_view_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
 import 'progressuic_screen.dart';
@@ -22,8 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'UIC Demo',
       theme: Theme.of(context).copyWith(
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: Colors.blueGrey,
+              secondary: Colors.amber,
+            ),
         primaryColor: Colors.blueGrey,
-        accentColor: Colors.amber,
         toggleableActiveColor: Colors.amber,
         dividerColor: Colors.transparent,
       ),
@@ -58,9 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
           bottom: TabBar(
-            indicatorColor: Theme.of(context).accentColor,
+            indicatorColor: Theme.of(context).colorScheme.secondary,
             tabs: [
-              Tab(text: 'Components',),
+              Tab(
+                text: 'Components',
+              ),
               Tab(text: 'Widgets'),
             ],
           ),
@@ -73,32 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Card(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('ListUic',
-                        style: GoogleFonts.robotoMono(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.lightBlueAccent,
-                      ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('Wrapper of ListView, which implements related data '
-                            'loading and state management logic.',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ListUicScreen(title: 'ListUic Demo')),);
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('LoadableUic',
+                      contentPadding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        'ListUic',
                         style: GoogleFonts.robotoMono(
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlueAccent,
@@ -106,23 +88,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('A widget to display a data that should be loaded. '
-                            'Incapsulate data loading flow and automatically refreshes when data is changed.',
+                        child: Text(
+                          'Wrapper of ListView, which implements related data '
+                          'loading and state management logic.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black54,
-                          ),
+                                color: Colors.black54,
+                              ),
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoadableUicScreen()),);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ListUicScreen(title: 'ListUic Demo')),
+                        );
                       },
                     ),
                   ),
                   Card(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('LoginUic',
+                      contentPadding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        'StatefulData and StatefulDataView',
                         style: GoogleFonts.robotoMono(
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlueAccent,
@@ -130,22 +119,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.',
+                        child: Text(
+                          'A widget to display a data and views related to the data loading state. '
+                          'StatefulData is an observable data model, that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
+                          'StatefulDataView listens the data state and displays the data when it is ready, or loading or error views on corresponding data states.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black54,
-                          ),
+                                color: Colors.black54,
+                              ),
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginUicScreen(title: 'LoginUic Demo')),);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  UicStatefulDataViewScreen()),
+                        );
                       },
                     ),
                   ),
                   Card(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('CheckboxUic',
+                      contentPadding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        'LoginUic',
                         style: GoogleFonts.robotoMono(
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlueAccent,
@@ -153,24 +151,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('Enhanced checkbox that maintain its state, has a'
-                            'title and can show additional description in each state.',
+                        child: Text(
+                          'A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black54,
-                          ),
+                                color: Colors.black54,
+                              ),
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>
-                              CheckboxUicScreen(title: 'CheckboxUic Demo')),);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LoginUicScreen(title: 'LoginUic Demo')),
+                        );
                       },
                     ),
                   ),
                   Card(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text('ProgressUic',
+                      contentPadding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        'CheckboxUic',
                         style: GoogleFonts.robotoMono(
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlueAccent,
@@ -178,14 +181,49 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Text('Use it either as an individual progress indicator '
+                        child: Text(
+                          'Enhanced checkbox that maintain its state, has a'
+                          'title and can show additional description in each state.',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Colors.black54,
+                              ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CheckboxUicScreen(title: 'CheckboxUic Demo')),
+                        );
+                      },
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        'ProgressUic',
+                        style: GoogleFonts.robotoMono(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                            'Use it either as an individual progress indicator '
                             'with additional customizable features, or as a wrapper '
                             'of content view that can be in progress state.'),
                       ),
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>
-                              ProgressUicScreen(title: 'ProgressUic Demo')),);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProgressUicScreen(title: 'ProgressUic Demo')),
+                        );
                       },
                     ),
                   ),
@@ -195,9 +233,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
                       child: ExpansionTile(
-                        title: Text('ActionButton',
+                        title: Text(
+                          'ActionButton',
                           style: GoogleFonts.robotoMono(
                             fontWeight: FontWeight.bold,
                             color: Colors.lightBlueAccent,
@@ -205,12 +247,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('A wrapper on button, that manages an action state, '
-                              'and allows to lock the button and to change its appearance '
-                              'while the action is in progress.',
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black54,
-                            ),
+                          child: Text(
+                            'A wrapper on button, that manages an action state, '
+                            'and allows to lock the button and to change its appearance '
+                            'while the action is in progress.',
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.black54,
+                                    ),
                           ),
                         ),
                         children: [
@@ -221,9 +265,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
                       child: ExpansionTile(
-                        title: Text('Deck',
+                        title: Text(
+                          'Deck',
                           style: GoogleFonts.robotoMono(
                             fontWeight: FontWeight.bold,
                             color: Colors.lightBlueAccent,
@@ -231,11 +279,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Displays stacked cards where only headers visible initially, '
-                                      'and allows to expand each card',
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black54,
-                            ),
+                          child: Text(
+                            'Displays stacked cards where only headers visible initially, '
+                            'and allows to expand each card',
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.black54,
+                                    ),
                           ),
                         ),
                         children: [
@@ -246,9 +296,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
                       child: ExpansionTile(
-                        title: Text('InlineTextField',
+                        title: Text(
+                          'InlineTextField',
                           style: GoogleFonts.robotoMono(
                             fontWeight: FontWeight.bold,
                             color: Colors.lightBlueAccent,
@@ -256,11 +310,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Makes Text widget editable. Double tap on the text '
+                          child: Text(
+                            'Makes Text widget editable. Double tap on the text '
                             'will show inline input text field instead of static text.',
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black54,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.black54,
+                                    ),
                           ),
                         ),
                         children: [
@@ -271,9 +327,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text('You can '),
                                 InlineTextField(
                                   text: 'edit me',
-                                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                                    color: Colors.lightBlueAccent,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .copyWith(
+                                        color: Colors.lightBlueAccent,
+                                      ),
 /*
 * Check the commented parameters below to learn available customization options
 */
@@ -293,8 +352,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //                                  decoration: InputDecoration()
 //                                    ..applyDefaults(Theme.of(context).inputDecorationTheme),
                                   onEditingComplete: (value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      backgroundColor: Theme.of(context).accentColor,
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       content: Text(value),
                                     ));
                                   },
@@ -309,9 +371,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, ),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
                       child: ExpansionTile(
-                        title: Text('StepIndicator',
+                        title: Text(
+                          'StepIndicator',
                           style: GoogleFonts.robotoMono(
                             fontWeight: FontWeight.bold,
                             color: Colors.lightBlueAccent,
@@ -319,10 +385,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Simple, but highly customizable steps (or pages) indicator',
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black54,
-                            ),
+                          child: Text(
+                            'Simple, but highly customizable steps (or pages) indicator',
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.black54,
+                                    ),
                           ),
                         ),
                         children: [

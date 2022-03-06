@@ -19,11 +19,11 @@ import 'package:flutter/material.dart';
 ///
 class Deck extends StatefulWidget {
   Deck({
-    Key key,
+    Key? key,
     this.collapsedSize = 48.0,
     this.collapseOnTap = true,
     this.expandedSize,
-    @required this.items,
+    required this.items,
     this.mainAxisSize,
   }) : super(key: key);
 
@@ -37,7 +37,7 @@ class Deck extends StatefulWidget {
   /// The size of child widget in the expanded state.
   ///
   /// By default, it is calculated based on items number and total widget size.
-  final double expandedSize;
+  final double? expandedSize;
 
   /// The list of [DeckItem] data objects, where the content of child widgets is
   /// defined for both collapsed and expanded states.
@@ -46,16 +46,16 @@ class Deck extends StatefulWidget {
   /// The maximum Deck size.
   ///
   /// Defaults to half of the screen size.
-  final double mainAxisSize;
+  final double? mainAxisSize;
 
   @override
   _DeckState createState() => _DeckState();
 }
 
 class _DeckState extends State<Deck> with TickerProviderStateMixin {
-  _DeckData _data;
+  late _DeckData _data;
 
-  double _eventualHeight;
+  late double _eventualHeight;
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _data?.dispose();
+    _data.dispose();
     super.dispose();
   }
 
@@ -106,7 +106,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                 child: (_data.expandedStates[item] ?? false)
                     ? Container(
                         height: eventualExpandedSize + widget.collapsedSize,
-                        child: item.childExpanded ?? item.child,
+                        child: item.childExpanded,
                       )
                     : Container(
                         height: widget.collapsedSize + widget.collapsedSize,
@@ -120,7 +120,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                 onVerticalDragUpdate: ((_data.expandedStates[item] ?? false) &&
                         !widget.collapseOnTap)
                     ? (details) {
-                        if (details.primaryDelta > 0.0) {
+                        if ((details.primaryDelta ?? 0.0) > 0.0) {
                           _updateState(item);
                         }
                       }
@@ -136,26 +136,29 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
   void _updateState(DeckItem item) {
     setState(() {
       _data.setExpanded(item, !(_data.expandedStates[item] ?? false));
-      _data.expandedStates[item]
-          ? _data.animations[item].forward()
-          : _data.animations[item].reverse();
+      final itemState = _data.expandedStates[item];
+      if (itemState != null) {
+        itemState
+            ? _data.animations[item]?.forward()
+            : _data.animations[item]?.reverse();
+      }
     });
   }
 }
 
 class _DeckFlowDelegate extends FlowDelegate {
   _DeckFlowDelegate({
-    @required this.data,
+    required this.data,
     this.collapsedSize,
     this.expandedSize,
   })  : _expandedStates = Map.from(data.expandedStates),
         super(repaint: data);
 
-  final double collapsedSize;
+  final double? collapsedSize;
 
   final _DeckData data;
 
-  final double expandedSize;
+  final double? expandedSize;
 
   final Map<DeckItem, bool> _expandedStates;
 
@@ -163,8 +166,9 @@ class _DeckFlowDelegate extends FlowDelegate {
   Size getSize(BoxConstraints constraints) {
     double childrenHeight = data.items
         .map((item) =>
-            (data.expandedStates[item]) ? expandedSize : collapsedSize)
-        .fold(0.0, (previousValue, element) => previousValue + element);
+            (data.expandedStates[item]!) ? expandedSize : collapsedSize)
+        .fold(
+            0.0, (previousValue, element) => previousValue + (element ?? 0.0));
     return Size(
         constraints.maxWidth, min(constraints.maxHeight, childrenHeight));
   }
@@ -172,9 +176,10 @@ class _DeckFlowDelegate extends FlowDelegate {
   @override
   void paintChildren(FlowPaintingContext context) {
     List<double> childrenHeight = data.items
-        .map((item) => (data.expandedStates[item])
-            ? max(expandedSize * data.animations[item].value, collapsedSize)
-            : collapsedSize)
+        .map((item) => (data.expandedStates[item]!)
+            ? max((expandedSize ?? 0.0) * data.animations[item]!.value,
+                collapsedSize ?? 0.0)
+            : collapsedSize ?? 0.0)
         .toList();
     for (int i = 0; i < context.childCount; ++i) {
       context.paintChild(
@@ -210,9 +215,9 @@ class _DeckFlowDelegate extends FlowDelegate {
 ///
 class DeckItem {
   DeckItem({
-    Key key,
-    this.child,
-    this.childExpanded,
+    Key? key,
+    required this.child,
+    required this.childExpanded,
   });
 
   /// The widget to display when the item is collapsed
@@ -224,8 +229,8 @@ class DeckItem {
 
 class _DeckData extends ChangeNotifier {
   _DeckData({
-    this.items,
-    this.vsync,
+    required this.items,
+    required this.vsync,
   }) {
     animations = Map.fromIterable(items,
         key: (item) => item,
@@ -241,9 +246,9 @@ class _DeckData extends ChangeNotifier {
         Map.fromIterable(items, key: (item) => item, value: (item) => false);
   }
 
-  Map<DeckItem, AnimationController> animations;
+  late Map<DeckItem, AnimationController> animations;
 
-  Map<DeckItem, bool> expandedStates;
+  late Map<DeckItem, bool> expandedStates;
 
   final List<DeckItem> items;
 

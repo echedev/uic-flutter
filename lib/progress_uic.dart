@@ -1,12 +1,10 @@
 library progress_uic;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProgressUic extends StatelessWidget {
   const ProgressUic({
-    Key key,
+    Key? key,
     this.child,
     this.color,
     this.dimColor = Colors.black38,
@@ -24,12 +22,12 @@ class ProgressUic extends StatelessWidget {
         super(key: key);
 
   /// Content to display.
-  final Widget child;
+  final Widget? child;
 
   /// A color of progress indicator.
   ///
-  /// Defaults to [ThemeData.accentColor].
-  final Color color;
+  /// Defaults to [ThemeData.colorScheme.secondary].
+  final Color? color;
 
   /// A color to dim the content with.
   ///
@@ -59,10 +57,10 @@ class ProgressUic extends StatelessWidget {
   /// The size of the progress indicator
   ///
   /// Defaults to 36.0, which is specified in [CircularProjectIndicator]
-  final double size;
+  final double? size;
 
   /// Text to display near the progress indicator
-  final String text;
+  final String? text;
 
   /// Where the text is located related to progress indicator
   ///
@@ -73,7 +71,7 @@ class ProgressUic extends StatelessWidget {
   /// A text style.
   ///
   /// Defaults to [TextTheme.headline5].
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,7 @@ class ProgressUic extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            child,
+            if (child != null) child!,
             Positioned(
               top: 0,
               bottom: 0,
@@ -105,7 +103,7 @@ class ProgressUic extends StatelessWidget {
         );
       }
     } else {
-      return child;
+      return child!;
     }
   }
 
@@ -130,10 +128,10 @@ class ProgressUic extends StatelessWidget {
   }
 
   List<Widget> _getViews(BuildContext context) {
-    List<Widget> result = List();
+    final result = <Widget>[];
     if (textLocation == ProgressUicTextLocation.top ||
         textLocation == ProgressUicTextLocation.left) {
-      if (text.isNotEmpty) {
+      if (text?.isNotEmpty ?? false) {
         result.add(_buildText(context));
       }
     }
@@ -141,12 +139,14 @@ class ProgressUic extends StatelessWidget {
       width: size,
       height: size,
       child: Theme(
-          data: Theme.of(context).copyWith(accentColor: color),
+          data: Theme.of(context).copyWith(
+              colorScheme:
+                  Theme.of(context).colorScheme.copyWith(secondary: color)),
           child: CircularProgressIndicator()),
     ));
     if (textLocation == ProgressUicTextLocation.bottom ||
         textLocation == ProgressUicTextLocation.right) {
-      if (text.isNotEmpty) {
+      if (text?.isNotEmpty ?? false) {
         result.add(_buildText(context));
       }
     }
@@ -162,7 +162,7 @@ class ProgressUic extends StatelessWidget {
       padding:
           EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
       child: Text(
-        text,
+        text ?? '',
         style: textStyle ?? Theme.of(context).textTheme.headline5,
       ),
     );

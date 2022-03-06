@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:uic/progress_uic.dart';
 import 'package:uic/widgets.dart';
 
-List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+List<Widget> examplesActionButton(
+    BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
   return <Widget>[
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Default view'.toUpperCase(),
+        child: Text(
+          'Default view'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -40,10 +41,10 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Custom style'.toUpperCase(),
+        child: Text(
+          'Custom style'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -54,10 +55,9 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
               return Future.delayed(Duration(seconds: 5));
             },
             style: TextButton.styleFrom(
-              primary: Colors.white,
-              backgroundColor: Theme.of(context).accentColor,
-              textStyle: Theme.of(context).textTheme.headline5
-            ),
+                primary: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                textStyle: Theme.of(context).textTheme.headline5),
             child: Text('Text'),
           ),
           ActionButton(
@@ -66,8 +66,7 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
             },
             buttonType: ActionButtonType.elevated,
             style: ElevatedButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.headline5
-            ),
+                textStyle: Theme.of(context).textTheme.headline5),
             child: Text('Elevated'),
           ),
           ActionButton(
@@ -76,8 +75,10 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
             },
             buttonType: ActionButtonType.outlined,
             style: OutlinedButton.styleFrom(
-              primary: Theme.of(context).accentColor,
-              side: BorderSide(color: Theme.of(context).accentColor,),
+              primary: Theme.of(context).colorScheme.secondary,
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
             child: Text('Outlined'),
           ),
@@ -86,10 +87,10 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Custom progress view'.toUpperCase(),
+        child: Text(
+          'Custom progress view'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -116,10 +117,10 @@ List<Widget> examplesActionButton(BuildContext context, GlobalKey<ScaffoldState>
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Handling action state'.toUpperCase(),
+        child: Text(
+          'Handling action state'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(

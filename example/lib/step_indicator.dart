@@ -4,11 +4,11 @@ import 'package:uic/widgets.dart';
 List<Widget> examplesStepIndicator(BuildContext context) {
   return <Widget>[
     Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Text('Default view'.toUpperCase(),
-        style: Theme.of(context).textTheme.caption,
-      )
-    ),
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Text(
+          'Default view'.toUpperCase(),
+          style: Theme.of(context).textTheme.caption,
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: StepIndicator(
@@ -41,10 +41,10 @@ List<Widget> examplesStepIndicator(BuildContext context) {
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Expanded, with lines'.toUpperCase(),
+        child: Text(
+          'Expanded, with lines'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: StepIndicator(
@@ -56,10 +56,10 @@ List<Widget> examplesStepIndicator(BuildContext context) {
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Custom colors'.toUpperCase(),
+        child: Text(
+          'Custom colors'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: StepIndicator(
@@ -72,23 +72,26 @@ List<Widget> examplesStepIndicator(BuildContext context) {
     ),
     Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text('Custom step widget'.toUpperCase(),
+        child: Text(
+          'Custom step widget'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
-        )
-    ),
+        )),
     Padding(
       padding: const EdgeInsets.all(16.0),
       child: StepIndicator(
         selectedStepIndex: 2,
         totalSteps: 5,
-        completedStep: Icon(Icons.check_circle,
+        completedStep: Icon(
+          Icons.check_circle,
           color: Theme.of(context).primaryColor,
         ),
-        incompleteStep: Icon(Icons.radio_button_unchecked,
+        incompleteStep: Icon(
+          Icons.radio_button_unchecked,
           color: Theme.of(context).primaryColor,
         ),
-        selectedStep: Icon(Icons.radio_button_checked,
-          color: Theme.of(context).accentColor,
+        selectedStep: Icon(
+          Icons.radio_button_checked,
+          color: Theme.of(context).colorScheme.secondary,
         ),
       ),
     ),

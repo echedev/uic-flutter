@@ -6,7 +6,7 @@ import 'package:uic/progress_uic.dart';
 /// the progress state of the action.
 ///
 /// The [buttonType] property defines the underlying Material button widget -
-/// [TextButton], [ElevatedButton] or [OutlineButton].
+/// [TextButton], [ElevatedButton] or [OutlinedButton].
 /// The [ActionButton] supports all attributes of those button widgets.
 ///
 /// A function provided in the [action] attribute, is called when user click the
@@ -25,15 +25,15 @@ import 'package:uic/progress_uic.dart';
 /// * [ProgressUic]
 /// * [TextButton]
 /// * [ElevatedButton]
-/// * [OutlineButton]
+/// * [OutlinedButton]
 ///
 class ActionButton extends StatefulWidget {
   ActionButton({
-    Key key,
-    @required this.action,
+    Key? key,
+    required this.action,
     this.autofocus = false,
     this.buttonType = ActionButtonType.text,
-    @required this.child,
+    required this.child,
     this.clipBehavior = Clip.none,
     this.focusNode,
     this.onActionCompleted,
@@ -60,49 +60,48 @@ class ActionButton extends StatefulWidget {
 
   final Clip clipBehavior;
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// A callback that is called when the action is successfully completed.
-  final VoidCallback onActionCompleted;
+  final VoidCallback? onActionCompleted;
 
   /// A callback that is called when the action is finished with error.
-  final void Function(Object error) onActionError;
+  final void Function(Object? error)? onActionError;
 
   /// A callback that is called immediately after the button is pressed,
   /// before starting the action.
-  final VoidCallback onActionStarted;
+  final VoidCallback? onActionStarted;
 
   /// A custom view, that is displayed as a button child when the action is
   /// in progress.
   ///
   /// When not specified, the [ProgressUic] is used as a progress view.
-  final Widget progressView;
+  final Widget? progressView;
 
-  final ButtonStyle style;
+  final ButtonStyle? style;
 
   @override
   _ActionButtonState createState() => _ActionButtonState();
 }
 
 class _ActionButtonState extends State<ActionButton> {
-  Future<void> _action;
+  Future<void>? _action;
 
   bool _actionInProgress = false;
 
   final GlobalKey _buttonKey = GlobalKey();
 
-  Size _buttonSize;
+  late Size _buttonSize;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_buttonSize == null) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      // if (_buttonSize == null) {
         final RenderBox renderBox =
-            _buttonKey.currentContext.findRenderObject();
+            _buttonKey.currentContext?.findRenderObject() as RenderBox;
         _buttonSize = renderBox.size;
-        print(_buttonSize.toString());
-      }
+      // }
     });
   }
 
@@ -123,19 +122,18 @@ class _ActionButtonState extends State<ActionButton> {
                   ProgressUic(
                     size: _buttonSize.height,
                     looseConstraints: true,
-                    color: widget.style?.foregroundColor
-                        ?.resolve({MaterialState.focused}),
+                    color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
                   ),
             ),
           );
         } else {
           if (_actionInProgress) {
             if (snapshot.hasError) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              WidgetsBinding.instance?.addPostFrameCallback((_) {
                 widget.onActionError?.call(snapshot.error);
               });
             } else {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              WidgetsBinding.instance?.addPostFrameCallback((_) {
                 widget.onActionCompleted?.call();
               });
             }
