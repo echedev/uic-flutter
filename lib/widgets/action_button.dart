@@ -98,9 +98,9 @@ class _ActionButtonState extends State<ActionButton> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // if (_buttonSize == null) {
-        final RenderBox renderBox =
-            _buttonKey.currentContext?.findRenderObject() as RenderBox;
-        _buttonSize = renderBox.size;
+      final RenderBox renderBox =
+          _buttonKey.currentContext?.findRenderObject() as RenderBox;
+      _buttonSize = renderBox.size;
       // }
     });
   }
@@ -122,7 +122,8 @@ class _ActionButtonState extends State<ActionButton> {
                   ProgressUic(
                     size: _buttonSize.height,
                     looseConstraints: true,
-                    color: widget.style?.foregroundColor?.resolve({MaterialState.focused}),
+                    color: widget.style?.foregroundColor
+                        ?.resolve({MaterialState.focused}),
                   ),
             ),
           );
