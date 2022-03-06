@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       contentPadding: const EdgeInsets.only(
                           top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
                       title: Text(
-                        'LoadableUic',
+                        'StatefulData and StatefulDataView',
                         style: GoogleFonts.robotoMono(
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlueAccent,
@@ -120,8 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'A widget to display a data that should be loaded. '
-                          'Incapsulate data loading flow and automatically refreshes when data is changed.',
+                          'A widget to display a data and views related to the data loading state. '
+                          'StatefulData is an observable data model, that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
+                          'StatefulDataView listens the data state and displays the data when it is ready, or loading or error views on corresponding data states.',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                                 color: Colors.black54,
                               ),
