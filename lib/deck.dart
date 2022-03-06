@@ -77,7 +77,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _data?.dispose();
+    _data.dispose();
     super.dispose();
   }
 
@@ -106,7 +106,7 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
                 child: (_data.expandedStates[item] ?? false)
                     ? Container(
                         height: eventualExpandedSize + widget.collapsedSize,
-                        child: item.childExpanded ?? item.child,
+                        child: item.childExpanded,
                       )
                     : Container(
                         height: widget.collapsedSize + widget.collapsedSize,
@@ -167,7 +167,8 @@ class _DeckFlowDelegate extends FlowDelegate {
     double childrenHeight = data.items
         .map((item) =>
             (data.expandedStates[item]!) ? expandedSize : collapsedSize)
-        .fold(0.0, (previousValue, element) => previousValue + (element ?? 0.0));
+        .fold(
+            0.0, (previousValue, element) => previousValue + (element ?? 0.0));
     return Size(
         constraints.maxWidth, min(constraints.maxHeight, childrenHeight));
   }
@@ -176,7 +177,8 @@ class _DeckFlowDelegate extends FlowDelegate {
   void paintChildren(FlowPaintingContext context) {
     List<double> childrenHeight = data.items
         .map((item) => (data.expandedStates[item]!)
-            ? max((expandedSize ?? 0.0) * data.animations[item]!.value, collapsedSize ?? 0.0)
+            ? max((expandedSize ?? 0.0) * data.animations[item]!.value,
+                collapsedSize ?? 0.0)
             : collapsedSize ?? 0.0)
         .toList();
     for (int i = 0; i < context.childCount; ++i) {

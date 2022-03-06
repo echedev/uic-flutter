@@ -76,7 +76,7 @@ class ListUic<T> extends StatelessWidget {
     Widget? nextPageProgressView,
     this.errorText = 'Error loading data',
     this.errorColor = Colors.redAccent,
-  })  : assert(emptyDataView != null || emptyDataText != null),
+  })  : assert(emptyDataView != null || emptyDataText.isNotEmpty),
         emptyDataView = emptyDataView ??
             ListUicEmptyView(
                 controller: controller,

@@ -104,8 +104,7 @@ class StatefulData<T> extends ChangeNotifier {
           },
           cancelOnError: false,
         );
-      }
-      else {
+      } else {
         // We should not hit this branch.
         throw Exception('StatefulData must have either "loader" or "watcher"');
       }

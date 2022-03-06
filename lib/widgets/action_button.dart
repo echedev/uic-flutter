@@ -6,7 +6,7 @@ import 'package:uic/progress_uic.dart';
 /// the progress state of the action.
 ///
 /// The [buttonType] property defines the underlying Material button widget -
-/// [TextButton], [ElevatedButton] or [OutlineButton].
+/// [TextButton], [ElevatedButton] or [OutlinedButton].
 /// The [ActionButton] supports all attributes of those button widgets.
 ///
 /// A function provided in the [action] attribute, is called when user click the

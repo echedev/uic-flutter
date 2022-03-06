@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../progress_uic.dart';
-
-import 'package:uic/stateful_data/stateful_data.dart';
+import 'stateful_data.dart';
 
 class UicStatefulDataView<T> extends StatefulWidget {
   UicStatefulDataView({
@@ -22,7 +21,8 @@ class UicStatefulDataView<T> extends StatefulWidget {
 
   final Widget? emptyView;
 
-  final Widget Function(BuildContext context, T? data, StatefulDataError? error)? errorBuilder;
+  final Widget Function(
+      BuildContext context, T? data, StatefulDataError? error)? errorBuilder;
 
   final Widget? initialLoadingView;
 
@@ -87,7 +87,9 @@ class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
         return widget.loadingView ??
             UicStatefulDataDefaultViews.of(context)?.loading ??
             UicStatefulDataLoadingView(
-              child: widget.statefulData.data == null ? SizedBox.shrink() : widget.builder(context, widget.statefulData.data!),
+              child: widget.statefulData.data == null
+                  ? SizedBox.shrink()
+                  : widget.builder(context, widget.statefulData.data!),
             );
       case StatefulDataState.error:
         if (widget.errorBuilder != null) {
@@ -95,22 +97,17 @@ class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
               context, widget.statefulData.data, widget.statefulData.error);
         } else {
           WidgetsBinding.instance?.addPostFrameCallback((_) {
-            // ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //   content: Text(loadableData.error?.message ?? ''),
-            //   behavior: SnackBarBehavior.floating,
-            //   backgroundColor: Colors.redAccent,
-            // ));
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                 content: Text(widget.statefulData.error?.message ?? ''),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.redAccent,
-              ) // SnackBar
-              );
+              ));
           });
-          return widget.statefulData.data == null ? SizedBox.shrink() : widget.builder(context, widget.statefulData.data!);
+          return widget.statefulData.data == null
+              ? SizedBox.shrink()
+              : widget.builder(context, widget.statefulData.data!);
         }
       default:
         return SizedBox.shrink();
@@ -141,7 +138,8 @@ class UicStatefulDataDefaultViews extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => false;
 
   static UicStatefulDataDefaultViews? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<UicStatefulDataDefaultViews>();
+    return context
+        .dependOnInheritedWidgetOfExactType<UicStatefulDataDefaultViews>();
   }
 }
 
@@ -230,7 +228,7 @@ class UicStatefulDataInitialLoadingErrorView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: RaisedButton(
+            child: ElevatedButton(
               child: Text('Try again'),
               onPressed: () => statefulData.loadData(),
             ),

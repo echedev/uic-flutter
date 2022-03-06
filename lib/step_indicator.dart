@@ -164,7 +164,7 @@ class StepIndicator extends StatelessWidget {
         ? colorLineIncomplete ?? eventualColorIncomplete
         : Colors.transparent;
     Color eventualColorSelected =
-        colorSelected ?? Theme.of(context).accentColor;
+        colorSelected ?? Theme.of(context).colorScheme.secondary;
     List<Widget> result = [];
     // Completed steps
     for (int i = 1; i < selectedStepIndex; i++) {

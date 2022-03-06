@@ -1,8 +1,6 @@
 library progress_uic;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProgressUic extends StatelessWidget {
   const ProgressUic({
@@ -28,7 +26,7 @@ class ProgressUic extends StatelessWidget {
 
   /// A color of progress indicator.
   ///
-  /// Defaults to [ThemeData.accentColor].
+  /// Defaults to [ThemeData.colorScheme.secondary].
   final Color? color;
 
   /// A color to dim the content with.
@@ -82,8 +80,7 @@ class ProgressUic extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            if (child != null)
-              child!,
+            if (child != null) child!,
             Positioned(
               top: 0,
               bottom: 0,
@@ -142,7 +139,9 @@ class ProgressUic extends StatelessWidget {
       width: size,
       height: size,
       child: Theme(
-          data: Theme.of(context).copyWith(accentColor: color),
+          data: Theme.of(context).copyWith(
+              colorScheme:
+                  Theme.of(context).colorScheme.copyWith(secondary: color)),
           child: CircularProgressIndicator()),
     ));
     if (textLocation == ProgressUicTextLocation.bottom ||

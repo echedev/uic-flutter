@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uic/list_uic.dart';
 
-class ListUicScreen  extends StatefulWidget {
+class ListUicScreen extends StatefulWidget {
   ListUicScreen({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -74,7 +74,7 @@ class _ListUicScreenState extends State<ListUicScreen> {
     _loadingAttempts++;
     print("_getItems(): page=$page, attemmpt=$_loadingAttempts");
     await Future.delayed(Duration(seconds: 3));
-    List<int> result = List();
+    final result = <int>[];
     if (_loadingAttempts == 1) {
       return result;
     }
