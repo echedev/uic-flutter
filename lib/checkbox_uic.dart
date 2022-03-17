@@ -149,7 +149,9 @@ class _CheckboxUicState extends State<CheckboxUic> {
               autofocus: widget.autofocus,
             ),
             Text(
-              (_value ?? false) ? widget.title : widget.titleUnchecked ?? widget.title,
+              (_value ?? false)
+                  ? widget.title
+                  : widget.titleUnchecked ?? widget.title,
               style: eventualTitleTextStyle,
             ),
           ],
