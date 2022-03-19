@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uic/stateful_data/stateful_data.dart';
 
 class UicStatefulDataViewScreen  extends StatefulWidget {
-  UicStatefulDataViewScreen({Key key}) : super(key: key);
+  UicStatefulDataViewScreen({Key? key}) : super(key: key);
 
   @override
   _UicStatefulDataViewScreenState createState() => _UicStatefulDataViewScreenState();
@@ -10,7 +10,7 @@ class UicStatefulDataViewScreen  extends StatefulWidget {
 
 class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
-  StatefulData<ExampleData> _data;
+  late StatefulData<ExampleData> _data;
 
   int _loadingAttempts = 0;
 
@@ -58,7 +58,7 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
     );
   }
 
-  Future<ExampleData> _loadData() async {
+  Future<ExampleData?> _loadData() async {
     await Future.delayed(Duration(seconds: 3));
     _loadingAttempts++;
 
@@ -84,12 +84,12 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
 class ExampleData {
   ExampleData({
-    this.header,
-    this.message,
+    required this.header,
+    required this.message,
   });
 
-  String header;
+  final String header;
 
-  String message;
+  final String message;
 
 }

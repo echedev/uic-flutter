@@ -135,7 +135,7 @@ class UicStatefulDataDefaultViews extends InheritedWidget {
   final Widget? loading;
 
   @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => false;
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static UicStatefulDataDefaultViews? of(BuildContext context) {
     return context

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uic/list_uic.dart';
 
 class ListUicScreen extends StatefulWidget {
-  ListUicScreen({Key key, this.title}) : super(key: key);
+  ListUicScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -11,7 +11,7 @@ class ListUicScreen extends StatefulWidget {
 }
 
 class _ListUicScreenState extends State<ListUicScreen> {
-  ListUicController<int> _controller;
+  late ListUicController<int> _controller;
 
   int _loadingAttempts = 0;
 
