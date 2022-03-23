@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:uic/src/utils/platform/platform.dart';
 
 import 'form_factor.dart';
 
@@ -7,11 +8,14 @@ class FormFactors extends StatelessWidget {
     Key? key,
     required this.formFactors,
     required this.child,
+    this.orientationLocks = const FormFactorOrientationLocks(portraitWeb: true),
   }) : super(key: key);
 
   final Set<FormFactor> formFactors;
 
   final Widget child;
+
+  final FormFactorOrientationLocks orientationLocks;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,8 @@ class FormFactors extends StatelessWidget {
     return _FormFactorsInherited(
       data: FormFactorsData(
         formFactors: formFactors,
-        currentFormFactor: _getCurrentFormFactor(mediaQueryData),
+        currentFormFactor: _resolveFormFactor(mediaQueryData),
+        orientation: _resolveOrientation(mediaQueryData),
       ),
       child: child,
     );
@@ -31,15 +36,34 @@ class FormFactors extends StatelessWidget {
     return formFactorsInherited!.data;
   }
 
-  FormFactor _getCurrentFormFactor(MediaQueryData mediaQueryData) {
-    FormFactor result = formFactors.first;
-    for (var formFactor in formFactors) {
-      if (formFactor.maxWidth >= mediaQueryData.size.width) {
-        break;
+  FormFactor _resolveFormFactor(MediaQueryData mediaQueryData) {
+    FormFactor? result;
+    final orientation = _resolveOrientation(mediaQueryData);
+    final mediaCrossAxisSize = orientation == Orientation.portrait ? mediaQueryData.size.width : mediaQueryData.size.height;
+    for (var formFactor in formFactors.where((item) => item.orientation == orientation)) {
+      if (mediaCrossAxisSize > formFactor.crossAxisMinWidth) {
+        result = formFactor;
       }
-      result = formFactor;
     }
-    return result;
+    return result ?? _defaultFormFactor(orientation);
+  }
+
+  Orientation _resolveOrientation(MediaQueryData mediaQueryData) {
+    if (orientationLocks.portraitWeb && Platform.isWeb) {
+      return Orientation.portrait;
+    } else if (orientationLocks.landscapeWeb && Platform.isWeb) {
+      return Orientation.landscape;
+    } else {
+      return mediaQueryData.orientation;
+    }
+  }
+
+  FormFactor _defaultFormFactor(Orientation orientation) {
+    final formFactorsPortrait = formFactors.where((item) => item.orientation == Orientation.portrait);
+    final formFactorsLandscape = formFactors.where((item) => item.orientation == Orientation.landscape);
+    final defaultPortrait = formFactorsPortrait.isEmpty ? null : formFactorsPortrait.first;
+    final defaultLandscape = formFactorsLandscape.isEmpty ? null : formFactorsLandscape.first;
+    return orientation == Orientation.portrait ? (defaultPortrait ?? defaultLandscape)! : (defaultLandscape ?? defaultPortrait)!;
   }
 }
 
@@ -52,17 +76,32 @@ class _FormFactorsInherited extends InheritedWidget {
   final FormFactorsData data;
 
   @override
-  bool updateShouldNotify(_FormFactorsInherited oldWidget) => data != oldWidget.data;
+  bool updateShouldNotify(_FormFactorsInherited oldWidget) =>
+      data.currentFormFactor != oldWidget.data.currentFormFactor ||
+      data.orientation != oldWidget.data.orientation;
 }
 
 class FormFactorsData {
   const FormFactorsData({
     required this.formFactors,
     required this.currentFormFactor,
+    required this.orientation,
   });
 
   final Set<FormFactor> formFactors;
 
   final FormFactor currentFormFactor;
 
+  final Orientation orientation;
+}
+
+class FormFactorOrientationLocks {
+  const FormFactorOrientationLocks({
+    this.portraitWeb = false,
+    this.landscapeWeb = false,
+  });
+
+  final bool portraitWeb;
+
+  final bool landscapeWeb;
 }

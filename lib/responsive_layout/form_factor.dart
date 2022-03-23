@@ -1,3 +1,10 @@
+import 'package:flutter/widgets.dart';
+
 abstract class FormFactor {
-  double get maxWidth => 0.0;
+  const FormFactor();
+
+  double get crossAxisMinWidth => 0.0;
+
+  Orientation get orientation => Orientation.portrait;
+
 }
