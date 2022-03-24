@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uic/responsive_layout/responsive_layout.dart';
+import 'package:uic/responsive_layout.dart';
 
 class ResponsiveApp extends StatelessWidget {
   const ResponsiveApp({
