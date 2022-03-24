@@ -28,7 +28,7 @@ import 'package:flutter/material.dart';
 /// * [InputDecoration]
 ///
 class InlineTextField extends StatefulWidget {
-  InlineTextField({
+  const InlineTextField({
     Key? key,
     this.child,
     this.decoration,
@@ -99,15 +99,14 @@ class _InlineTextFieldState extends State<InlineTextField> {
           decoration: widget.decoration?.copyWith(
                 suffixIcon: _closeButton(),
               ) ??
-              InputDecoration.collapsed(
-                hintText: "",
+              const InputDecoration.collapsed(
+                hintText: '',
               ).copyWith(
                 isDense: true,
                 suffixIcon: _closeButton(),
               ),
           textAlignVertical: TextAlignVertical.center,
           onSubmitted: (String newValue) {
-            print("onSubmitted()");
             setState(() {
               isEditing = false;
             });
@@ -134,7 +133,7 @@ class _InlineTextFieldState extends State<InlineTextField> {
 
   Widget _closeButton() {
     return InkWell(
-      child: Icon(Icons.close, size: 24.0),
+      child: const Icon(Icons.close, size: 24.0),
       onTap: () {
         setState(() {
           _controller.text = _oldText ?? '';

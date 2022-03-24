@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 
 import 'form_factor.dart';
@@ -17,7 +16,6 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
-
   final _children = <FormFactor, Widget>{};
 
   @override
@@ -35,28 +33,39 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
     return _children[formFactorsData.currentFormFactor]!;
   }
 
-  Map<FormFactor, Widget> _resolveChildren(List<ResponsiveLayoutItem> items, FormFactorsData formFactorsData) {
+  Map<FormFactor, Widget> _resolveChildren(
+      List<ResponsiveLayoutItem> items, FormFactorsData formFactorsData) {
     final result = <FormFactor, Widget>{};
 
-    final explicitChildren = Map<FormFactor, Widget>.fromIterable(items, key: (item) => item.formFactor, value: (item) => item.child);
-    final portraitFormFactors = explicitChildren.keys.where((item) => item.orientation == Orientation.portrait);
-    final landscapeFormFactors = explicitChildren.keys.where((element) => element.orientation == Orientation.landscape);
-    final defaultPortrait = portraitFormFactors.isEmpty ? null : portraitFormFactors.first;
-    final defaultLandscape = landscapeFormFactors.isEmpty ? null : landscapeFormFactors.first;
+    final explicitChildren = {
+      for (var item in items) item.formFactor: item.child
+    };
+    final portraitFormFactors = explicitChildren.keys
+        .where((item) => item.orientation == Orientation.portrait);
+    final landscapeFormFactors = explicitChildren.keys
+        .where((element) => element.orientation == Orientation.landscape);
+    final defaultPortrait =
+        portraitFormFactors.isEmpty ? null : portraitFormFactors.first;
+    final defaultLandscape =
+        landscapeFormFactors.isEmpty ? null : landscapeFormFactors.first;
 
     FormFactor? currentFormFactor;
-    for (FormFactor formFactor in formFactorsData.formFactors.where((item) => item.orientation == Orientation.portrait)) {
+    for (FormFactor formFactor in formFactorsData.formFactors
+        .where((item) => item.orientation == Orientation.portrait)) {
       if (explicitChildren.keys.contains(formFactor)) {
         currentFormFactor = formFactor;
       }
-      result[formFactor] = explicitChildren[currentFormFactor ?? defaultPortrait ?? defaultLandscape]!;
+      result[formFactor] = explicitChildren[
+          currentFormFactor ?? defaultPortrait ?? defaultLandscape]!;
     }
     currentFormFactor = null;
-    for (FormFactor formFactor in formFactorsData.formFactors.where((item) => item.orientation == Orientation.landscape)) {
+    for (FormFactor formFactor in formFactorsData.formFactors
+        .where((item) => item.orientation == Orientation.landscape)) {
       if (explicitChildren.keys.contains(formFactor)) {
         currentFormFactor = formFactor;
       }
-      result[formFactor] = explicitChildren[currentFormFactor ?? defaultLandscape ?? defaultPortrait]!;
+      result[formFactor] = explicitChildren[
+          currentFormFactor ?? defaultLandscape ?? defaultPortrait]!;
     }
     return result;
   }
@@ -71,5 +80,4 @@ class ResponsiveLayoutItem {
   final FormFactor formFactor;
 
   final Widget child;
-
 }

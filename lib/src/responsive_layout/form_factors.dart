@@ -11,7 +11,7 @@ class FormFactors extends StatelessWidget {
     this.orientationLocks = const FormFactorOrientationLocks(portraitWeb: true),
   }) : super(key: key);
 
-  final Set<FormFactor> formFactors;
+  final List<FormFactor> formFactors;
 
   final Widget child;
 
@@ -88,7 +88,7 @@ class FormFactorsData {
     required this.orientation,
   });
 
-  final Set<FormFactor> formFactors;
+  final List<FormFactor> formFactors;
 
   final FormFactor currentFormFactor;
 

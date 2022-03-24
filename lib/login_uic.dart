@@ -28,7 +28,7 @@ import 'widgets.dart';
 /// * [LoginUicStrings]
 ///
 class LoginUic extends StatefulWidget {
-  LoginUic({
+  const LoginUic({
     Key? key,
     this.errorTextStyle,
     this.inputDecoration,
@@ -210,7 +210,7 @@ class _LoginUicState extends State<LoginUic> {
               ),
               ActionButton(
                 action: () async {
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  FocusScope.of(context).requestFocus(FocusNode());
                   if (_formKey.currentState?.validate() ?? false) {
                     await widget.onSignIn(username, password);
                   } else {

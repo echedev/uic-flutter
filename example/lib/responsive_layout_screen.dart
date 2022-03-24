@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:uic/responsive_layout.dart';
 
@@ -8,15 +10,15 @@ class ResponsiveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormFactors(
-      formFactors: const <FormFactor>{
+    return const FormFactors(
+      formFactors: const <FormFactor>[
         FormFactorA(),
         FormFactorALandscape(),
         FormFactorB(),
         FormFactorC(),
         FormFactorD(),
         FormFactorE(),
-      },
+      ],
       child: const ResponsiveLayoutScreen(),
     );
   }
@@ -31,7 +33,7 @@ class ResponsiveLayoutScreen  extends StatelessWidget {
       appBar: AppBar(
         title: Text('ResponsiveLayout Demo'),
       ),
-      body: ResponsiveLayout(
+      body: const ResponsiveLayout(
         items: const [
           ResponsiveLayoutItem(
             formFactor: FormFactorB(),

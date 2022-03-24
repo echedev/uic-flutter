@@ -28,7 +28,7 @@ import 'package:uic/progress_uic.dart';
 /// * [OutlinedButton]
 ///
 class ActionButton extends StatefulWidget {
-  ActionButton({
+  const ActionButton({
     Key? key,
     required this.action,
     this.autofocus = false,

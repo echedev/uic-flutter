@@ -7,4 +7,19 @@ abstract class FormFactor {
 
   Orientation get orientation => Orientation.portrait;
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is FormFactor &&
+        other.crossAxisMinWidth == crossAxisMinWidth &&
+        other.orientation == orientation;
+  }
+
+  @override
+  int get hashCode => hashValues(crossAxisMinWidth, orientation);
 }

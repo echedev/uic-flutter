@@ -90,7 +90,7 @@ class ListUic<T> extends StatelessWidget {
         emptyProgressView = emptyProgressView ??
             ListUicEmptyProgressView(text: emptyProgressText),
         nextPageProgressView =
-            nextPageProgressView ?? ListUicNextPageProgressView(),
+            nextPageProgressView ?? const ListUicNextPageProgressView(),
         super(key: key);
 
   /// Manages the list state
@@ -182,7 +182,7 @@ class ListUic<T> extends StatelessWidget {
         controller.scrollController.animateTo(
             controller.scrollController.position.maxScrollExtent,
             curve: Curves.linear,
-            duration: Duration(milliseconds: 500));
+            duration: const Duration(milliseconds: 500));
       });
     }
     int itemCount = (state != _ListUicState.progressNextPage)
@@ -245,7 +245,7 @@ class ListUicEmptyView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ElevatedButton(
-              child: Text('Refresh'),
+              child: const Text('Refresh'),
               onPressed: () => controller.refresh(),
             ),
           ),
@@ -292,7 +292,7 @@ class ListUicNextPageProgressView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const SizedBox(
       height: 72.0,
       child: ProgressUic(),
     );
@@ -392,7 +392,7 @@ class ListUicController<T> {
   /// Callback to load list items by the page
   Future<List<T>?> Function(int) onGetItems;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
 
   bool _readyForNextPage = true;
