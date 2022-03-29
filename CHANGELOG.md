@@ -1,4 +1,4 @@
-## \[0.10.0\] - 2022-03-29
+## \[0.10.1\] - 2022-03-29
 
 - Added `ResponsiveLayout` and `FormFactors` components
 - Updating docs and demo app

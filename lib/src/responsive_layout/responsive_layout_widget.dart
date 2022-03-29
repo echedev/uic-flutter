@@ -80,7 +80,8 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   Widget build(BuildContext context) {
     final formFactorsData = FormFactors.of(context);
     if (_children.isEmpty) {
-      _children.addAll(widget.delegate.resolveChildren(widget.children, formFactorsData));
+      _children.addAll(
+          widget.delegate.resolveChildren(widget.children, formFactorsData));
     }
     return _children[formFactorsData.currentFormFactor]!;
   }
@@ -97,7 +98,9 @@ abstract class ResponsiveLayoutDelegate {
   /// For given list of supported form factors contained in [formFactorsData]
   /// and explicitly matched widgets, returns a map of matched widgets for all
   /// supported form factors.
-  Map<FormFactor, Widget> resolveChildren(Map<FormFactor, Widget> explicitChildren, FormFactorsData formFactorsData);
+  Map<FormFactor, Widget> resolveChildren(
+      Map<FormFactor, Widget> explicitChildren,
+      FormFactorsData formFactorsData);
 }
 
 /// Default implementation of [ResponsiveLayoutDelegate].
@@ -154,7 +157,9 @@ class DefaultResponsiveLayoutDelegate implements ResponsiveLayoutDelegate {
   const DefaultResponsiveLayoutDelegate();
 
   @override
-  Map<FormFactor, Widget> resolveChildren(Map<FormFactor, Widget> explicitChildren, FormFactorsData formFactorsData) {
+  Map<FormFactor, Widget> resolveChildren(
+      Map<FormFactor, Widget> explicitChildren,
+      FormFactorsData formFactorsData) {
     final result = <FormFactor, Widget>{};
 
     final portraitFormFactors = explicitChildren.keys
@@ -162,9 +167,9 @@ class DefaultResponsiveLayoutDelegate implements ResponsiveLayoutDelegate {
     final landscapeFormFactors = explicitChildren.keys
         .where((element) => element.orientation == Orientation.landscape);
     final defaultPortrait =
-    portraitFormFactors.isEmpty ? null : portraitFormFactors.first;
+        portraitFormFactors.isEmpty ? null : portraitFormFactors.first;
     final defaultLandscape =
-    landscapeFormFactors.isEmpty ? null : landscapeFormFactors.first;
+        landscapeFormFactors.isEmpty ? null : landscapeFormFactors.first;
 
     FormFactor? currentFormFactor;
     for (FormFactor formFactor in formFactorsData.formFactors
@@ -173,7 +178,7 @@ class DefaultResponsiveLayoutDelegate implements ResponsiveLayoutDelegate {
         currentFormFactor = formFactor;
       }
       result[formFactor] = explicitChildren[
-      currentFormFactor ?? defaultPortrait ?? defaultLandscape]!;
+          currentFormFactor ?? defaultPortrait ?? defaultLandscape]!;
     }
     currentFormFactor = null;
     for (FormFactor formFactor in formFactorsData.formFactors
@@ -182,7 +187,7 @@ class DefaultResponsiveLayoutDelegate implements ResponsiveLayoutDelegate {
         currentFormFactor = formFactor;
       }
       result[formFactor] = explicitChildren[
-      currentFormFactor ?? defaultLandscape ?? defaultPortrait]!;
+          currentFormFactor ?? defaultLandscape ?? defaultPortrait]!;
     }
     return result;
   }
