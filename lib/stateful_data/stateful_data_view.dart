@@ -4,7 +4,7 @@ import '../progress_uic.dart';
 import 'stateful_data.dart';
 
 class UicStatefulDataView<T> extends StatefulWidget {
-  UicStatefulDataView({
+  const UicStatefulDataView({
     Key? key,
     required this.statefulData,
     required this.builder,
@@ -66,7 +66,7 @@ class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
       case StatefulDataState.initialLoading:
         return widget.initialLoadingView ??
             UicStatefulDataDefaultViews.of(context)?.initialLoading ??
-            UicStatefulDataInitialLoadingView(
+            const UicStatefulDataInitialLoadingView(
               text: 'Loading...',
             );
       case StatefulDataState.initialLoadingError:
@@ -88,7 +88,7 @@ class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
             UicStatefulDataDefaultViews.of(context)?.loading ??
             UicStatefulDataLoadingView(
               child: widget.statefulData.data == null
-                  ? SizedBox.shrink()
+                  ? const SizedBox.shrink()
                   : widget.builder(context, widget.statefulData.data!),
             );
       case StatefulDataState.error:
@@ -106,24 +106,24 @@ class _UicStatefulDataViewState<T> extends State<UicStatefulDataView<T>> {
               ));
           });
           return widget.statefulData.data == null
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : widget.builder(context, widget.statefulData.data!);
         }
       default:
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 }
 
 class UicStatefulDataDefaultViews extends InheritedWidget {
-  UicStatefulDataDefaultViews({
+  const UicStatefulDataDefaultViews({
     Key? key,
     this.empty,
     this.initialLoading,
     this.initialLoadingError,
     this.loading,
     required Widget child,
-  }) : super(child: child);
+  }) : super(key: key, child: child);
   // TODO: Add assert if no views are defined
 
   final Widget? empty;
@@ -135,7 +135,7 @@ class UicStatefulDataDefaultViews extends InheritedWidget {
   final Widget? loading;
 
   @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => false;
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static UicStatefulDataDefaultViews? of(BuildContext context) {
     return context
@@ -144,7 +144,7 @@ class UicStatefulDataDefaultViews extends InheritedWidget {
 }
 
 class UicStatefulDataEmptyView extends StatelessWidget {
-  UicStatefulDataEmptyView({
+  const UicStatefulDataEmptyView({
     Key? key,
     required this.statefulData,
   }) : super(key: key);
@@ -173,7 +173,7 @@ class UicStatefulDataEmptyView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ElevatedButton(
-              child: Text('Try again'),
+              child: const Text('Try again'),
               onPressed: () => statefulData.loadData(),
             ),
           ),
@@ -184,7 +184,7 @@ class UicStatefulDataEmptyView extends StatelessWidget {
 }
 
 class UicStatefulDataInitialLoadingView extends StatelessWidget {
-  UicStatefulDataInitialLoadingView({
+  const UicStatefulDataInitialLoadingView({
     Key? key,
     this.text,
   }) : super(key: key);
@@ -200,7 +200,7 @@ class UicStatefulDataInitialLoadingView extends StatelessWidget {
 }
 
 class UicStatefulDataInitialLoadingErrorView extends StatelessWidget {
-  UicStatefulDataInitialLoadingErrorView({
+  const UicStatefulDataInitialLoadingErrorView({
     Key? key,
     required this.statefulData,
   }) : super(key: key);
@@ -229,7 +229,7 @@ class UicStatefulDataInitialLoadingErrorView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ElevatedButton(
-              child: Text('Try again'),
+              child: const Text('Try again'),
               onPressed: () => statefulData.loadData(),
             ),
           ),
@@ -240,7 +240,7 @@ class UicStatefulDataInitialLoadingErrorView extends StatelessWidget {
 }
 
 class UicStatefulDataLoadingView extends StatelessWidget {
-  UicStatefulDataLoadingView({
+  const UicStatefulDataLoadingView({
     Key? key,
     required this.child,
   }) : super(key: key);

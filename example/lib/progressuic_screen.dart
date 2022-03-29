@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:uic/progress_uic.dart';
 
 class ProgressUicScreen extends StatefulWidget {
-  ProgressUicScreen({Key key, this.title}) : super(key: key);
+  ProgressUicScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -96,7 +98,7 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                       inProgress: _inProgress3,
                       text: 'Loading...',
                       textLocation: ProgressUicTextLocation.bottom,
-                      textStyle: Theme.of(context).textTheme.headline5.copyWith(
+                      textStyle: Theme.of(context).textTheme.headline5?.copyWith(
                             color: Colors.white,
                           ),
                       dimContent: true,

@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 /// * [Checkbox]
 ///
 class CheckboxUic extends StatefulWidget {
-  CheckboxUic({
+  const CheckboxUic({
     Key? key,
     this.initialValue = false,
     this.title = '',

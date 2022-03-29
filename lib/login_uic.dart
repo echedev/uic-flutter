@@ -1,7 +1,6 @@
 library login_uic;
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'widgets.dart';
 
@@ -28,7 +27,9 @@ import 'widgets.dart';
 /// * [LoginUicStrings]
 ///
 class LoginUic extends StatefulWidget {
-  LoginUic({
+  /// Creates LoginUic widget.
+  ///
+  const LoginUic({
     Key? key,
     this.errorTextStyle,
     this.inputDecoration,
@@ -116,12 +117,18 @@ class _LoginUicState extends State<LoginUic> {
 
   final TextEditingController _passwordController = TextEditingController();
 
+  TextStyle? eventualErrorTextStyle;
+
+  InputDecoration? usernameDecoration;
+
+  InputDecoration? passwordDecoration;
+
   @override
   Widget build(BuildContext context) {
     ThemeData eventualTheme = widget.theme ?? Theme.of(context);
-    TextStyle? eventualErrorTextStyle = widget.errorTextStyle ??
+    eventualErrorTextStyle = widget.errorTextStyle ??
         eventualTheme.textTheme.bodyText2?.copyWith(color: Colors.redAccent);
-    InputDecoration usernameDecoration = widget.inputDecoration?.copyWith(
+    usernameDecoration = widget.inputDecoration?.copyWith(
           labelText: widget.strings.usernameLabel,
           hintText: widget.strings.usernameHint,
         ) ??
@@ -130,7 +137,7 @@ class _LoginUicState extends State<LoginUic> {
           hintText: widget.strings.usernameHint,
           filled: true,
         );
-    InputDecoration passwordDecoration = widget.inputDecoration?.copyWith(
+    passwordDecoration = widget.inputDecoration?.copyWith(
           labelText: widget.strings.passwordLabel,
           hintText: widget.strings.passwordHint,
         ) ??
@@ -143,109 +150,110 @@ class _LoginUicState extends State<LoginUic> {
       padding: const EdgeInsets.all(16.0),
       child: Theme(
         data: eventualTheme,
-        child:
-            ChangeNotifierProvider<ValueNotifier<_InternalLoginUicState>>.value(
-          value: _state,
-          child: Column(
-            children: [
-              Consumer<ValueNotifier<_InternalLoginUicState>>(
-                builder: (context, state, child) {
-                  if (state.value == _InternalLoginUicState.success) {
-                    WidgetsBinding.instance?.addPostFrameCallback((_) {
-                      _state.value = _InternalLoginUicState.ready;
-                      widget.onSignInCompleted?.call(context);
-                    });
-                  } else if (state.value ==
-                      _InternalLoginUicState.validationError) {
-                    _formKey.currentState?.validate();
-                  }
-                  return Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        if (state.value == _InternalLoginUicState.error)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: Text(
-                              _error,
-                              style: eventualErrorTextStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: TextFormField(
-                            controller: _usernameController,
-                            decoration: usernameDecoration,
-                            enabled: state.value !=
-                                _InternalLoginUicState.inProgress,
-                            validator: widget.usernameValidator ??
-                                (value) => (value?.isEmpty ?? true)
-                                    ? widget.strings.usernameErrorEmpty
-                                    : null,
-                            onSaved: (newValue) => username = (newValue ?? ''),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: TextFormField(
-                            controller: _passwordController,
-                            decoration: passwordDecoration,
-                            enabled: state.value !=
-                                _InternalLoginUicState.inProgress,
-                            validator: widget.passwordValidator ??
-                                (value) => (value?.isEmpty ?? true)
-                                    ? widget.strings.passwordErrorEmpty
-                                    : null,
-                            onSaved: (newValue) => password = (newValue ?? ''),
-                            obscureText: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              ActionButton(
-                action: () async {
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                  if (_formKey.currentState?.validate() ?? false) {
-                    await widget.onSignIn(username, password);
-                  } else {
-                    await Future.error(_InternalLoginUicState.validationError);
-                  }
-                },
-                progressView: widget.signInProgressView,
-                buttonType: ActionButtonType.elevated,
-                onActionStarted: () {
-                  _state.value = _InternalLoginUicState.inProgress;
-                },
-                onActionCompleted: () {
-                  _state.value = _InternalLoginUicState.success;
-                },
-                onActionError: (error) {
-                  if (error == _InternalLoginUicState.validationError) {
-                    _error = '';
-                    _state.value = _InternalLoginUicState.validationError;
-                  } else {
-                    if (error is String) {
-                      _error = error;
+        child: ValueListenableBuilder<_InternalLoginUicState>(
+          valueListenable: _state,
+          builder: (context, state, child) {
+            return Column(
+              children: [
+                _buildForm(state),
+                ActionButton(
+                  action: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    if (_formKey.currentState?.validate() ?? false) {
+                      await widget.onSignIn(username, password);
                     } else {
-                      _error = widget.strings.signInError;
+                      await Future.error(_InternalLoginUicState.validationError);
                     }
-                    _state.value = _InternalLoginUicState.error;
-                  }
-                },
-                child: Text(
-                  widget.strings.signInButtonText,
-                  textAlign: TextAlign.center,
+                  },
+                  progressView: widget.signInProgressView,
+                  buttonType: ActionButtonType.elevated,
+                  onActionStarted: () {
+                    _state.value = _InternalLoginUicState.inProgress;
+                  },
+                  onActionCompleted: () {
+                    _state.value = _InternalLoginUicState.success;
+                  },
+                  onActionError: (error) {
+                    if (error == _InternalLoginUicState.validationError) {
+                      _error = '';
+                      _state.value = _InternalLoginUicState.validationError;
+                    } else {
+                      if (error is String) {
+                        _error = error;
+                      } else {
+                        _error = widget.strings.signInError;
+                      }
+                      _state.value = _InternalLoginUicState.error;
+                    }
+                  },
+                  child: Text(
+                    widget.strings.signInButtonText,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          },
         ),
+      ),
+    );
+  }
+
+  Widget _buildForm(_InternalLoginUicState state) {
+    if (state == _InternalLoginUicState.success) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        _state.value = _InternalLoginUicState.ready;
+        widget.onSignInCompleted?.call(context);
+      });
+    } else if (state ==
+        _InternalLoginUicState.validationError) {
+      _formKey.currentState?.validate();
+    }
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          if (state == _InternalLoginUicState.error)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                _error,
+                style: eventualErrorTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: TextFormField(
+              controller: _usernameController,
+              decoration: usernameDecoration,
+              enabled: state !=
+                  _InternalLoginUicState.inProgress,
+              validator: widget.usernameValidator ??
+                      (value) => (value?.isEmpty ?? true)
+                      ? widget.strings.usernameErrorEmpty
+                      : null,
+              onSaved: (newValue) => username = (newValue ?? ''),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: TextFormField(
+              controller: _passwordController,
+              decoration: passwordDecoration,
+              enabled: state !=
+                  _InternalLoginUicState.inProgress,
+              validator: widget.passwordValidator ??
+                      (value) => (value?.isEmpty ?? true)
+                      ? widget.strings.passwordErrorEmpty
+                      : null,
+              onSaved: (newValue) => password = (newValue ?? ''),
+              obscureText: true,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -254,6 +262,8 @@ class _LoginUicState extends State<LoginUic> {
 /// A container for string values, which are used in the [LoginUic]
 ///
 class LoginUicStrings {
+  /// Creates an instance of LoginUicStrings.
+  ///
   const LoginUicStrings({
     this.usernameErrorEmpty = 'Please enter a username.',
     this.usernameLabel = 'Email',

@@ -1,8 +1,11 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
 
 import 'listuic_screen.dart';
+import 'responsive_layout_screen.dart';
 import 'stateful_data_view_screen.dart';
 import 'loginuic_screen.dart';
 import 'checkboxuic_screen.dart';
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -75,157 +78,87 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ListView(
                 children: <Widget>[
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        'ListUic',
-                        style: GoogleFonts.robotoMono(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'Wrapper of ListView, which implements related data '
-                          'loading and state management logic.',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.black54,
-                              ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ListUicScreen(title: 'ListUic Demo')),
-                        );
-                      },
-                    ),
+                  ComponentsItem(
+                    title: 'ListUic',
+                    subtitle:
+                        'Wrapper of ListView, which implements related data '
+                        'loading and state management logic.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ListUicScreen(title: 'ListUic Demo')),
+                      );
+                    },
                   ),
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        'StatefulData and StatefulDataView',
-                        style: GoogleFonts.robotoMono(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'A widget to display a data and views related to the data loading state. '
-                          'StatefulData is an observable data model, that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
-                          'StatefulDataView listens the data state and displays the data when it is ready, or loading or error views on corresponding data states.',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.black54,
-                              ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  UicStatefulDataViewScreen()),
-                        );
-                      },
-                    ),
+                  ComponentsItem(
+                    title: 'StatefulData and StatefulDataView',
+                    subtitle:
+                        'StatefulData is an observable data model that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
+                        'StatefulDataView listens the data state and displays the data when it is ready, or loading or error views on corresponding data states.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UicStatefulDataViewScreen()),
+                      );
+                    },
                   ),
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        'LoginUic',
-                        style: GoogleFonts.robotoMono(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.black54,
-                              ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  LoginUicScreen(title: 'LoginUic Demo')),
-                        );
-                      },
-                    ),
+                  ComponentsItem(
+                    title: 'ResponsiveLayout and FormFactors',
+                    subtitle:
+                        'Allows to easily show content on multiple screen sizes and platforms. '
+                        'Define form factors that your app will support and wrap matched views in ResponsiveLayout widget, '
+                        'which will automatically update the layout depending on current screen size and orientation.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveApp()),
+                      );
+                    },
                   ),
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        'CheckboxUic',
-                        style: GoogleFonts.robotoMono(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'Enhanced checkbox that maintain its state, has a'
-                          'title and can show additional description in each state.',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.black54,
-                              ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CheckboxUicScreen(title: 'CheckboxUic Demo')),
-                        );
-                      },
-                    ),
+                  ComponentsItem(
+                    title: 'LoginUic',
+                    subtitle:
+                        'A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LoginUicScreen(title: 'LoginUic Demo')),
+                      );
+                    },
                   ),
-                  Card(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        'ProgressUic',
-                        style: GoogleFonts.robotoMono(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                            'Use it either as an individual progress indicator '
-                            'with additional customizable features, or as a wrapper '
-                            'of content view that can be in progress state.'),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ProgressUicScreen(title: 'ProgressUic Demo')),
-                        );
-                      },
-                    ),
+                  ComponentsItem(
+                    title: 'CheckboxUic',
+                    subtitle: 'Enhanced checkbox that maintain its state, has a'
+                        'title and can show additional description in each state.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CheckboxUicScreen(title: 'CheckboxUic Demo')),
+                      );
+                    },
+                  ),
+                  ComponentsItem(
+                    title: 'ProgressUic',
+                    subtitle:
+                        'Use it either as an individual progress indicator '
+                        'with additional customizable features, or as a wrapper '
+                        'of content view that can be in progress state.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ProgressUicScreen(title: 'ProgressUic Demo')),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -252,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             'and allows to lock the button and to change its appearance '
                             'while the action is in progress.',
                             style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Colors.black54,
                                     ),
                           ),
@@ -283,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Displays stacked cards where only headers visible initially, '
                             'and allows to expand each card',
                             style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Colors.black54,
                                     ),
                           ),
@@ -314,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Makes Text widget editable. Double tap on the text '
                             'will show inline input text field instead of static text.',
                             style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Colors.black54,
                                     ),
                           ),
@@ -330,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2
-                                      .copyWith(
+                                      ?.copyWith(
                                         color: Colors.lightBlueAccent,
                                       ),
 /*
@@ -388,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text(
                             'Simple, but highly customizable steps (or pages) indicator',
                             style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Colors.black54,
                                     ),
                           ),
@@ -404,6 +337,50 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ComponentsItem extends StatelessWidget {
+  const ComponentsItem({
+    Key? key,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String title;
+
+  final String subtitle;
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 16.0,
+        ),
+        title: Text(
+          title,
+          style: GoogleFonts.robotoMono(
+            fontWeight: FontWeight.bold,
+            color: Colors.lightBlueAccent,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            subtitle,
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  color: Colors.black54,
+                ),
+          ),
+        ),
+        onTap: onTap,
       ),
     );
   }

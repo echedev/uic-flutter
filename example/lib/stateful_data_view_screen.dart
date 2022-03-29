@@ -1,8 +1,11 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
+
 import 'package:uic/stateful_data/stateful_data.dart';
 
 class UicStatefulDataViewScreen  extends StatefulWidget {
-  UicStatefulDataViewScreen({Key key}) : super(key: key);
+  const UicStatefulDataViewScreen({Key? key}) : super(key: key);
 
   @override
   _UicStatefulDataViewScreenState createState() => _UicStatefulDataViewScreenState();
@@ -10,7 +13,7 @@ class UicStatefulDataViewScreen  extends StatefulWidget {
 
 class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
-  StatefulData<ExampleData> _data;
+  late StatefulData<ExampleData> _data;
 
   int _loadingAttempts = 0;
 
@@ -27,7 +30,7 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('LoadableUic Demo'),
+        title: const Text('StatefulDataView Demo'),
       ),
       body: UicStatefulDataView<ExampleData>(
         statefulData: _data,
@@ -37,16 +40,16 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${data.header}',
+                Text(data.header,
                   style: Theme.of(context).textTheme.headline1,
                 ),
-                Text('${data.message}',
+                Text(data.message,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
-                    child: Text('Reload'),
+                    child: const Text('Reload'),
                     onPressed: () => _data.loadData(),
                   ),
                 )
@@ -58,8 +61,8 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
     );
   }
 
-  Future<ExampleData> _loadData() async {
-    await Future.delayed(Duration(seconds: 3));
+  Future<ExampleData?> _loadData() async {
+    await Future.delayed(const Duration(seconds: 3));
     _loadingAttempts++;
 
     if (_loadingAttempts == 1) {
@@ -84,12 +87,12 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
 class ExampleData {
   ExampleData({
-    this.header,
-    this.message,
+    required this.header,
+    required this.message,
   });
 
-  String header;
+  final String header;
 
-  String message;
+  final String message;
 
 }

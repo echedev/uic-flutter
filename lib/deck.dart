@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 /// * [DeckItem]
 ///
 class Deck extends StatefulWidget {
-  Deck({
+  const Deck({
     Key? key,
     this.collapsedSize = 48.0,
     this.collapseOnTap = true,
@@ -104,11 +104,11 @@ class _DeckState extends State<Deck> with TickerProviderStateMixin {
             ...widget.items.map(
               (item) => GestureDetector(
                 child: (_data.expandedStates[item] ?? false)
-                    ? Container(
+                    ? SizedBox(
                         height: eventualExpandedSize + widget.collapsedSize,
                         child: item.childExpanded,
                       )
-                    : Container(
+                    : SizedBox(
                         height: widget.collapsedSize + widget.collapsedSize,
                         child: item.child),
                 onTap: (!(_data.expandedStates[item] ?? false) ||
@@ -198,8 +198,9 @@ class _DeckFlowDelegate extends FlowDelegate {
   @override
   bool shouldRelayout(_DeckFlowDelegate oldDelegate) {
     for (DeckItem item in data.expandedStates.keys) {
-      if (data.expandedStates[item] != oldDelegate._expandedStates[item])
+      if (data.expandedStates[item] != oldDelegate._expandedStates[item]) {
         return true;
+      }
     }
     return false;
   }
@@ -242,8 +243,7 @@ class _DeckData extends ChangeNotifier {
           animation.addListener(() => notifyListeners());
           return animation;
         });
-    expandedStates =
-        Map.fromIterable(items, key: (item) => item, value: (item) => false);
+    expandedStates = { for (var item in items) item : false };
   }
 
   late Map<DeckItem, AnimationController> animations;
@@ -259,6 +259,7 @@ class _DeckData extends ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   void dispose() {
     for (AnimationController animation in animations.values) {
       animation.dispose();

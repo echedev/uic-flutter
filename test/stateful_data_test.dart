@@ -6,16 +6,18 @@ void main() {
   setUp(() {
   });
   group('StatefulData loader', () {
-    var listenerCallCount;
+    late int listenerCallCount;
     setUp(() {
       listenerCallCount = 0;
     });
     test('Empty data', () async {
-      final Future<String?> Function() loader = () async {
-        await Future.delayed(Duration(seconds: 1));
+      Future<String?> loader() async {
+        await Future.delayed(const Duration(seconds: 1));
         return null;
-      };
+      }
+
       final data = StatefulData<String>(loader: loader);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -24,14 +26,16 @@ void main() {
         expect(data.state, StatefulDataState.empty);
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     test('Not empty data', () async {
-      final Future<String?> Function() loader = () async {
-        await Future.delayed(Duration(seconds: 1));
+      Future<String?> loader() async {
+        await Future.delayed(const Duration(seconds: 1));
         return 'One';
-      };
+      }
+
       final data = StatefulData<String>(loader: loader);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -41,19 +45,21 @@ void main() {
         expect(data.data, 'One');
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     test('Refresh data', () async {
-      final Future<String?> Function() loader = () async {
-        await Future.delayed(Duration(seconds: 1));
+      Future<String?> loader() async {
+        await Future.delayed(const Duration(seconds: 1));
         if (listenerCallCount == 0) {
           return 'One';
         }
         else {
           return 'Two';
         }
-      };
+      }
+
       final data = StatefulData<String>(loader: loader);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -73,21 +79,22 @@ void main() {
         }
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       data.loadData();
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     // TODO: Test data loading error
   });
   group('StatefulData watcher', () {
-    var listenerCallCount;
+    late int listenerCallCount;
     setUp(() {
       listenerCallCount = 0;
     });
     test('Empty data', () async {
-      final Stream<String?> Function() source = () => Stream<String?>
-          .fromIterable(<String?>[null]);
+      Stream<String?> source() => Stream<String?>.fromIterable(<String?>[null]);
+
       final data = StatefulData<String>.watch(source: source);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -96,12 +103,13 @@ void main() {
         expect(data.state, StatefulDataState.empty);
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     test('Not empty data', () async {
-      final Stream<String?> Function() source = () => Stream<String?>
-          .fromIterable(<String?>['One']);
+      Stream<String?> source() => Stream<String?>.fromIterable(<String?>['One']);
+
       final data = StatefulData<String>.watch(source: source);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -111,12 +119,13 @@ void main() {
         expect(data.data, 'One');
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     test('Data updates', () async {
-      final Stream<String?> Function() source = () => Stream<String?>
-          .fromIterable(<String?>['One', 'Two']);
+      Stream<String?> source() => Stream<String?>.fromIterable(<String?>['One', 'Two']);
+
       final data = StatefulData<String>.watch(source: source);
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
@@ -132,7 +141,7 @@ void main() {
         }
         listenerCallCount++;
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
     });
     // TODO: Test data loading error
   });

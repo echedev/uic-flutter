@@ -1,6 +1,6 @@
 # UIC (UI Components)
 
-A set of Flutter widgets that simplifies implementing most used UI cases.
+A set of Flutter widgets for easier implementation of most used UI features.
 
 ####  Components:
 - [CheckboxUic](#checkboxuic) - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.

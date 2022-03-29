@@ -1,10 +1,12 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uic/checkbox_uic.dart';
 
 class CheckboxUicScreen  extends StatelessWidget {
-  CheckboxUicScreen({Key key, this.title}) : super(key: key);
+  CheckboxUicScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -75,7 +77,7 @@ class CheckboxUicScreen  extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "UIC package docs",
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      style: Theme.of(context).textTheme.caption?.copyWith(
                         color: Colors.blue,
                       ),
                       recognizer: TapGestureRecognizer()

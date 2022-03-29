@@ -22,7 +22,7 @@ import 'package:flutter/material.dart';
 /// [colorLineIncomplete], [lineWidth].
 ///
 class StepIndicator extends StatelessWidget {
-  StepIndicator({
+  const StepIndicator({
     Key? key,
     this.colorCompleted,
     Color? colorLineCompleted,
@@ -40,8 +40,8 @@ class StepIndicator extends StatelessWidget {
     this.showLines = false,
     required this.selectedStepIndex,
     required this.totalSteps,
-  })  : this.colorLineCompleted = colorLineCompleted ?? colorCompleted,
-        this.colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
+  })  : colorLineCompleted = colorLineCompleted ?? colorCompleted,
+        colorLineIncomplete = colorLineIncomplete ?? colorIncomplete,
         super(key: key);
 
   /// The color of completed steps.
@@ -261,8 +261,8 @@ class _Line extends StatelessWidget {
     this.expanded = false,
     double? length,
     double? width,
-  })  : this.length = expanded ? double.infinity : length ?? 16.0,
-        this.width = width ?? 2.0,
+  })  : length = expanded ? double.infinity : length ?? 16.0,
+        width = width ?? 2.0,
         super(key: key);
 
   final Color? color;

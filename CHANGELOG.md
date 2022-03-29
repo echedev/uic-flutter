@@ -1,3 +1,9 @@
+## \[0.10.0\] - 2022-03-29
+
+- Added `ResponsiveLayout` and `FormFactors` components
+- Updating docs and demo app
+- Remove 'provider' dependency
+
 ## \[0.9.1\] - 2022-03-06
 
 - Added `StatefulData/StatefulDataView` component

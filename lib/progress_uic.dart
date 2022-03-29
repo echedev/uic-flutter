@@ -142,7 +142,7 @@ class ProgressUic extends StatelessWidget {
           data: Theme.of(context).copyWith(
               colorScheme:
                   Theme.of(context).colorScheme.copyWith(secondary: color)),
-          child: CircularProgressIndicator()),
+          child: const CircularProgressIndicator()),
     ));
     if (textLocation == ProgressUicTextLocation.bottom ||
         textLocation == ProgressUicTextLocation.right) {

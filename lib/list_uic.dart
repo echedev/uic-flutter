@@ -1,7 +1,6 @@
 library list_uic;
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'progress_uic.dart';
 
@@ -90,7 +89,7 @@ class ListUic<T> extends StatelessWidget {
         emptyProgressView = emptyProgressView ??
             ListUicEmptyProgressView(text: emptyProgressText),
         nextPageProgressView =
-            nextPageProgressView ?? ListUicNextPageProgressView(),
+            nextPageProgressView ?? const ListUicNextPageProgressView(),
         super(key: key);
 
   /// Manages the list state
@@ -134,27 +133,25 @@ class ListUic<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: controller.state,
-      child: Consumer<ValueNotifier<_ListUicState>>(
-        builder: (context, state, child) {
-          switch (state.value) {
-            case _ListUicState.emptyData:
-              return emptyDataView;
-            case _ListUicState.emptyProgress:
-              return emptyProgressView;
-            case _ListUicState.emptyError:
-              return emptyErrorView;
-            case _ListUicState.data:
-            case _ListUicState.progress:
-            case _ListUicState.progressNextPage:
-            case _ListUicState.error:
-              return _buildDataView(context, state.value);
-            default:
-              return Container();
-          }
-        },
-      ),
+    return ValueListenableBuilder<_ListUicState>(
+      valueListenable: controller.state,
+      builder: (context, state, child) {
+        switch (state) {
+          case _ListUicState.emptyData:
+            return emptyDataView;
+          case _ListUicState.emptyProgress:
+            return emptyProgressView;
+          case _ListUicState.emptyError:
+            return emptyErrorView;
+          case _ListUicState.data:
+          case _ListUicState.progress:
+          case _ListUicState.progressNextPage:
+          case _ListUicState.error:
+            return _buildDataView(context, state);
+          default:
+            return Container();
+        }
+      },
     );
   }
 
@@ -167,14 +164,6 @@ class ListUic<T> extends StatelessWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: errorColor,
         ));
-//        ScaffoldMessenger.of(context)
-//          ..hideCurrentSnackBar()
-//          ..showSnackBar(SnackBar(
-//            content: Text(errorText),
-//            behavior: SnackBarBehavior.floating,
-//            backgroundColor: errorColor,
-//          ) // SnackBar
-//              );
       });
     }
     if (state == _ListUicState.progressNextPage) {
@@ -182,7 +171,7 @@ class ListUic<T> extends StatelessWidget {
         controller.scrollController.animateTo(
             controller.scrollController.position.maxScrollExtent,
             curve: Curves.linear,
-            duration: Duration(milliseconds: 500));
+            duration: const Duration(milliseconds: 500));
       });
     }
     int itemCount = (state != _ListUicState.progressNextPage)
@@ -245,7 +234,7 @@ class ListUicEmptyView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ElevatedButton(
-              child: Text('Refresh'),
+              child: const Text('Refresh'),
               onPressed: () => controller.refresh(),
             ),
           ),
@@ -292,7 +281,7 @@ class ListUicNextPageProgressView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const SizedBox(
       height: 72.0,
       child: ProgressUic(),
     );
@@ -392,7 +381,7 @@ class ListUicController<T> {
   /// Callback to load list items by the page
   Future<List<T>?> Function(int) onGetItems;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
 
   bool _readyForNextPage = true;
