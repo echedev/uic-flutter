@@ -20,23 +20,23 @@ List<Widget> examplesActionButton(
         children: [
           ActionButton(
             action: () async {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
-            child: Text('Text'),
+            child: const Text('Text'),
           ),
           ActionButton(
             action: () async {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             buttonType: ActionButtonType.elevated,
-            child: Text('Elevated'),
+            child: const Text('Elevated'),
           ),
           ActionButton(
             action: () async {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             buttonType: ActionButtonType.outlined,
-            child: Text('Outlined'),
+            child: const Text('Outlined'),
           ),
         ],
       ),
@@ -54,26 +54,26 @@ List<Widget> examplesActionButton(
         children: [
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             style: TextButton.styleFrom(
                 primary: Colors.white,
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 textStyle: Theme.of(context).textTheme.headline5),
-            child: Text('Text'),
+            child: const Text('Text'),
           ),
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             buttonType: ActionButtonType.elevated,
             style: ElevatedButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.headline5),
-            child: Text('Elevated'),
+            child: const Text('Elevated'),
           ),
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             buttonType: ActionButtonType.outlined,
             style: OutlinedButton.styleFrom(
@@ -82,7 +82,7 @@ List<Widget> examplesActionButton(
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-            child: Text('Outlined'),
+            child: const Text('Outlined'),
           ),
         ],
       ),
@@ -100,11 +100,11 @@ List<Widget> examplesActionButton(
         children: [
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             buttonType: ActionButtonType.outlined,
             style: TextButton.styleFrom(
-              minimumSize: Size(180.0, 72.0),
+              minimumSize: const Size(180.0, 72.0),
             ),
             progressView: ProgressUic(
               color: Colors.redAccent,
@@ -112,7 +112,7 @@ List<Widget> examplesActionButton(
               text: 'Action in progress',
               textStyle: Theme.of(context).textTheme.button,
             ),
-            child: Text('Action button'),
+            child: const Text('Action button'),
           ),
         ],
       ),
@@ -130,28 +130,28 @@ List<Widget> examplesActionButton(
         children: [
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             onActionStarted: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.redAccent,
                 content: Text('Action started'),
               ));
             },
-            child: Text('Started'),
+            child: const Text('Started'),
           ),
           ActionButton(
             action: () {
-              return Future.delayed(Duration(seconds: 5));
+              return Future.delayed(const Duration(seconds: 5));
             },
             onActionCompleted: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.redAccent,
                 content: Text('Action completed'),
               ));
             },
             buttonType: ActionButtonType.elevated,
-            child: Text('Completed'),
+            child: const Text('Completed'),
           ),
           ActionButton(
             action: () {
@@ -164,7 +164,7 @@ List<Widget> examplesActionButton(
               ));
             },
             buttonType: ActionButtonType.outlined,
-            child: Text('Error'),
+            child: const Text('Error'),
           ),
         ],
       ),

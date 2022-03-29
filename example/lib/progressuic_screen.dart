@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:uic/progress_uic.dart';
 
 class ProgressUicScreen extends StatefulWidget {
-  ProgressUicScreen({Key? key, required this.title}) : super(key: key);
+  const ProgressUicScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -38,8 +38,8 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                         'Default view'.toUpperCase(),
                         style: Theme.of(context).textTheme.caption,
                       )),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: ProgressUic(),
                   ),
                 ],
@@ -54,8 +54,8 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                         'Custom color and size'.toUpperCase(),
                         style: Theme.of(context).textTheme.caption,
                       )),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: ProgressUic(
                       color: Colors.redAccent,
                       size: 20.0,
@@ -73,8 +73,8 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                         'Message'.toUpperCase(),
                         style: Theme.of(context).textTheme.caption,
                       )),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: ProgressUic(
                       text: 'Loading...',
                       textLocation: ProgressUicTextLocation.right,
@@ -98,19 +98,20 @@ class _ProgressUicScreenState extends State<ProgressUicScreen> {
                       inProgress: _inProgress3,
                       text: 'Loading...',
                       textLocation: ProgressUicTextLocation.bottom,
-                      textStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                            color: Colors.white,
-                          ),
+                      textStyle:
+                          Theme.of(context).textTheme.headline5?.copyWith(
+                                color: Colors.white,
+                              ),
                       dimContent: true,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Text('This is a content view.'),
-                            Text(
+                            const Text('This is a content view.'),
+                            const Text(
                                 'When it is in progress state, ProgressUic will dim the content'),
                             ElevatedButton(
-                              child: Text(
+                              child: const Text(
                                 'Start progress',
                               ),
                               onPressed: () {

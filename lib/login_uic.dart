@@ -162,7 +162,8 @@ class _LoginUicState extends State<LoginUic> {
                     if (_formKey.currentState?.validate() ?? false) {
                       await widget.onSignIn(username, password);
                     } else {
-                      await Future.error(_InternalLoginUicState.validationError);
+                      await Future.error(
+                          _InternalLoginUicState.validationError);
                     }
                   },
                   progressView: widget.signInProgressView,
@@ -205,8 +206,7 @@ class _LoginUicState extends State<LoginUic> {
         _state.value = _InternalLoginUicState.ready;
         widget.onSignInCompleted?.call(context);
       });
-    } else if (state ==
-        _InternalLoginUicState.validationError) {
+    } else if (state == _InternalLoginUicState.validationError) {
       _formKey.currentState?.validate();
     }
     return Form(
@@ -229,10 +229,9 @@ class _LoginUicState extends State<LoginUic> {
             child: TextFormField(
               controller: _usernameController,
               decoration: usernameDecoration,
-              enabled: state !=
-                  _InternalLoginUicState.inProgress,
+              enabled: state != _InternalLoginUicState.inProgress,
               validator: widget.usernameValidator ??
-                      (value) => (value?.isEmpty ?? true)
+                  (value) => (value?.isEmpty ?? true)
                       ? widget.strings.usernameErrorEmpty
                       : null,
               onSaved: (newValue) => username = (newValue ?? ''),
@@ -243,10 +242,9 @@ class _LoginUicState extends State<LoginUic> {
             child: TextFormField(
               controller: _passwordController,
               decoration: passwordDecoration,
-              enabled: state !=
-                  _InternalLoginUicState.inProgress,
+              enabled: state != _InternalLoginUicState.inProgress,
               validator: widget.passwordValidator ??
-                      (value) => (value?.isEmpty ?? true)
+                  (value) => (value?.isEmpty ?? true)
                       ? widget.strings.passwordErrorEmpty
                       : null,
               onSaved: (newValue) => password = (newValue ?? ''),

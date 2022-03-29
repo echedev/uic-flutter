@@ -15,9 +15,11 @@ import 'action_button.dart';
 import 'deck.dart';
 import 'step_indicator.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,13 @@ class MyApp extends StatelessWidget {
         toggleableActiveColor: Colors.amber,
         dividerColor: Colors.transparent,
       ),
-      home: MyHomePage(title: 'UIC Demo'),
+      home: const MyHomePage(title: 'UIC Demo'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -47,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           bottom: TabBar(
             indicatorColor: Theme.of(context).colorScheme.secondary,
-            tabs: [
+            tabs: const [
               Tab(
                 text: 'Components',
               ),
@@ -88,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ListUicScreen(title: 'ListUic Demo')),
+                                const ListUicScreen(title: 'ListUic Demo')),
                       );
                     },
                   ),
@@ -101,7 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UicStatefulDataViewScreen()),
+                            builder: (context) =>
+                                const UicStatefulDataViewScreen()),
                       );
                     },
                   ),
@@ -115,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResponsiveApp()),
+                            builder: (context) => const ResponsiveApp()),
                       );
                     },
                   ),
@@ -128,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                LoginUicScreen(title: 'LoginUic Demo')),
+                                const LoginUicScreen(title: 'LoginUic Demo')),
                       );
                     },
                   ),
@@ -155,8 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                ProgressUicScreen(title: 'ProgressUic Demo')),
+                            builder: (context) => const ProgressUicScreen(
+                                title: 'ProgressUic Demo')),
                       );
                     },
                   ),
@@ -257,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.all(16.0),
                             child: Row(
                               children: <Widget>[
-                                Text('You can '),
+                                const Text('You can '),
                                 InlineTextField(
                                   text: 'edit me',
                                   style: Theme.of(context)
@@ -294,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ));
                                   },
                                 ),
-                                Text(' right here'),
+                                const Text(' right here'),
                               ],
                             ),
                           )
