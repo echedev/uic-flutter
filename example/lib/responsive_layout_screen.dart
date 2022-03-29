@@ -12,19 +12,19 @@ class ResponsiveApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const FormFactors(
       formFactors: const <FormFactor>[
-        FormFactorA(),
-        FormFactorALandscape(),
-        FormFactorB(),
-        FormFactorC(),
-        FormFactorD(),
-        FormFactorE(),
+        Screens.formFactorA,
+        Screens.formFactorALandscape,
+        Screens.formFactorB,
+        Screens.formFactorC,
+        Screens.formFactorD,
+        Screens.formFactorE,
       ],
       child: const ResponsiveLayoutScreen(),
     );
   }
 }
 
-class ResponsiveLayoutScreen  extends StatelessWidget {
+class ResponsiveLayoutScreen extends StatelessWidget {
   const ResponsiveLayoutScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,30 +33,21 @@ class ResponsiveLayoutScreen  extends StatelessWidget {
       appBar: AppBar(
         title: Text('ResponsiveLayout Demo'),
       ),
-      body: const ResponsiveLayout(
-        items: const [
-          ResponsiveLayoutItem(
-            formFactor: FormFactorB(),
-            child: _ResponsiveView(
-              name: 'B',
-              color: Colors.lightBlueAccent,
-            ),
+      body: ResponsiveLayout(
+        children: {
+          Screens.formFactorB: _ResponsiveView(
+            name: 'B',
+            color: Colors.lightBlueAccent,
           ),
-          ResponsiveLayoutItem(
-            formFactor: FormFactorD(),
-            child: _ResponsiveView(
-              name: 'D',
-              color: Colors.lightGreenAccent,
-            ),
+          Screens.formFactorD: _ResponsiveView(
+            name: 'D',
+            color: Colors.lightGreenAccent,
           ),
-          ResponsiveLayoutItem(
-            formFactor: FormFactorALandscape(),
-            child: _ResponsiveView(
-              name: 'ALandscape',
-              color: Colors.lightBlue,
-            ),
+          Screens.formFactorALandscape: _ResponsiveView(
+            name: 'ALandscape',
+            color: Colors.lightBlue,
           ),
-        ],
+        },
       ),
     );
   }
@@ -84,9 +75,10 @@ class _ResponsiveView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('${formFactor.runtimeType.toString()}, '
-                'crossAxisMinWidth=${formFactor.crossAxisMinWidth}, '
-                'orientation=${formFactor.orientation}',
+            Text(
+              '${formFactor.runtimeType.toString()}, '
+              'crossAxisMinWidth=${formFactor.crossAxisMinWidth}, '
+              'orientation=${formFactor.orientation}',
               textAlign: TextAlign.center,
             ),
             Text('Device orientation: $orientation'),
@@ -98,47 +90,17 @@ class _ResponsiveView extends StatelessWidget {
   }
 }
 
-class FormFactorA extends FormFactor {
-  const FormFactorA();
+class Screens {
+  static const formFactorA = FormFactor(crossAxisMinWidth: 300);
 
-  @override
-  double get crossAxisMinWidth => 300;
-}
+  static const formFactorALandscape =
+      FormFactor(crossAxisMinWidth: 300, orientation: Orientation.landscape);
 
-class FormFactorALandscape extends FormFactor {
-  const FormFactorALandscape();
+  static const formFactorB = FormFactor(crossAxisMinWidth: 400);
 
-  @override
-  double get crossAxisMinWidth => 300;
+  static const formFactorC = FormFactor(crossAxisMinWidth: 500);
 
-  @override
-  Orientation get orientation => Orientation.landscape;
-}
+  static const formFactorD = FormFactor(crossAxisMinWidth: 600);
 
-class FormFactorB extends FormFactor {
-  const FormFactorB();
-
-  @override
-  double get crossAxisMinWidth => 400;
-}
-
-class FormFactorC extends FormFactor {
-  const FormFactorC();
-
-  @override
-  double get crossAxisMinWidth => 500;
-}
-
-class FormFactorD extends FormFactor {
-  const FormFactorD();
-
-  @override
-  double get crossAxisMinWidth => 600;
-}
-
-class FormFactorE extends FormFactor {
-  const FormFactorE();
-
-  @override
-  double get crossAxisMinWidth => 700;
+  static const formFactorE = FormFactor(crossAxisMinWidth: 700);
 }

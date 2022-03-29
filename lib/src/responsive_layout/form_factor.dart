@@ -1,11 +1,28 @@
 import 'package:flutter/widgets.dart';
 
-abstract class FormFactor {
-  const FormFactor();
+/// A model of the screen.
+///
+/// It is used to define all supported screens and matched views.
+///
+/// See also:
+/// - [FormFactors]
+/// - [ResponsiveLayout]
+///
+class FormFactor {
+  /// Creates an instance of the FormFactor.
+  ///
+  const FormFactor({
+    this.crossAxisMinWidth = 0.0,
+    this.orientation = Orientation.portrait,
+  });
 
-  double get crossAxisMinWidth => 0.0;
+  /// Minimum size of the screen in cross axis.
+  ///
+  final double crossAxisMinWidth;
 
-  Orientation get orientation => Orientation.portrait;
+  /// Orientation of the screen.
+  ///
+  final Orientation orientation;
 
   @override
   bool operator ==(Object other) {

@@ -17,7 +17,7 @@ void main() {
       }
 
       final data = StatefulData<String>(loader: loader);
-      
+
       expect(data.isLoading, true);
       expect(data.state, StatefulDataState.initialLoading);
       data.addListener(() {
