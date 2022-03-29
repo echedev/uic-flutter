@@ -95,8 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ComponentsItem(
                     title: 'StatefulData and StatefulDataView',
                     subtitle:
-                        'A widget to display a data and views related to the data loading state. '
-                        'StatefulData is an observable data model, that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
+                        'StatefulData is an observable data model that provides interface for implementing data loading logic and notifies its listeners when the data state changed. '
                         'StatefulDataView listens the data state and displays the data when it is ready, or loading or error views on corresponding data states.',
                     onTap: () {
                       Navigator.push(
