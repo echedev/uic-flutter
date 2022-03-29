@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:uic/login_uic.dart';
 
 class LoginUicScreen extends StatefulWidget {
-  LoginUicScreen({Key? key, required this.title}) : super(key: key);
+  const LoginUicScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -45,7 +45,7 @@ class _LoginUicScreenState extends State<LoginUicScreen> {
 }
 
 class LoginUicSignedInScreen extends StatelessWidget {
-  LoginUicSignedInScreen({Key? key, required this.title}) : super(key: key);
+  const LoginUicSignedInScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -55,7 +55,7 @@ class LoginUicSignedInScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Signed In'),
       ),
     );
