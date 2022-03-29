@@ -1,7 +1,6 @@
 library list_uic;
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'progress_uic.dart';
 
@@ -134,27 +133,25 @@ class ListUic<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: controller.state,
-      child: Consumer<ValueNotifier<_ListUicState>>(
-        builder: (context, state, child) {
-          switch (state.value) {
-            case _ListUicState.emptyData:
-              return emptyDataView;
-            case _ListUicState.emptyProgress:
-              return emptyProgressView;
-            case _ListUicState.emptyError:
-              return emptyErrorView;
-            case _ListUicState.data:
-            case _ListUicState.progress:
-            case _ListUicState.progressNextPage:
-            case _ListUicState.error:
-              return _buildDataView(context, state.value);
-            default:
-              return Container();
-          }
-        },
-      ),
+    return ValueListenableBuilder<_ListUicState>(
+      valueListenable: controller.state,
+      builder: (context, state, child) {
+        switch (state) {
+          case _ListUicState.emptyData:
+            return emptyDataView;
+          case _ListUicState.emptyProgress:
+            return emptyProgressView;
+          case _ListUicState.emptyError:
+            return emptyErrorView;
+          case _ListUicState.data:
+          case _ListUicState.progress:
+          case _ListUicState.progressNextPage:
+          case _ListUicState.error:
+            return _buildDataView(context, state);
+          default:
+            return Container();
+        }
+      },
     );
   }
 
@@ -167,14 +164,6 @@ class ListUic<T> extends StatelessWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: errorColor,
         ));
-//        ScaffoldMessenger.of(context)
-//          ..hideCurrentSnackBar()
-//          ..showSnackBar(SnackBar(
-//            content: Text(errorText),
-//            behavior: SnackBarBehavior.floating,
-//            backgroundColor: errorColor,
-//          ) // SnackBar
-//              );
       });
     }
     if (state == _ListUicState.progressNextPage) {
