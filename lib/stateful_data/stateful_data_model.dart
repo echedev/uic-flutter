@@ -2,19 +2,36 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+/// A wrapper on data that track data's state and notifies its listeners on changes.
+///
+///
 class StatefulData<T> extends ChangeNotifier {
+  /// Creates an instance of StatefulData.
+  ///
+  /// A [loader] function for single data loading must be provided.
+  ///
+  /// If [startLoading] is 'true' that is default behavior, then data loading is
+  /// started immediately on creating the object.
+  ///
   StatefulData({
-    this.isEmptyValidator = _defaultIsEmptyValidator,
     required Future<T?> Function() loader,
+    this.isEmptyValidator = _defaultIsEmptyValidator,
+    bool startLoading = true,
   }) {
     _loader = loader;
     _source = null;
-    loadData();
+    if (startLoading) {
+      loadData();
+    }
   }
 
+  /// Creates an instance of StatefulData, that watches data changes.
+  ///
+  /// A [source] stream that provides data updates must be defined.
+  ///
   StatefulData.watch({
-    this.isEmptyValidator = _defaultIsEmptyValidator,
     required Stream<T?> Function() source,
+    this.isEmptyValidator = _defaultIsEmptyValidator,
   }) {
     _loader = null;
     _source = source;
@@ -23,6 +40,13 @@ class StatefulData<T> extends ChangeNotifier {
 
   static bool _defaultIsEmptyValidator(Object? data) => data == null;
 
+  /// Checks if the data is empty.
+  ///
+  /// Default behavior is to check if the data object is 'null'.
+  ///
+  /// Possible alternate behavior could be set when the data is a list. In this
+  /// case validator could check if the list does contain any item or not.
+  ///
   bool Function(T? data) isEmptyValidator;
 
   late final Future<T?> Function()? _loader;
@@ -32,14 +56,27 @@ class StatefulData<T> extends ChangeNotifier {
   StreamSubscription? _subscription;
 
   T? _data;
+  /// Current instance of data.
+  ///
   T? get data => _data;
 
   StatefulDataError? _error;
+  /// A last error that happened on data loading.
+  ///
+  /// It contains a value when the [state] is either [StatefulDataState.initialLoadingError]
+  /// or [StatefulDataState.error].
+  ///
   StatefulDataError? get error => _error;
 
   bool _isLoading = false;
+  /// Indicates that data is loading.
+  ///
   bool get isLoading => _isLoading;
 
+  /// Current state of the data.
+  ///
+  /// Possible options are defined by [StatefulDataState].
+  ///
   StatefulDataState get state {
     if (_isLoading) {
       if (isEmptyValidator.call(data)) {
@@ -70,6 +107,12 @@ class StatefulData<T> extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Loads the data.
+  ///
+  /// To get the data it either calls [loader] function or listen the [source] stream.
+  ///
+  /// Updates the data state and notify listeners of [StatefulData] object on changes.
+  ///
   Future<void> loadData() async {
     if (!_isLoading) {
       _error = null;
@@ -117,48 +160,44 @@ class StatefulData<T> extends ChangeNotifier {
   }
 }
 
-// class StatefulDataValue<T> {
-//   StatefulDataValue({
-//     this.data,
-//     this.error,
-//     this.isLoading = true,
-//   });
-//
-//   T? data;
-//
-//   StatefulDataError? error;
-//
-//   bool isLoading;
-//
-//   StatefulDataValue<T> copyWith({
-//     T? data,
-//     StatefulDataError? error,
-//     bool? isLoading,
-//   }) {
-//     return StatefulDataValue<T>(
-//       data: data ?? this.data,
-//       error: (isLoading ?? true) ? null : (error ?? this.error),
-//       isLoading: isLoading ?? this.isLoading,
-//     );
-//   }
-// }
-
+/// List of possible states of the data.
+///
 enum StatefulDataState {
+  /// Data is loading at the first time, or the previously loaded data was empty.
+  ///
   initialLoading,
+  /// An error occurred on initial data loading.
+  ///
   initialLoadingError,
+  /// Data was successfully loaded but it is empty.
+  ///
   empty,
+  /// Data was successfully loaded and its value is available.
+  ///
   ready,
+  /// Data loading is in progress.
+  ///
   loading,
+  /// An error occurred on data loading.
+  ///
   error,
 }
 
+/// An error that might happen during the data loading.
+/// 
 class StatefulDataError {
+  /// Creates an instance of StatefulDataError.
+  ///
   StatefulDataError({
     this.message,
     this.originalError,
   });
 
+  /// Error message.
+  ///
   String? message;
 
+  /// Original error.
+  ///
   Object? originalError;
 }
