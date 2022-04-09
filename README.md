@@ -1,8 +1,10 @@
 # UIC (UI Components)
 
-A set of Flutter widgets for easier implementation of most used UI features.
+A set of high-level Flutter UI components and stand-alone widgets for easier implementation of most used UI features.
 
 ####  Components:
+- [StatefulData](#statefuldata) - A listenable data model and accompanying widgets to display the data according to its state.
+- [ResponsiveLayout](#responsivelayout) - Allows easily build layouts that fits the current form factor.
 - [CheckboxUic](#checkboxuic) - Enhanced **Checkbox** that maintain its state, has a title and can show additional description in each state.
 - [ListUic](#listuic) - Wrapper of **ListView**, which implements related data loading and state management logic.
 - [LoginUic](#loginuic) - A Login form, that hides most of the UI logic under the hood, but still customizable to fit your app design.
@@ -13,6 +15,84 @@ A set of Flutter widgets for easier implementation of most used UI features.
 - [Deck](#deck) - Shows stacked cards, that can be expanded and collapsed.
 - [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
 - [StepIndicator](#stepindicator) - Simple, but customizable step/page indicator.
+
+## [StatefulData](#statefuldata)
+
+##### *A common case of displaying a piece of data in your UI is that you also would like to display some accompanying views while the data is loading, or if an error occurred.*
+
+`StatefulData` is a wrapper of your data that handles data loading and notifies its listeners on data state changes.
+
+In a simple case of one-time loaded data you define it like this:
+```dart
+final yourStatefulData = StatefulData<YourDataType>(
+  loader: () => loadData(),
+);
+```
+Once you've created the **StatefulData** object it starts loading data asynchronously using provided `loader` function and notifies listeners on data loading state.
+
+There is an option to not start data loading immediately, use `startLoading` parameter to control this behavior:
+```dart
+final yourStatefulData = StatefulData<YourDataType>(
+  loader: () => loadData(),
+  startLoading = false,
+);
+```
+In this case you can load data by calling `loadData()` method:
+```dart
+yourStatefulData.loadData();
+```
+This method also can be used to refresh the data at any time.
+
+If you have a stream of data use the StatefulData.watch constructor as following:
+```dart
+final yourStatefulData = StatefulData<YourDataType>.watch(
+  source: () => getDataStream(),
+);
+```
+In this case your data will be automatically updated.
+
+The following data states are supported by the **StatefulData**:
+
+| State | Description |
+|---|---|
+| `initialLoading`  | Data is loading at the first time (current data is empty).
+| `initialLoadingError`  | An error occurred on initial data loading.
+| `empty`  | Data loading is successfully finished, but the empty data was received.
+| `ready`  | Data was successfully loaded and its value is available.
+| `loading`  | Data loading is in progress.
+| `error`  | An error occurred during data loading.
+
+
+Typically **StatefulData** is used with `StatefulDataView`. This is a widget that listens to provided StatefulData object and updates the UI according to the current data state.
+```dart
+  @override
+  Widget build(BuildContext context) {
+    return StatefulDataView<YourDataType>(
+      statefulData: yourStatefulData,
+      builder: (context, data) {
+        return YourDataView(data: data);
+      }
+    );
+  }
+```
+In the `builder` parameter you specify a function that returns your data view. It is called when state is changed to `ready`.
+
+The following optional parameters are supported:
+
+| Parameter | Description |
+|---|---|
+| `initialLoadingView`  | A widget to display during initial data loading.
+| `initialLoadingErrorView`  | A widget to display in case of initial data loading failed.
+| `emptyView`  | A widget to display in case of empty data.
+| `loadingView`  | A widget to display during data loading.
+| `errorBuilder`  | A function that build a widget in case of error.
+
+**StatefulDataView** rebuilds when data state changed and will display either the data view or one of these views according to the current state.
+
+If some of these parameters are missed, the built-in default views will be displayed.
+
+See the [demo app](https://github.com/echedev/uic-flutter/tree/master/example/lib/stateful_data_view_screen.dart) for example of using `StatefulData` model and `StatefulDataView` widget.
+
 
 # [CheckboxUic](#checkboxuic)
 Enhanced, but still simple, checkbox widget. Unlike original Checkbox widget, **CheckboxUic** maintain its state. Also it has a title and can show an additional description.

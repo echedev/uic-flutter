@@ -37,9 +37,9 @@ import 'form_factors.dart';
 /// }
 /// ```
 ///
-/// Children matching logic that implemented in [DefaultResponsiveLayoutDelegate] class
-/// consider the order of form factors list in [FormFactors] widget when matching
-/// children for missing form factors.
+/// When matching children for missing form factors, the children matching logic
+/// implemented in [DefaultResponsiveLayoutDelegate] class considers the order
+/// of form factors list defined in [FormFactors] widget .
 ///
 /// See also:
 /// - [ResponsiveLayoutDelegate]

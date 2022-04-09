@@ -1,6 +1,6 @@
 name: uic
 description: A set of high-level Flutter UI components and stand-alone widgets that helps building your app.
-version: 0.10.1
+version: 0.11.0
 homepage: https://github.com/echedev/uic-flutter
 repository: https://github.com/echedev/uic-flutter
 

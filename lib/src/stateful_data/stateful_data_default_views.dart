@@ -190,7 +190,7 @@ class StatefulDataLoadingView extends StatelessWidget {
   }) : super(key: key);
 
   /// A current content that will be dimmed.
-  /// 
+  ///
   final Widget child;
 
   @override
