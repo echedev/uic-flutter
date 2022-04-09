@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:uic/stateful_data/stateful_data.dart';
+import 'package:uic/stateful_data.dart';
 
 class UicStatefulDataViewScreen  extends StatefulWidget {
   const UicStatefulDataViewScreen({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
       appBar: AppBar(
         title: const Text('StatefulDataView Demo'),
       ),
-      body: UicStatefulDataView<ExampleData>(
+      body: StatefulDataView<ExampleData>(
         statefulData: _data,
         builder: (context, data) {
           return Center(

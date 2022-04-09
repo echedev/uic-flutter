@@ -60,16 +60,21 @@ class FormFactors extends StatelessWidget {
   /// The data from the closest [FormFactors] instance.
   ///
   static FormFactorsData of(BuildContext context) {
-    final _FormFactorsInherited? formFactorsInherited = context.dependOnInheritedWidgetOfExactType<_FormFactorsInherited>();
-    assert(formFactorsInherited != null, 'No "_FormFactorsInherited" found in context');
+    final _FormFactorsInherited? formFactorsInherited =
+        context.dependOnInheritedWidgetOfExactType<_FormFactorsInherited>();
+    assert(formFactorsInherited != null,
+        'No "_FormFactorsInherited" found in context');
     return formFactorsInherited!.data;
   }
 
   FormFactor _resolveFormFactor(MediaQueryData mediaQueryData) {
     FormFactor? result;
     final orientation = _resolveOrientation(mediaQueryData);
-    final mediaCrossAxisSize = orientation == Orientation.portrait ? mediaQueryData.size.width : mediaQueryData.size.height;
-    for (var formFactor in formFactors.where((item) => item.orientation == orientation)) {
+    final mediaCrossAxisSize = orientation == Orientation.portrait
+        ? mediaQueryData.size.width
+        : mediaQueryData.size.height;
+    for (var formFactor
+        in formFactors.where((item) => item.orientation == orientation)) {
       if (mediaCrossAxisSize > formFactor.crossAxisMinWidth) {
         result = formFactor;
       }
@@ -88,11 +93,17 @@ class FormFactors extends StatelessWidget {
   }
 
   FormFactor _defaultFormFactor(Orientation orientation) {
-    final formFactorsPortrait = formFactors.where((item) => item.orientation == Orientation.portrait);
-    final formFactorsLandscape = formFactors.where((item) => item.orientation == Orientation.landscape);
-    final defaultPortrait = formFactorsPortrait.isEmpty ? null : formFactorsPortrait.first;
-    final defaultLandscape = formFactorsLandscape.isEmpty ? null : formFactorsLandscape.first;
-    return orientation == Orientation.portrait ? (defaultPortrait ?? defaultLandscape)! : (defaultLandscape ?? defaultPortrait)!;
+    final formFactorsPortrait =
+        formFactors.where((item) => item.orientation == Orientation.portrait);
+    final formFactorsLandscape =
+        formFactors.where((item) => item.orientation == Orientation.landscape);
+    final defaultPortrait =
+        formFactorsPortrait.isEmpty ? null : formFactorsPortrait.first;
+    final defaultLandscape =
+        formFactorsLandscape.isEmpty ? null : formFactorsLandscape.first;
+    return orientation == Orientation.portrait
+        ? (defaultPortrait ?? defaultLandscape)!
+        : (defaultLandscape ?? defaultPortrait)!;
   }
 }
 

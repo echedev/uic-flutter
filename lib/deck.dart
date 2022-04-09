@@ -243,7 +243,7 @@ class _DeckData extends ChangeNotifier {
           animation.addListener(() => notifyListeners());
           return animation;
         });
-    expandedStates = { for (var item in items) item : false };
+    expandedStates = {for (var item in items) item: false};
   }
 
   late Map<DeckItem, AnimationController> animations;

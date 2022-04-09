@@ -1,3 +1,8 @@
+## \[0.11.0\] - 2022-04-10
+
+- Refactored `StatefulDataView` and related widgets.
+- Added docs for all `StatefulData` classes.
+
 ## \[0.10.1\] - 2022-03-29
 
 - Added `ResponsiveLayout` and `FormFactors` components

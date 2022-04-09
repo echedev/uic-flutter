@@ -11,8 +11,8 @@ List<Widget> examplesStepIndicator(BuildContext context) {
           'Default view'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
         )),
-    Padding(
-      padding: const EdgeInsets.all(16.0),
+    const Padding(
+      padding: EdgeInsets.all(16.0),
       child: StepIndicator(
         selectedStepIndex: 2,
         totalSteps: 5,
@@ -47,8 +47,8 @@ List<Widget> examplesStepIndicator(BuildContext context) {
           'Expanded, with lines'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
         )),
-    Padding(
-      padding: const EdgeInsets.all(16.0),
+    const Padding(
+      padding: EdgeInsets.all(16.0),
       child: StepIndicator(
         selectedStepIndex: 2,
         totalSteps: 5,
@@ -62,8 +62,8 @@ List<Widget> examplesStepIndicator(BuildContext context) {
           'Custom colors'.toUpperCase(),
           style: Theme.of(context).textTheme.caption,
         )),
-    Padding(
-      padding: const EdgeInsets.all(16.0),
+    const Padding(
+      padding: EdgeInsets.all(16.0),
       child: StepIndicator(
         selectedStepIndex: 2,
         totalSteps: 5,

@@ -26,7 +26,7 @@ class _LoginUicScreenState extends State<LoginUicScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    LoginUicSignedInScreen(title: 'LoginUic Demo')),
+                    const LoginUicSignedInScreen(title: 'LoginUic Demo')),
           ),
         ),
       ),
@@ -34,7 +34,7 @@ class _LoginUicScreenState extends State<LoginUicScreen> {
   }
 
   Future<void> _signIn(String username, String password) async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     if (username != 'demo') {
       throw Exception();
     }
@@ -45,7 +45,8 @@ class _LoginUicScreenState extends State<LoginUicScreen> {
 }
 
 class LoginUicSignedInScreen extends StatelessWidget {
-  const LoginUicSignedInScreen({Key? key, required this.title}) : super(key: key);
+  const LoginUicSignedInScreen({Key? key, required this.title})
+      : super(key: key);
 
   final String title;
 

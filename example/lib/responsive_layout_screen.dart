@@ -11,7 +11,7 @@ class ResponsiveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const FormFactors(
-      formFactors: const <FormFactor>[
+      formFactors: <FormFactor>[
         Screens.formFactorA,
         Screens.formFactorALandscape,
         Screens.formFactorB,
@@ -19,7 +19,7 @@ class ResponsiveApp extends StatelessWidget {
         Screens.formFactorD,
         Screens.formFactorE,
       ],
-      child: const ResponsiveLayoutScreen(),
+      child: ResponsiveLayoutScreen(),
     );
   }
 }
@@ -31,19 +31,19 @@ class ResponsiveLayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ResponsiveLayout Demo'),
+        title: const Text('ResponsiveLayout Demo'),
       ),
       body: ResponsiveLayout(
         children: {
-          Screens.formFactorB: _ResponsiveView(
+          Screens.formFactorB: const _ResponsiveView(
             name: 'B',
             color: Colors.lightBlueAccent,
           ),
-          Screens.formFactorD: _ResponsiveView(
+          Screens.formFactorD: const _ResponsiveView(
             name: 'D',
             color: Colors.lightGreenAccent,
           ),
-          Screens.formFactorALandscape: _ResponsiveView(
+          Screens.formFactorALandscape: const _ResponsiveView(
             name: 'ALandscape',
             color: Colors.lightBlue,
           ),

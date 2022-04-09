@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:uic/stateful_data/stateful_data.dart';
+import 'package:uic/stateful_data.dart';
 
 void main() {
   setUp(() {
@@ -28,7 +28,7 @@ void main() {
       });
       await Future.delayed(const Duration(seconds: 1));
     });
-    test('Not empty data', () async {
+    test('Not empty data - immediate loading', () async {
       Future<String?> loader() async {
         await Future.delayed(const Duration(seconds: 1));
         return 'One';
@@ -45,6 +45,30 @@ void main() {
         expect(data.data, 'One');
         listenerCallCount++;
       });
+      await Future.delayed(const Duration(seconds: 1));
+    });
+    test('Not empty data - loading on request', () async {
+      Future<String?> loader() async {
+        await Future.delayed(const Duration(seconds: 1));
+        return 'One';
+      }
+
+      final data = StatefulData<String>(loader: loader, startLoading: false);
+
+      expect(data.isLoading, false);
+      expect(data.state, StatefulDataState.empty);
+      data.addListener(() {
+        if (listenerCallCount == 0) {
+          expect(data.isLoading, true);
+          expect(data.state, StatefulDataState.initialLoading);
+        } else if (listenerCallCount == 1) {
+          expect(data.isLoading, false);
+          expect(data.state, StatefulDataState.ready);
+          expect(data.data, 'One');
+        }
+        listenerCallCount++;
+      });
+      data.loadData();
       await Future.delayed(const Duration(seconds: 1));
     });
     test('Refresh data', () async {
