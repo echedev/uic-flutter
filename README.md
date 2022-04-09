@@ -43,10 +43,10 @@ yourStatefulData.loadData();
 ```
 This method also can be used to refresh the data at any time.
 
-If you have a stream of data use the StatefulData.watch constructor as following:
+If you have a stream of data use the `StatefulData.watch` constructor as following:
 ```dart
 final yourStatefulData = StatefulData<YourDataType>.watch(
-  source: () => getDataStream(),
+  source: () => yourDataStream,
 );
 ```
 In this case your data will be automatically updated.
