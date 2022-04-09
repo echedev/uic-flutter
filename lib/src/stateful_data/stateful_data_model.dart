@@ -2,15 +2,29 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-/// A wrapper on data that track data's state and notifies its listeners on changes.
+/// A wrapper on data that tracks data state and notifies its listeners on changes.
 ///
+/// It a common case when you have a data that should be loaded from some data source
+/// and you need to update your UI according to the current data state - loading, ready or error.
+///
+/// StatefulData is a wrapper on piece of data of specified type that handles
+/// data loading logic and notifies its listeners on data state changes.
+/// Supported data states are defined by [StatefulDataState].
+///
+/// Typically StatefulData is used in couple with [StatefulDataView] widget, that
+/// automatically update the UI according to the current state of StatefulData instance.
+///
+/// See also:
+/// - [StatefulDataState]
+/// - [StatefulDataError]
+/// - [StatefulDataView]
 ///
 class StatefulData<T> extends ChangeNotifier {
   /// Creates an instance of StatefulData.
   ///
   /// A [loader] function for single data loading must be provided.
   ///
-  /// If [startLoading] is 'true' that is default behavior, then data loading is
+  /// If [startLoading] is 'true', that is default behavior, then data loading is
   /// started immediately on creating the object.
   ///
   StatefulData({
@@ -184,7 +198,7 @@ enum StatefulDataState {
 }
 
 /// An error that might happen during the data loading.
-/// 
+///
 class StatefulDataError {
   /// Creates an instance of StatefulDataError.
   ///
