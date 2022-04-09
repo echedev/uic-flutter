@@ -16,9 +16,11 @@ A set of high-level Flutter UI components and stand-alone widgets for easier imp
 - [InlineTextField](#inlinetextfield) - Text view with ability to inline edit its content.
 - [StepIndicator](#stepindicator) - Simple, but customizable step/page indicator.
 
-## [StatefulData](#statefuldata)
+# [StatefulData](#statefuldata)
 
 ##### *A common case of displaying a piece of data in your UI is that you also would like to display some accompanying views while the data is loading, or if an error occurred.*
+
+####  StatefulData model
 
 `StatefulData` is a wrapper of your data that handles data loading and notifies its listeners on data state changes.
 
@@ -63,6 +65,8 @@ The following data states are supported by the **StatefulData**:
 | `error`  | An error occurred during data loading.
 
 
+####  StatefulDataView widget
+
 Typically **StatefulData** is used with `StatefulDataView`. This is a widget that listens to provided StatefulData object and updates the UI according to the current data state.
 ```dart
   @override
@@ -87,7 +91,7 @@ The following optional parameters are supported:
 | `loadingView`  | A widget to display during data loading.
 | `errorBuilder`  | A function that build a widget in case of error.
 
-**StatefulDataView** rebuilds when data state changed and will display either the data view or one of these views according to the current state.
+**StatefulDataView** rebuilds on data state changes and displays either the data view or one of these views according to the current state.
 
 If some of these parameters are missed, the built-in default views will be displayed.
 
