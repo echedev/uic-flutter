@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 
 import 'package:uic/stateful_data.dart';
 
-class UicStatefulDataViewScreen  extends StatefulWidget {
+class UicStatefulDataViewScreen extends StatefulWidget {
   const UicStatefulDataViewScreen({Key? key}) : super(key: key);
 
   @override
-  _UicStatefulDataViewScreenState createState() => _UicStatefulDataViewScreenState();
+  _UicStatefulDataViewScreenState createState() =>
+      _UicStatefulDataViewScreenState();
 }
 
 class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
-
   late StatefulData<ExampleData> _data;
 
   int _loadingAttempts = 0;
@@ -33,31 +33,32 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
         title: const Text('StatefulDataView Demo'),
       ),
       body: StatefulDataView<ExampleData>(
-        statefulData: _data,
-        builder: (context, data) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(data.header,
-                  style: Theme.of(context).textTheme.headline1,
-                ),
-                Text(data.message,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    child: const Text('Reload'),
-                    onPressed: () => _data.loadData(),
+          statefulData: _data,
+          builder: (context, data) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    data.header,
+                    style: Theme.of(context).textTheme.headline1,
                   ),
-                )
-              ],
-            ),
-          );
-        }
-      ),
+                  Text(
+                    data.message,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ElevatedButton(
+                      child: const Text('Reload'),
+                      onPressed: () => _data.loadData(),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
     );
   }
 
@@ -67,21 +68,14 @@ class _UicStatefulDataViewScreenState extends State<UicStatefulDataViewScreen> {
 
     if (_loadingAttempts == 1) {
       throw Exception();
-    }
-    else if (_loadingAttempts == 2) {
+    } else if (_loadingAttempts == 2) {
       return null;
-    }
-    else if (_loadingAttempts == 3) {
-      return ExampleData(
-          header: 'Header',
-          message: 'This is your content');
-    }
-    else if (_loadingAttempts == 4) {
+    } else if (_loadingAttempts == 3) {
+      return ExampleData(header: 'Header', message: 'This is your content');
+    } else if (_loadingAttempts == 4) {
       throw Exception();
     }
-    return ExampleData(
-        header: 'Header',
-        message: 'Your content was updated');
+    return ExampleData(header: 'Header', message: 'Your content was updated');
   }
 }
 
@@ -94,5 +88,4 @@ class ExampleData {
   final String header;
 
   final String message;
-
 }

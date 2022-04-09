@@ -70,11 +70,13 @@ class StatefulData<T> extends ChangeNotifier {
   StreamSubscription? _subscription;
 
   T? _data;
+
   /// Current instance of data.
   ///
   T? get data => _data;
 
   StatefulDataError? _error;
+
   /// A last error that happened on data loading.
   ///
   /// It contains a value when the [state] is either [StatefulDataState.initialLoadingError]
@@ -83,6 +85,7 @@ class StatefulData<T> extends ChangeNotifier {
   StatefulDataError? get error => _error;
 
   bool _isLoading = false;
+
   /// Indicates that data is loading.
   ///
   bool get isLoading => _isLoading;
@@ -180,18 +183,23 @@ enum StatefulDataState {
   /// Data is loading at the first time, or the previously loaded data was empty.
   ///
   initialLoading,
+
   /// An error occurred on initial data loading.
   ///
   initialLoadingError,
+
   /// Data was successfully loaded but it is empty.
   ///
   empty,
+
   /// Data was successfully loaded and its value is available.
   ///
   ready,
+
   /// Data loading is in progress.
   ///
   loading,
+
   /// An error occurred on data loading.
   ///
   error,
