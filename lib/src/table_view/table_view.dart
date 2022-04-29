@@ -33,6 +33,8 @@ class TableView extends StatefulWidget {
 
   /// Number of rows in the table.
   ///
+  /// It is only for data rows, not including the header.
+  ///
   final int rowCount;
 
   /// Called when the focused cell is changed.
@@ -124,11 +126,6 @@ class _TableViewState extends State<TableView> {
         }
       }
     }
-    // if (result == KeyEventResult.handled) {
-    //   setState(() {
-    //     widget.onCellFocused?.call(rowIndex: _focusedRowIndex, columnIndex: _focusedColumnIndex);
-    //   });
-    // }
     return result;
   }
 
@@ -144,15 +141,16 @@ class _TableViewState extends State<TableView> {
 class TableViewColumn {
   const TableViewColumn({
     required this.id,
-    this.title = '',
     this.width,
+    this.child = const SizedBox.shrink(),
   });
 
   final String id;
 
-  final String title;
-
   final double? width;
+
+  final Widget child;
+
 }
 
 class _TableViewData {
@@ -214,9 +212,7 @@ class _TableViewHeader extends StatelessWidget {
     return _TableViewRow(
       columns: columns,
       index: -1,
-      cellBuilder: (context, _, column) => Text(column.title),
-      // decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary.withOpacity(0.1)),
-      // height: 72,
+      cellBuilder: (context, _, column) => column.child,
     );
   }
 }

@@ -16,15 +16,15 @@ class TableViewScreen extends StatelessWidget {
         columns: const [
           TableViewColumn(
             id: '1',
-            title: 'Column 1',
+            child: Text('Column 1'),
           ),
           TableViewColumn(
             id: '2',
-            title: 'Column 2',
+            child: Text('Column 2'),
           ),
           TableViewColumn(
             id: '3',
-            title: 'Column 3 Column 3 Column 3 Column 3 Column 3',
+            child: Text('Column 3 Column 3 Column 3 Column 3 Column 3'),
             width: 160.0,
           ),
         ],
