@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:example/table_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uic/widgets.dart';
@@ -119,6 +120,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const ResponsiveApp()),
+                      );
+                    },
+                  ),
+                  ComponentsItem(
+                    title: 'TableView',
+                    subtitle:
+                    'TableView.',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TableViewScreen()),
                       );
                     },
                   ),
