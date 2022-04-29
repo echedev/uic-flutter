@@ -13,7 +13,7 @@ class TableViewScreen extends StatelessWidget {
         title: const Text('TableView Demo'),
       ),
       body: TableView(
-        columns: [
+        columns: const [
           TableViewColumn(
             id: '1',
             title: 'Column 1',
@@ -31,6 +31,9 @@ class TableViewScreen extends StatelessWidget {
         rowCount: 10,
         cellBuilder: (context, rowIndex, column) {
           return Text('R$rowIndex:C${column.id}');
+        },
+        onCellFocused: ({required int rowIndex, required int columnIndex}) {
+          print('TableView::onCellFocused: row=$rowIndex, column=$columnIndex');
         },
       ),
     );

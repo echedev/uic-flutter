@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 
 /// A widget to display data in a table view.
 ///
-/// Allows to navigate between cells using keyboard or pointer device.
+/// Allows to navigate between cells using keyboard or pointing input method.
+/// When focused cell is changed, the [onCellFocused] callback is called.
 ///
 /// See also:
 /// - [TableViewColumn]
@@ -16,6 +17,7 @@ class TableView extends StatefulWidget {
     required this.columns,
     required this.cellBuilder,
     required this.rowCount,
+    this.onCellFocused,
   }) : super(key: key);
 
   /// List of column definitions for the table.
@@ -32,6 +34,10 @@ class TableView extends StatefulWidget {
   /// Number of rows in the table.
   ///
   final int rowCount;
+
+  /// Called when the focused cell is changed.
+  ///
+  final void Function({required int rowIndex, required int columnIndex})? onCellFocused;
 
   static _TableViewData of(BuildContext context, _TableViewData aspect) {
     final _TableViewInherited? tableViewInherited = InheritedModel.inheritFrom<_TableViewInherited>(context, aspect: aspect);
@@ -76,6 +82,10 @@ class _TableViewState extends State<TableView> {
                   columns: widget.columns,
                   index: index,
                   cellBuilder: widget.cellBuilder,
+                  onTapCell: ({required int rowIndex, required int columnIndex}) {
+                    _onCellFocused(rowIndex, columnIndex);
+                    Focus.of(context).requestFocus();
+                  }
                 ),
               ),
             ),
@@ -90,30 +100,44 @@ class _TableViewState extends State<TableView> {
     if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
         if (_focusedRowIndex < widget.rowCount - 1) {
-          _focusedRowIndex += 1;
+          _onCellFocused(_focusedRowIndex + 1, _focusedColumnIndex);
+          // _focusedRowIndex += 1;
           result = KeyEventResult.handled;
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         if (_focusedRowIndex > 0) {
-          _focusedRowIndex -= 1;
+          _onCellFocused(_focusedRowIndex - 1, _focusedColumnIndex);
+          // _focusedRowIndex -= 1;
           result = KeyEventResult.handled;
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         if (_focusedColumnIndex < widget.columns.length - 1) {
-          _focusedColumnIndex += 1;
+          _onCellFocused(_focusedRowIndex, _focusedColumnIndex + 1);
+          // _focusedColumnIndex += 1;
           result = KeyEventResult.handled;
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         if (_focusedColumnIndex > 0) {
-          _focusedColumnIndex -= 1;
+          _onCellFocused(_focusedRowIndex, _focusedColumnIndex - 1);
+          // _focusedColumnIndex -= 1;
           result = KeyEventResult.handled;
         }
       }
     }
-    if (result == KeyEventResult.handled) {
-      setState(() {});
-    }
+    // if (result == KeyEventResult.handled) {
+    //   setState(() {
+    //     widget.onCellFocused?.call(rowIndex: _focusedRowIndex, columnIndex: _focusedColumnIndex);
+    //   });
+    // }
     return result;
+  }
+
+  void _onCellFocused(int row, int column) {
+    _focusedRowIndex = row;
+    _focusedColumnIndex = column;
+    setState(() {
+      widget.onCellFocused?.call(rowIndex: _focusedRowIndex, columnIndex: _focusedColumnIndex);
+    });
   }
 }
 
@@ -205,6 +229,7 @@ class _TableViewRow extends StatelessWidget {
     required this.cellBuilder,
     this.decoration,
     this.height,
+    this.onTapCell,
   }) : super(key: key);
 
   final List<TableViewColumn> columns;
@@ -216,6 +241,8 @@ class _TableViewRow extends StatelessWidget {
   final Decoration? decoration;
 
   final double? height;
+
+  final void Function({required int rowIndex, required int columnIndex})? onTapCell;
 
   static const double _defaultRowHeight = 36.0;
 
@@ -229,12 +256,24 @@ class _TableViewRow extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            ...columns.map((column) => _TableViewCell(
-              rowIndex: index,
-              column: column,
-              decoration: decoration,
-              child: cellBuilder(context, index, column),
-            )).toList(),
+            for (int columnIndex = 0; columnIndex < columns.length; columnIndex++)
+              GestureDetector(
+                onTap: () {
+                  onTapCell?.call(rowIndex: index, columnIndex: columnIndex);
+                },
+                child: _TableViewCell(
+                  rowIndex: index,
+                  column: columns[columnIndex],
+                  decoration: decoration,
+                  child: cellBuilder(context, index, columns[columnIndex]),
+                ),
+              ),
+            // ...columns.map((column) => _TableViewCell(
+            //   rowIndex: index,
+            //   column: column,
+            //   decoration: decoration,
+            //   child: cellBuilder(context, index, column),
+            // )).toList(),
           ],
         ),
       ),
