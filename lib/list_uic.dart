@@ -157,7 +157,7 @@ class ListUic<T> extends StatelessWidget {
 
   Widget _buildDataView(BuildContext context, _ListUicState state) {
     if (state == _ListUicState.error) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(errorText),
@@ -167,7 +167,7 @@ class ListUic<T> extends StatelessWidget {
       });
     }
     if (state == _ListUicState.progressNextPage) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.scrollController.animateTo(
             controller.scrollController.position.maxScrollExtent,
             curve: Curves.linear,

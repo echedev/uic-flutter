@@ -142,14 +142,14 @@ class TableViewColumn {
   const TableViewColumn({
     required this.id,
     this.width,
-    this.child = const SizedBox.shrink(),
+    this.child,
   });
 
   final String id;
 
   final double? width;
 
-  final Widget child;
+  final Widget? child;
 
 }
 
@@ -212,7 +212,7 @@ class _TableViewHeader extends StatelessWidget {
     return _TableViewRow(
       columns: columns,
       index: -1,
-      cellBuilder: (context, _, column) => column.child,
+      cellBuilder: (context, _, column) => column.child ?? Text(column.id),
     );
   }
 }

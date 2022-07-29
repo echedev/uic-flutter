@@ -96,7 +96,7 @@ class _ActionButtonState extends State<ActionButton> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // if (_buttonSize == null) {
       final RenderBox renderBox =
           _buttonKey.currentContext?.findRenderObject() as RenderBox;
@@ -130,11 +130,11 @@ class _ActionButtonState extends State<ActionButton> {
         } else {
           if (_actionInProgress) {
             if (snapshot.hasError) {
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 widget.onActionError?.call(snapshot.error);
               });
             } else {
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 widget.onActionCompleted?.call();
               });
             }

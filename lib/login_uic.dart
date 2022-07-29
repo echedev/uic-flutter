@@ -202,7 +202,7 @@ class _LoginUicState extends State<LoginUic> {
 
   Widget _buildForm(_InternalLoginUicState state) {
     if (state == _InternalLoginUicState.success) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _state.value = _InternalLoginUicState.ready;
         widget.onSignInCompleted?.call(context);
       });

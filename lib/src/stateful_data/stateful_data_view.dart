@@ -147,7 +147,7 @@ class _StatefulDataViewState<T> extends State<StatefulDataView<T>> {
           return widget.errorBuilder!(
               context, widget.statefulData.data, widget.statefulData.error);
         } else {
-          WidgetsBinding.instance?.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
