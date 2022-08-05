@@ -139,7 +139,7 @@ class _TableViewState extends State<TableView> {
     _focusedRowIndex = row;
     _focusedColumnIndex = column;
     setState(() {
-      widget.onCellFocused?.call(rowIndex: _focusedRowIndex, columnIndex: _focusedColumnIndex);
+      widget.onCellFocused?.call(_focusedRowIndex, _focusedColumnIndex);
     });
   }
 }
