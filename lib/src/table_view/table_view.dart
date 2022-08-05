@@ -18,6 +18,7 @@ class TableView extends StatefulWidget {
     required this.cellBuilder,
     required this.rowCount,
     this.onCellFocused,
+    this.showHeader = true,
   }) : super(key: key);
 
   /// List of column definitions for the table.
@@ -40,6 +41,10 @@ class TableView extends StatefulWidget {
   /// Called when the focused cell is changed.
   ///
   final void Function({required int rowIndex, required int columnIndex})? onCellFocused;
+
+  /// Controls of displaying a table header.
+  ///
+  final bool showHeader;
 
   static _TableViewData of(BuildContext context, _TableViewData aspect) {
     final _TableViewInherited? tableViewInherited = InheritedModel.inheritFrom<_TableViewInherited>(context, aspect: aspect);
@@ -76,7 +81,8 @@ class _TableViewState extends State<TableView> {
         onKeyEvent: (node, event) => _handleKeyEvent(event),
         child: Column(
           children: [
-            _TableViewHeader(columns: widget.columns),
+            if (widget.showHeader)
+              _TableViewHeader(columns: widget.columns),
             Expanded(
               child: ListView.builder(
                 itemCount: widget.rowCount,
