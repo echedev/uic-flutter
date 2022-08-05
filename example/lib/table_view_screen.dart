@@ -32,7 +32,7 @@ class TableViewScreen extends StatelessWidget {
         cellBuilder: (context, rowIndex, column) {
           return Text('R$rowIndex:C${column.id}');
         },
-        onCellFocused: ({required int rowIndex, required int columnIndex}) {
+        onCellFocused: (rowIndex, columnIndex) {
           print('TableView::onCellFocused: row=$rowIndex, column=$columnIndex');
         },
       ),

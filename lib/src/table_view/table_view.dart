@@ -40,7 +40,7 @@ class TableView extends StatefulWidget {
 
   /// Called when the focused cell is changed.
   ///
-  final void Function({required int rowIndex, required int columnIndex})? onCellFocused;
+  final void Function(int rowIndex, int columnIndex)? onCellFocused;
 
   /// Controls of displaying a table header.
   ///
